@@ -1,9 +1,13 @@
 package service;
 
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -12,7 +16,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import modelo.Cancion;
 
 /**
@@ -83,6 +89,32 @@ public class CancionFacadeREST extends AbstractFacade<Cancion> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+    
+    @POST
+    @Path("/fotos/{id}")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadFile(@Context HttpServletRequest request, @PathParam("id") String id){
+        String output = "";
+        try{
+            if (request.getParts().size() > 0){
+                Part parte = (Part) request.getParts().toArray()[0];
+                String path = "C:\\Users\\Leonardo\\Documents\\GitHub\\ServiciosForeignCook\\ForeignCook\\web\\fotos\\"+id+".jpg";
+                InputStream is = parte.getInputStream();
+                System.out.println("pase");
+                int tam = (int) parte.getSize();
+                byte arr[] = new byte[tam];
+                is.read(arr, 0, tam);
+                FileOutputStream arch = new FileOutputStream(path);
+                arch.write(arr, 0, tam);
+                arch.close();
+                output = "{\"respuesta\": \"OK\"}";
+            }
+        }catch(Exception exception){
+            System.out.println(exception.getMessage());
+            output = "{\"respuesta\": \"" + exception.toString() + "\"}";
+        }
+        return Response.status(200).entity(output).build();
     }
 
 }
