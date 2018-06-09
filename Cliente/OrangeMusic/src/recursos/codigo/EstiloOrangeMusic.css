@@ -1,0 +1,31 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 8/06/2018, 06:53:54 PM
+    Author     : Cristhian Ubaldo Promotor
+*/
+.jfx-button{
+    -fx-background-radius: 10;
+    -fx-font-size: 16px;
+    -jfx-button-type: FLAT;
+    -fx-background-color: #f04824;
+    -fx-text-fill: WHITE;
+}
+.jfx-button:hover{
+    -fx-background-color: #DA4323;
+    -fx-cursor: hand;
+}
+.jfx-text-field{
+    -jfx-focus-color:#f04824;
+    -jfx-unfocus-color:#000;
+}
+.fondo{
+    -fx-background-image: url('../imagenes/fondoInicio.jpg');
+}
+.fondo2{
+    -fx-background-color: lightgray;
+    -fx-opacity: .20;
+}
