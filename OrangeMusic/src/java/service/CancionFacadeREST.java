@@ -9,7 +9,6 @@ import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -20,6 +19,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import modelo.Cancion;
+import java.util.Base64;
+import modelo.Album;
+import modelo.Usuario;
 
 /**
  *
@@ -45,17 +47,13 @@ public class CancionFacadeREST extends AbstractFacade<Cancion> {
         super.create(entity);
     }
 
+    
+    
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_JSON})
     public void edit(@PathParam("id") Integer id, Cancion entity) {
         super.edit(entity);
-    }
-
-    @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") Integer id) {
-        super.remove(super.find(id));
     }
 
     @GET
@@ -78,17 +76,56 @@ public class CancionFacadeREST extends AbstractFacade<Cancion> {
     public List<Cancion> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
-
-    @GET
-    @Path("count")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String countREST() {
-        return String.valueOf(super.count());
-    }
-
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+    
+    @POST
+    @Path("/imagenesalbum")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response subirImagenAlbum(Album album){
+        String salida="";
+        
+        try{
+                //String ruta = new File(".").getCanonicalPath() + "/fotos/" + usuario.getCorreo() + ".jpg";
+                
+                byte arr[] = Base64.getDecoder().decode(album.getNombreImagen());
+                int tamaño = arr.length;
+                FileOutputStream arch = new FileOutputStream("C:\\Users\\Leonardo\\Documents\\GitHub\\OrangeMusic\\OrangeMusic\\web\\imagenesAlbum\\"+album.getIdAlbum());
+                arch.write(arr, 0, tamaño);
+                arch.close();
+                salida = "{\"respuesta\": \"OK\"}";
+            
+        }catch(Exception exception){
+            salida = "{\"respuesta\": \"" + exception.toString() + "\"}";
+        }
+        
+        return Response.status(200).entity(salida).build();
+    }
+    
+    @POST
+    @Path("/imagenPerfil")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response subirImagenPerfil(Usuario usuario){
+        String salida="";
+        
+        try{
+                //String ruta = new File(".").getCanonicalPath() + "/fotos/" + usuario.getCorreo() + ".jpg";
+                
+                byte arr[] = Base64.getDecoder().decode(usuario.getNombreImagen());
+                int tamaño = arr.length;
+                FileOutputStream arch = new FileOutputStream("C:\\Users\\Leonardo\\Documents\\GitHub\\OrangeMusic\\OrangeMusic\\web\\imagenesPerfil\\"+usuario.getCorreo());
+                arch.write(arr, 0, tamaño);
+                arch.close();
+                salida = "{\"respuesta\": \"OK\"}";
+            
+        }catch(Exception exception){
+            salida = "{\"respuesta\": \"" + exception.toString() + "\"}";
+        }
+        
+        return Response.status(200).entity(salida).build();
     }
     
     @POST
@@ -101,7 +138,6 @@ public class CancionFacadeREST extends AbstractFacade<Cancion> {
                 Part parte = (Part) request.getParts().toArray()[0];
                 String path = "C:\\Users\\Leonardo\\Documents\\GitHub\\ServiciosForeignCook\\ForeignCook\\web\\fotos\\"+id+".jpg";
                 InputStream is = parte.getInputStream();
-                System.out.println("pase");
                 int tam = (int) parte.getSize();
                 byte arr[] = new byte[tam];
                 is.read(arr, 0, tam);

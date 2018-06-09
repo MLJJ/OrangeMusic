@@ -19,8 +19,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  *
  * @author Miguel Leonardo Jimenez Jimenez
- * @date 7/06/2018
- * @time 12:31:18 AM
+ * @date 9/06/2018
+ * @time 12:59:17 AM
  */
 @Entity
 @Table(name = "usuario")

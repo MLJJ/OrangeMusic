@@ -31,7 +31,6 @@ public class ApplicationConfig extends Application {
         resources.add(service.CancionFacadeREST.class);
         resources.add(service.GeneroFacadeREST.class);
         resources.add(service.UsuarioFacadeREST.class);
-        resources.add(service.VersionFacadeREST.class);
     }
 
 }

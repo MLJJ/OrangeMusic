@@ -1,3 +1,9 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package modelo;
 
 import java.io.Serializable;
@@ -19,8 +25,8 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  *
  * @author Miguel Leonardo Jimenez Jimenez
- * @date 7/06/2018
- * @time 12:31:18 AM
+ * @date 9/06/2018
+ * @time 12:59:16 AM
  */
 @Entity
 @Table(name = "album")
@@ -28,12 +34,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Album.findAll", query = "SELECT a FROM Album a")
     , @NamedQuery(name = "Album.findByIdAlbum", query = "SELECT a FROM Album a WHERE a.idAlbum = :idAlbum")
-    , @NamedQuery(name = "Album.findByNombreAlbum", query = "SELECT a FROM Album a WHERE a.nombreAlbum = :nombreAlbum")})
+    , @NamedQuery(name = "Album.findByNombreAlbum", query = "SELECT a FROM Album a WHERE a.nombreAlbum = :nombreAlbum")
+    , @NamedQuery(name = "Album.findByAnoLanzamiento", query = "SELECT a FROM Album a WHERE a.anoLanzamiento = :anoLanzamiento")
+    , @NamedQuery(name = "Album.findByNombreImagen", query = "SELECT a FROM Album a WHERE a.nombreImagen = :nombreImagen")
+    , @NamedQuery(name = "Album.findByDisquera", query = "SELECT a FROM Album a WHERE a.disquera = :disquera")})
 public class Album implements Serializable {
-
-    @Basic(optional = false)
-    @Column(name = "anoLanzamiento")
-    private int anoLanzamiento;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,6 +48,9 @@ public class Album implements Serializable {
     private Integer idAlbum;
     @Column(name = "nombreAlbum")
     private String nombreAlbum;
+    @Basic(optional = false)
+    @Column(name = "anoLanzamiento")
+    private int anoLanzamiento;
     @Column(name = "nombreImagen")
     private String nombreImagen;
     @Basic(optional = false)
@@ -78,6 +86,14 @@ public class Album implements Serializable {
 
     public void setNombreAlbum(String nombreAlbum) {
         this.nombreAlbum = nombreAlbum;
+    }
+
+    public int getAnoLanzamiento() {
+        return anoLanzamiento;
+    }
+
+    public void setAnoLanzamiento(int anoLanzamiento) {
+        this.anoLanzamiento = anoLanzamiento;
     }
 
     public String getNombreImagen() {
@@ -128,14 +144,6 @@ public class Album implements Serializable {
     @Override
     public String toString() {
         return "modelo.Album[ idAlbum=" + idAlbum + " ]";
-    }
-
-    public int getAnoLanzamiento() {
-        return anoLanzamiento;
-    }
-
-    public void setAnoLanzamiento(int anoLanzamiento) {
-        this.anoLanzamiento = anoLanzamiento;
     }
 
 }

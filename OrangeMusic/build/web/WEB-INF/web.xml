@@ -26,7 +26,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Jersey Servlet</servlet-name>
-        <url-pattern>/faces/modelo</url-pattern>
+        <url-pattern>/faces/modelo/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
