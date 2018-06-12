@@ -22,7 +22,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fitHeight="422.0" fitWidth="429.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <ImageView fitHeight="233.0" fitWidth="284.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets top="50.0" />
                </GridPane.margin>
@@ -30,24 +30,24 @@
                   <Image url="@../recursos/imagenes/logo.png" />
                </image>
             </ImageView>
-            <JFXButton fx:id="btnCerrar" onAction="#cerrar" text="Registrar usuario" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+            <JFXButton fx:id="btnRegresar" onAction="#cerrar" text="Regresar" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                <GridPane.margin>
                   <Insets right="150.0" top="650.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="btnIniciarSesion" onAction="#iniciarSesion" text="Iniciar sesión" GridPane.columnIndex="1">
+            <JFXButton fx:id="btnRegistrar" onAction="#iniciarSesion" text="Registrar usuario" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets left="150.0" top="650.0" />
                </GridPane.margin>
             </JFXButton>
             <JFXTextField fx:id="txtContrasena" labelFloat="true" promptText="Contraseña:" GridPane.columnIndex="1">
                <GridPane.margin>
-                  <Insets left="150.0" right="150.0" top="450.0" />
+                  <Insets left="150.0" right="150.0" top="300.0" />
                </GridPane.margin>
             </JFXTextField>
             <JFXTextField fx:id="txtUsuario" labelFloat="true" promptText="Usuario:" GridPane.columnIndex="1">
                <GridPane.margin>
-                  <Insets left="150.0" right="150.0" top="300.0" />
+                  <Insets left="150.0" right="150.0" top="150.0" />
                </GridPane.margin>
             </JFXTextField>
             <GridPane styleClass="fondo2">
@@ -66,6 +66,16 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
             </GridPane>
+            <JFXTextField fx:id="txtContrasena1" labelFloat="true" layoutX="429.0" layoutY="472.0" promptText="Confirmar contraseña:" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="150.0" right="150.0" top="450.0" />
+               </GridPane.margin>
+            </JFXTextField>
+            <JFXTextField fx:id="txtCorreo" labelFloat="true" layoutX="429.0" layoutY="447.0" promptText="Correo:" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="150.0" right="150.0" />
+               </GridPane.margin>
+            </JFXTextField>
          </children>
       </GridPane>
    </children>

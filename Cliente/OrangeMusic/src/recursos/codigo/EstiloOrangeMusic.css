@@ -14,6 +14,14 @@ and open the template in the editor.
     -fx-background-color: #f04824;
     -fx-text-fill: WHITE;
 }
+.menu{
+    -fx-background-radius: 2;
+    -fx-font-size: 16px;
+    -jfx-button-type: FLAT;
+    -fx-background-color: #f04824;
+    -fx-text-fill: WHITE;
+    -fx-opacity: .75;
+}
 .jfx-button:hover{
     -fx-background-color: #DA4323;
     -fx-cursor: hand;
@@ -28,4 +36,7 @@ and open the template in the editor.
 .fondo2{
     -fx-background-color: lightgray;
     -fx-opacity: .20;
+}
+.accordion .title-pane > *.content{
+    -fx-background-color: red;
 }
