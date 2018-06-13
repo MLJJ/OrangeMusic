@@ -40,3 +40,81 @@ and open the template in the editor.
 .accordion .title-pane > *.content{
     -fx-background-color: red;
 }
+
+.botonRadio{
+    -jfx-button-type: FLAT;
+    -fx-background-color: transparent;
+    -fx-text-fill: transparent;   
+    -fx-background-position: center center; 
+    -fx-background-repeat: stretch; 
+    -fx-background-size: contain;
+    -fx-background-image: url("../imagenes/radioIcon.png");
+}
+
+.botonPlay:hover {
+    -fx-background-color:  bisque;
+}
+
+.botonPlay{
+    -jfx-button-type: FLAT;
+    -fx-background-color: transparent;
+    -fx-text-fill: transparent;   
+    -fx-background-position: center center; 
+    -fx-background-repeat: stretch; 
+    -fx-background-size: contain;
+    -fx-background-image: url("../imagenes/playIcon.png");
+}
+
+.botonPlay:hover {
+    -fx-background-color:  bisque;
+}
+
+.botonStop{
+    -jfx-button-type: FLAT;
+    -fx-background-color: transparent;
+    -fx-text-fill: transparent;   
+    -fx-background-position: center center; 
+    -fx-background-repeat: stretch; 
+    -fx-background-size: contain;
+    -fx-background-image: url("../imagenes/stopIcon.png");
+}
+
+.botonStop:hover {
+    -fx-background-color:  bisque;
+}
+
+.botonSiguiente{
+    -jfx-button-type: FLAT;
+    -fx-background-color: transparent;
+    -fx-text-fill: transparent;   
+    -fx-background-position: center center; 
+    -fx-background-repeat: stretch; 
+    -fx-background-size: contain;
+    -fx-background-image: url("../imagenes/adelantarIcon.png");
+}
+
+.botonSiguiente:hover {
+    -fx-background-color:  bisque;
+}
+
+.botonAnterior{
+    -jfx-button-type: FLAT;
+    -fx-background-color: transparent;
+    -fx-text-fill: transparent;   
+    -fx-background-position: center center; 
+    -fx-background-repeat: stretch; 
+    -fx-background-size: contain;
+    -fx-background-image: url("../imagenes/siguienteIcon.png");    
+}
+
+.botonAnterior:hover {
+    -fx-background-color:  bisque;
+}
+
+.slider {
+ -fx-background-color: #f04824;
+ -fx-padding: 0.333333em;
+}
+.slider .fill:hover {
+    -fx-background-color: #003333;
+}
