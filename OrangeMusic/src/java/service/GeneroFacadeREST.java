@@ -1,5 +1,6 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -12,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import modelo.Cancion;
 import modelo.Genero;
 
 /**
@@ -47,21 +49,21 @@ public class GeneroFacadeREST extends AbstractFacade<Genero> {
 
     @GET
     @Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
     public Genero find(@PathParam("id") Integer id) {
         return super.find(id);
     }
 
     @GET
     @Override
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
     public List<Genero> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
     public List<Genero> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
@@ -69,6 +71,21 @@ public class GeneroFacadeREST extends AbstractFacade<Genero> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+    
+    @GET
+    @Path("/estacionradio/{genero}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Cancion> crearEstacionDeRadio(@PathParam("genero") Integer idGenero){
+        List<Cancion> canciones = null;
+        try{
+            Genero genero = super.find(idGenero);
+            canciones = genero.getCancionList();
+        }catch(Exception e){
+            canciones = new ArrayList();
+        }
+        
+        return canciones;
     }
 
 }
