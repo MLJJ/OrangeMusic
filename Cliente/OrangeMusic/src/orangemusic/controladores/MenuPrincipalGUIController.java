@@ -5,10 +5,18 @@
  */
 package orangemusic.controladores;
 
+import com.jfoenix.controls.JFXButton;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 /**
@@ -19,14 +27,38 @@ import javafx.scene.layout.GridPane;
 public class MenuPrincipalGUIController implements Initializable {
 
     @FXML
-    private GridPane panelPrincipal;
+    private GridPane panelReproductor;
+    @FXML
+    private GridPane gridPanelPrincipal;
+    @FXML
+    private TextField txtBusqueda;
+    @FXML
+    private JFXButton btnBuscar;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+        try {
+            cargarReproductor();
+        } catch (IOException ex) {
+            System.out.println("Error");
+        }
+    }
+
+    private void cargarReproductor() throws IOException {
+        panelReproductor.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/orangemusic/vistas/BarraReproductorGUI.fxml"));
+        panelReproductor.getChildren().addAll(fxml.getChildrenUnmodifiable());
+        //barraMenu.setVisible(false);
+        //menuDesplegado = false;
+    }
+
+    @FXML
+    private void lanzarBuscar(ActionEvent event) throws IOException {
+        gridPanelPrincipal.getChildren().clear();
+        Parent fxml = FXMLLoader.load(getClass().getResource("/orangemusic/vistas/BuscarGUI.fxml"));
+        gridPanelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+    }
 }

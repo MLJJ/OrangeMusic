@@ -16,18 +16,22 @@ import javafx.fxml.Initializable;
 /**
  * FXML Controller class
  *
- * @author Cristhian Ubaldo Promotor
+ * @author arkadwn
  */
-public class InicioSesionGUIController implements Initializable {
+public class RegistrarUsuarioGUIController implements Initializable {
 
     @FXML
-    private JFXButton btnCerrar;
+    private JFXButton btnRegresar;
     @FXML
-    private JFXButton btnIniciarSesion;
+    private JFXButton btnRegistrar;
     @FXML
     private JFXTextField txtContrasena;
     @FXML
     private JFXTextField txtUsuario;
+    @FXML
+    private JFXTextField txtContrasena1;
+    @FXML
+    private JFXTextField txtCorreo;
 
     /**
      * Initializes the controller class.
