@@ -94,4 +94,30 @@ public class Despachador implements Runnable {
             System.out.println("No se encontró el directorio..");
         }
     }
+    
+    private void realizarFormatos(){
+        String file = "Ludovico Einaudi - Life.mp3";
+        String[] archivo = file.split(".mp3");
+        String path = "C:\\Users\\enriq\\Documents\\6TO SEMESTRE IS\\DESARROLLO SISTEMAS EN RED\\CalidadAudio\\src\\calidadaudio\\";
+        
+        //los kbits por segundo, a mayor numero mejor es la calidad 
+        //ya que no realiza mucha compresión del audio, 320 es la mayor para formato mp3
+        String bitrate1 = "320";
+        String bitrate2 = "128";
+        String bitrate3 = "32";
+        
+        String cmd1="ffmpeg -i \"" + path + file + "\" -codec:a libmp3lame -b:a "+ bitrate1 + "k \"" +path + archivo[0] + "_alta.mp3\"";
+        String cmd2="ffmpeg -i \"" + path + file+ "\" -codec:a libmp3lame -b:a "+ bitrate2 + "k \"" + path + archivo[0] + "_media.mp3\"";
+        String cmd3="ffmpeg -i \"" + path + file + "\" -codec:a libmp3lame -b:a "+ bitrate3 + "k \"" + path + archivo[0] + "_baja.mp3\"";
+        Process p;
+        try {
+            p = Runtime.getRuntime().exec(cmd1);
+            p = Runtime.getRuntime().exec(cmd2);
+            p = Runtime.getRuntime().exec(cmd3);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }finally{
+            System.out.println("listo");
+        }
+    }
 }
