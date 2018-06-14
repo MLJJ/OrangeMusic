@@ -11,3 +11,4 @@ OrangeMusic/build/web/WEB-INF/classes/modelo/Album_.class
 OrangeMusic/build/web/WEB-INF/classes/modelo/Artista.rapt
 *.rapt
 *.class
+/Cliente/OrangeMusic/dist/

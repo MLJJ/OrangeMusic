@@ -1,26 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package modelo;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Miguel Leonardo Jimenez Jimenez
- * @date 9/06/2018
- * @time 12:59:17 AM
+ * @date 14/06/2018
+ * @time 02:06:00 AM
  */
 @Entity
 @Table(name = "usuario")
@@ -46,6 +44,8 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombreUsuario")
     private String nombreUsuario;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    private List<Sube> subeList;
 
     public Usuario() {
     }
@@ -90,6 +90,15 @@ public class Usuario implements Serializable {
 
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
+    }
+
+    @XmlTransient
+    public List<Sube> getSubeList() {
+        return subeList;
+    }
+
+    public void setSubeList(List<Sube> subeList) {
+        this.subeList = subeList;
     }
 
     @Override

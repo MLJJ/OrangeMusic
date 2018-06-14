@@ -6,8 +6,9 @@
     <class>modelo.Artista</class>
     <class>modelo.Cancion</class>
     <class>modelo.Genero</class>
+    <class>modelo.Sube</class>
     <class>modelo.Usuario</class>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>
 </persistence>

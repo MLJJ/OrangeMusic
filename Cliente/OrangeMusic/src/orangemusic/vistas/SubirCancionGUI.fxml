@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
@@ -11,8 +12,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="750.0" prefWidth="1200.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="orangemusic.controladores.SubirCancionGUIController">
+<AnchorPane id="AnchorPane" prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="orangemusic.controladores.SubirCancionGUIController">
    <children>
       <GridPane layoutX="-66.0" layoutY="27.0" styleClass="fondo" stylesheets="@../../recursos/codigo/EstiloOrangeMusic.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -36,37 +36,38 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fitHeight="243.0" fitWidth="228.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <ImageView fx:id="imgImagen" fitHeight="243.0" fitWidth="228.0" onMouseClicked="#accionAbrirImagen" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <image>
                   <Image url="@../../recursos/imagenes/logo.png" />
                </image>
             </ImageView>
-            <JFXTextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <JFXTextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <JFXTextField GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <JFXComboBox prefHeight="25.0" prefWidth="574.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <JFXComboBox prefHeight="25.0" prefWidth="633.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-            <JFXTextField GridPane.columnIndex="1" GridPane.rowIndex="10" />
-            <JFXButton prefWidth="121.0" text="Subir" GridPane.columnIndex="1" GridPane.rowIndex="11">
+            <JFXTextField fx:id="tfNombreAlbum" labelFloat="true" onKeyTyped="#restringirEntradaDeTeclado" promptText="Nombre album:" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <JFXTextField fx:id="tfAñoLanzamiento" labelFloat="true" onKeyTyped="#restringirLetras" promptText="Año de lanzamiento (yyyy):" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <JFXTextField fx:id="tfDiscografico" labelFloat="true" onKeyTyped="#restringirEntradaDeTeclado" promptText="Compañia discografica:" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <JFXComboBox fx:id="cbGenero" prefHeight="25.0" prefWidth="574.0" promptText="Genero:" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <JFXComboBox fx:id="cbArtista" prefHeight="25.0" prefWidth="633.0" promptText="Artista:" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <JFXTextField fx:id="tfCancion" editable="false" labelFloat="true" promptText="Zip con las canciones" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <JFXButton onAction="#accionSubirAlbum" prefWidth="121.0" text="Subir" GridPane.columnIndex="1" GridPane.rowIndex="11">
                <GridPane.margin>
                   <Insets right="200.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXButton prefWidth="121.0" text="Cancelar" GridPane.columnIndex="1" GridPane.rowIndex="11">
+            <JFXButton onAction="#accionCancelar" prefWidth="121.0" text="Cancelar" GridPane.columnIndex="1" GridPane.rowIndex="11">
                <GridPane.margin>
                   <Insets left="200.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXButton text="+" GridPane.columnIndex="2" GridPane.rowIndex="9">
+            <JFXButton onAction="#accionCrearArtista" text="+" GridPane.columnIndex="2" GridPane.rowIndex="9">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXButton text="Zip" GridPane.columnIndex="2" GridPane.rowIndex="10">
+            <JFXButton onAction="#accionCargarZip" text="Zip" GridPane.columnIndex="2" GridPane.rowIndex="10">
                <GridPane.margin>
                   <Insets left="15.0" />
                </GridPane.margin>
             </JFXButton>
+            <JFXCheckBox fx:id="chDisponibilidad" text="Privado" GridPane.columnIndex="2" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>
