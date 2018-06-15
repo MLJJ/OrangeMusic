@@ -1,3 +1,9 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package modelo;
 
 import java.io.Serializable;
@@ -17,8 +23,8 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  *
  * @author Miguel Leonardo Jimenez Jimenez
- * @date 14/06/2018
- * @time 02:06:00 AM
+ * @date 15/06/2018
+ * @time 10:44:32 PM
  */
 @Entity
 @Table(name = "usuario")
@@ -27,7 +33,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
     , @NamedQuery(name = "Usuario.findByCorreo", query = "SELECT u FROM Usuario u WHERE u.correo = :correo")
     , @NamedQuery(name = "Usuario.findByPassword", query = "SELECT u FROM Usuario u WHERE u.password = :password")
-    , @NamedQuery(name = "Usuario.findByNombreImagen", query = "SELECT u FROM Usuario u WHERE u.nombreImagen = :nombreImagen")
     , @NamedQuery(name = "Usuario.findByNombreUsuario", query = "SELECT u FROM Usuario u WHERE u.nombreUsuario = :nombreUsuario")})
 public class Usuario implements Serializable {
 
@@ -39,13 +44,13 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @Column(name = "password")
     private String password;
-    @Column(name = "nombreImagen")
-    private String nombreImagen;
     @Basic(optional = false)
     @Column(name = "nombreUsuario")
     private String nombreUsuario;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
     private List<Sube> subeList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "correoUsuario")
+    private List<Listareproduccion> listareproduccionList;
 
     public Usuario() {
     }
@@ -76,14 +81,6 @@ public class Usuario implements Serializable {
         this.password = password;
     }
 
-    public String getNombreImagen() {
-        return nombreImagen;
-    }
-
-    public void setNombreImagen(String nombreImagen) {
-        this.nombreImagen = nombreImagen;
-    }
-
     public String getNombreUsuario() {
         return nombreUsuario;
     }
@@ -99,6 +96,15 @@ public class Usuario implements Serializable {
 
     public void setSubeList(List<Sube> subeList) {
         this.subeList = subeList;
+    }
+
+    @XmlTransient
+    public List<Listareproduccion> getListareproduccionList() {
+        return listareproduccionList;
+    }
+
+    public void setListareproduccionList(List<Listareproduccion> listareproduccionList) {
+        this.listareproduccionList = listareproduccionList;
     }
 
     @Override

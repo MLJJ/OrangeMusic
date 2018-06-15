@@ -13,58 +13,57 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import modelo.Genero;
+import modelo.Sube;
 
 /**
  *
  * @author Miguel Leonardo Jimenez Jimenez
  * @date 15/06/2018
- * @time 10:55:58 PM
+ * @time 10:56:13 PM
  */
 @Stateless
-@Path("modelo.genero")
-public class GeneroFacadeREST extends AbstractFacade<Genero> {
+@Path("modelo.sube")
+public class SubeFacadeREST extends AbstractFacade<Sube> {
 
     @PersistenceContext(unitName = "OrangeMusicPU")
     private EntityManager em;
 
-    public GeneroFacadeREST() {
-        super(Genero.class);
+    public SubeFacadeREST() {
+        super(Sube.class);
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
-    public void create(Genero entity) {
+    public void create(Sube entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Integer id, Genero entity) {
+    public void edit(@PathParam("id") Integer id, Sube entity) {
         super.edit(entity);
+    }
+
+    @DELETE
+    @Path("{id}")
+    public void remove(@PathParam("id") Integer id) {
+        super.remove(super.find(id));
     }
 
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Genero find(@PathParam("id") Integer id) {
+    public Sube find(@PathParam("id") Integer id) {
         return super.find(id);
     }
 
     @GET
     @Override
     @Produces({MediaType.APPLICATION_JSON})
-    public List<Genero> findAll() {
+    public List<Sube> findAll() {
         return super.findAll();
-    }
-
-    @GET
-    @Path("{from}/{to}")
-    @Produces({MediaType.APPLICATION_JSON})
-    public List<Genero> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
     }
 
     @Override

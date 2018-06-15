@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -19,8 +21,8 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  *
  * @author Miguel Leonardo Jimenez Jimenez
- * @date 14/06/2018
- * @time 02:06:00 AM
+ * @date 15/06/2018
+ * @time 10:44:31 PM
  */
 @Entity
 @Table(name = "album")
@@ -52,7 +54,13 @@ public class Album implements Serializable {
     private String disquera;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "album")
     private List<Sube> subeList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "album")
+    @JoinColumn(name = "Artista_idArtista", referencedColumnName = "idArtista")
+    @ManyToOne(optional = false)
+    private Artista artistaidArtista;
+    @JoinColumn(name = "Genero_idGenero", referencedColumnName = "idGenero")
+    @ManyToOne(optional = false)
+    private Genero generoidGenero;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "albumidAlbum")
     private List<Cancion> cancionList;
 
     public Album() {
@@ -115,6 +123,22 @@ public class Album implements Serializable {
 
     public void setSubeList(List<Sube> subeList) {
         this.subeList = subeList;
+    }
+
+    public Artista getArtistaidArtista() {
+        return artistaidArtista;
+    }
+
+    public void setArtistaidArtista(Artista artistaidArtista) {
+        this.artistaidArtista = artistaidArtista;
+    }
+
+    public Genero getGeneroidGenero() {
+        return generoidGenero;
+    }
+
+    public void setGeneroidGenero(Genero generoidGenero) {
+        this.generoidGenero = generoidGenero;
     }
 
     @XmlTransient

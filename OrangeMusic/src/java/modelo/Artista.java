@@ -1,3 +1,9 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package modelo;
 
 import java.io.Serializable;
@@ -19,8 +25,8 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  *
  * @author Miguel Leonardo Jimenez Jimenez
- * @date 14/06/2018
- * @time 02:06:00 AM
+ * @date 15/06/2018
+ * @time 10:44:29 PM
  */
 @Entity
 @Table(name = "artista")
@@ -40,8 +46,8 @@ public class Artista implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "artista")
-    private List<Cancion> cancionList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "artistaidArtista")
+    private List<Album> albumList;
 
     public Artista() {
     }
@@ -72,12 +78,12 @@ public class Artista implements Serializable {
     }
 
     @XmlTransient
-    public List<Cancion> getCancionList() {
-        return cancionList;
+    public List<Album> getAlbumList() {
+        return albumList;
     }
 
-    public void setCancionList(List<Cancion> cancionList) {
-        this.cancionList = cancionList;
+    public void setAlbumList(List<Album> albumList) {
+        this.albumList = albumList;
     }
 
     @Override

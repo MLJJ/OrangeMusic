@@ -5,6 +5,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -17,8 +18,8 @@ import modelo.Artista;
 /**
  *
  * @author Miguel Leonardo Jimenez Jimenez
- * @date 7/06/2018
- * @time 12:32:30 AM
+ * @date 15/06/2018
+ * @time 10:56:19 PM
  */
 @Stateless
 @Path("modelo.artista")
