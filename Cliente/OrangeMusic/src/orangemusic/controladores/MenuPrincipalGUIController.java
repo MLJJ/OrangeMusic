@@ -9,14 +9,14 @@ import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import orangemusic.OrangeMusic;
 import orangemusic.modelo.Usuario;
@@ -38,6 +38,9 @@ public class MenuPrincipalGUIController implements Initializable {
     private JFXButton btnBuscar;
     private OrangeMusic main;
     private Usuario usr;
+    private ListaReproduccionGUIController controladorListas;
+    private ReproductorMusicaGUIController controladorReproductor;
+    private BarraReproductorGUIController controladorBarra;
 
     /**
      * Initializes the controller class.
@@ -47,16 +50,31 @@ public class MenuPrincipalGUIController implements Initializable {
         try {
             cargarReproductor();
         } catch (IOException ex) {
-            System.out.println("Error");
+            ex.printStackTrace();
         }
     }
 
+    public ListaReproduccionGUIController getControladorListas() {
+        return controladorListas;
+    }
+
+    public ReproductorMusicaGUIController getControladorReproductor() {
+        return controladorReproductor;
+    }
+
+    public BarraReproductorGUIController getControladorBarra() {
+        return controladorBarra;
+    }
+
     private void cargarReproductor() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/orangemusic/vistas/BarraReproductoGUI.fxml"));
+        Parent fxml = (Parent) loader.load();
+        BarraReproductorGUIController controlador = loader.getController();
+        this.controladorBarra = controlador;
+        //controlador.setControladorMenu(this);
+
         panelReproductor.getChildren().clear();
-        Parent fxml = FXMLLoader.load(getClass().getResource("/orangemusic/vistas/BarraReproductorGUI.fxml"));
         panelReproductor.getChildren().addAll(fxml.getChildrenUnmodifiable());
-        //barraMenu.setVisible(false);
-        //menuDesplegado = false;
     }
 
     @FXML
@@ -66,11 +84,29 @@ public class MenuPrincipalGUIController implements Initializable {
         gridPanelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
     }
 
+    public void lanzarMusicaDetalles() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/orangemusic/vistas/ReproductorMusicaGUI.fxml"));
+        Parent fxml = (Parent) loader.load();
+        ReproductorMusicaGUIController controlador = loader.getController();
+        this.controladorReproductor = controlador;
+        //controlador.setControladorMenu(this);
+
+        gridPanelPrincipal.getChildren().clear();
+        gridPanelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+    }
+
     public void setMain(OrangeMusic main) {
         this.main = main;
     }
 
     public void setUsuario(Usuario usr) {
         this.usr = usr;
+    }
+
+    @FXML
+    private void lanzarAdministrarListas(MouseEvent event) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("HOLAAAAAAAAAAAAAAAA");
+        alert.show();
     }
 }

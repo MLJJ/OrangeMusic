@@ -30,6 +30,10 @@ and open the template in the editor.
     -jfx-focus-color:#f04824;
     -jfx-unfocus-color:#000;
 }
+.jfx-password-field{
+    -jfx-focus-color:#f04824;
+    -jfx-unfocus-color:#000;
+}
 .fondo{
     -fx-background-image: url('../imagenes/fondoInicio.jpg');
 }
@@ -112,8 +116,8 @@ and open the template in the editor.
 }
 
 .slider {
- -fx-background-color: #f04824;
- -fx-padding: 0.333333em;
+    -fx-background-color: #f04824;
+    -fx-padding: 0.333333em;
 }
 .slider .fill:hover {
     -fx-background-color: #003333;

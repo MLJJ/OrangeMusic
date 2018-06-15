@@ -6,13 +6,12 @@
 package orangemusic.controladores;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,11 +32,11 @@ public class RegistrarUsuarioGUIController implements Initializable {
     @FXML
     private JFXButton btnRegistrar;
     @FXML
-    private JFXTextField txtContrasena;
+    private JFXPasswordField txtContrasena;
     @FXML
     private JFXTextField txtUsuario;
     @FXML
-    private JFXTextField txtContrasena1;
+    private JFXPasswordField txtContrasena1;
     @FXML
     private JFXTextField txtCorreo;
     private OrangeMusic main;
@@ -78,10 +77,12 @@ public class RegistrarUsuarioGUIController implements Initializable {
             } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setContentText("No se pudo registrar el usuario verifique conexion con el servidor");
+                alert.show();
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Las contraseñas no coinciden, por favor vuelve a introducirlas");
+            alert.show();
             limpiarContrasenas();
         }
     }

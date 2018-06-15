@@ -78,7 +78,7 @@ public class Usuario {
             JSONObject json = new JSONObject();
             json.accumulate("nombreUsuario", usr.getNombre());
             json.accumulate("correo", usr.getCorreo());
-            json.accumulate("password", UtileriaSHA2.encriptarContrasena(usr.getContraseña()));
+            json.accumulate("password", usr.getContraseña());
             json.accumulate("nombreImagen", " ");
             OutputStream outputStream = conn.getOutputStream();
 
@@ -95,7 +95,6 @@ public class Usuario {
 
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
             String cadena = bufferedReader.readLine();
-            System.out.println("result:  " + cadena);
             JSONObject respuesta = new JSONObject(cadena);
 
             validacion = respuesta.getString("respuesta").equals("OK");
@@ -104,15 +103,12 @@ public class Usuario {
             System.out.println("Error en URL");
         } catch (IOException ex) {
             System.out.println("Error en HttpURLConnection");
-        } catch (NoSuchAlgorithmException ex) {
-            System.out.println("Error al encriptar contraseña");
         }
         return validacion;
     }
 
     public Usuario autenticar(Usuario usr) {
         try {
-            usr.setContraseña(UtileriaSHA2.encriptarContrasena("1234"));
             URL url = new URL("http://localhost:8080/OrangeMusic/webresources/modelo.usuario/" + usr.getCorreo());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Content-Type", "application/json");
@@ -128,7 +124,6 @@ public class Usuario {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
             String cad = bufferedReader.readLine();
             JSONObject json = new JSONObject(cad);
-
             boolean validacion = json.getString("password").equals(usr.getContraseña());
             if(validacion){
                 usr.setNombre(json.getString("nombreUsuario"));
@@ -142,8 +137,9 @@ public class Usuario {
             System.out.println("Error en RequesMethod: GET");
         } catch (IOException ex) {
             System.out.println("Error en HttpUrlConnection");
-        } catch (NoSuchAlgorithmException ex) {
-            System.out.println("Error en la encriptación de la contraseña");
+        } catch (Exception ex){
+            System.out.println("Error al crear el JSON");
+            usr = null;
         }
         return usr;
     }

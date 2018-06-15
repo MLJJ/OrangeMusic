@@ -6,6 +6,7 @@
 package orangemusic.controladores;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
@@ -33,7 +34,7 @@ public class InicioSesionGUIController implements Initializable {
     @FXML
     private JFXButton btnIniciarSesion;
     @FXML
-    private JFXTextField txtContrasena;
+    private JFXPasswordField txtContrasena;
     @FXML
     private JFXTextField txtUsuario;
     private OrangeMusic main;
@@ -62,15 +63,18 @@ public class InicioSesionGUIController implements Initializable {
             System.out.println("Error al encriptar la contraseña");
         }
         usr.setCorreo(txtUsuario.getText());
-        if((usr = usr.autenticar(usr)) != null){
+        usr = usr.autenticar(usr);
+        if(usr != null){
             try {
                 main.desplegarMenuPrincipal(usr);
             } catch (IOException ex) {
-                System.out.println("Error al desplegar ventana de menu principal");
+                System.out.println("Error al desplegar ventana de menu principal: " + ex.getMessage());
+                ex.printStackTrace();
             }
         }else{
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Error, usuario y/o contraseña incorrectos");
+            alert.show();
         }
     }
 
