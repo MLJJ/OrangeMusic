@@ -67,29 +67,36 @@ public class Despachador implements Runnable {
 
     private void descomprmirArchivo(String datos) {
         File carpetaExtraer = new File(Constante.rutaCarpetasArchivosRecibidos);
-
+        ZipInputStream zip = null;
+        FileOutputStream entrada = null;
         if (carpetaExtraer.exists()) {
-
             try {
-                ZipInputStream zis = new ZipInputStream(new FileInputStream(Constante.rutaCarpetasArchivosRecibidos+"cancion.zip"), Charset.forName("Cp437"));
+                zip = new ZipInputStream(new FileInputStream(Constante.rutaCarpetasArchivosRecibidos+"cancion.zip"), Charset.forName("Cp437"));
 
                 ZipEntry salida = null;
-                while (null != (salida = zis.getNextEntry())) {
-                    FileOutputStream fos = new FileOutputStream(Constante.rutaCarpetasArchivosRecibidos + salida.getName());
+                while (null != (salida = zip.getNextEntry())) {
+                    entrada = new FileOutputStream(Constante.rutaCarpetasArchivosRecibidos + salida.getName());
                     int leer;
                     byte[] buffer = new byte[1024];
-                    while (0 < (leer = zis.read(buffer))) {
-                        fos.write(buffer, 0, leer);
+                    while (0 < (leer = zip.read(buffer))) {
+                        entrada.write(buffer, 0, leer);
                     }
-                    fos.close();
-                    zis.closeEntry();
+                    entrada.close();
+                    zip.closeEntry();
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            }finally{
+                if(zip != null){
+                    try {
+                        zip.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(Despachador.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
-            System.out.println("Directorio de salida: " + Constante.rutaCarpetasArchivosRecibidos);
         } else {
             System.out.println("No se encontró el directorio..");
         }

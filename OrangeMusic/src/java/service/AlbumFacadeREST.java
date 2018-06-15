@@ -1,5 +1,7 @@
 package service;
 
+import java.io.FileOutputStream;
+import java.util.Base64;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -12,7 +14,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import modelo.Album;
+import modelo.Cancion;
 
 /**
  *
@@ -38,6 +42,20 @@ public class AlbumFacadeREST extends AbstractFacade<Album> {
         super.create(entity);
     }
 
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+    public List<Cancion> registrarAlbum(Album nuevoAlbum) {
+        List<Cancion> cancionesRegistradas = null;
+
+        try {
+
+        } catch (Exception e) {
+
+        }
+
+        return cancionesRegistradas;
+    }
+
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_JSON})
@@ -59,11 +77,25 @@ public class AlbumFacadeREST extends AbstractFacade<Album> {
         return super.findAll();
     }
 
-    @GET
-    @Path("{from}/{to}")
-    @Produces({MediaType.APPLICATION_JSON})
-    public List<Album> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
+    @POST
+    @Path("/imagenesalbum")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response subirImagenAlbum(Album album) {
+        String salida = "";
+
+        try {
+            byte arr[] = Base64.getDecoder().decode(album.getNombreImagen());
+            int tamaño = arr.length;
+            FileOutputStream arch = new FileOutputStream("C:\\Users\\Leonardo\\Documents\\GitHub\\OrangeMusic\\OrangeMusic\\web\\imagenesAlbum\\" + album.getIdAlbum());
+            arch.write(arr, 0, tamaño);
+            arch.close();
+            salida = "{\"respuesta\": \"OK\"}";
+
+        } catch (Exception exception) {
+            salida = "{\"respuesta\": \"" + exception.toString() + "\"}";
+        }
+
+        return Response.status(200).entity(salida).build();
     }
 
     @Override

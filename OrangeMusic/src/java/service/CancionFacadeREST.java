@@ -1,19 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package service;
 
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Part;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -25,7 +16,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import modelo.Cancion;
 import java.util.Base64;
-import modelo.Album;
 import modelo.Usuario;
 
 /**
@@ -83,29 +73,6 @@ public class CancionFacadeREST extends AbstractFacade<Cancion> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
-    }
-
-    @POST
-    @Path("/imagenesalbum")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response subirImagenAlbum(Album album){
-        String salida="";
-        
-        try{
-                //String ruta = new File(".").getCanonicalPath() + "/fotos/" + usuario.getCorreo() + ".jpg";
-                
-                byte arr[] = Base64.getDecoder().decode(album.getNombreImagen());
-                int tamaño = arr.length;
-                FileOutputStream arch = new FileOutputStream("C:\\Users\\Leonardo\\Documents\\GitHub\\OrangeMusic\\OrangeMusic\\web\\imagenesAlbum\\"+album.getIdAlbum());
-                arch.write(arr, 0, tamaño);
-                arch.close();
-                salida = "{\"respuesta\": \"OK\"}";
-            
-        }catch(Exception exception){
-            salida = "{\"respuesta\": \"" + exception.toString() + "\"}";
-}
-        
-        return Response.status(200).entity(salida).build();
     }
     
     @POST

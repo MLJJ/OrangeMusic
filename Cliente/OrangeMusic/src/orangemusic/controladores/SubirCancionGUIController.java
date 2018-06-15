@@ -97,7 +97,7 @@ public class SubirCancionGUIController implements Initializable {
     @FXML
     private void accionSubirAlbum(ActionEvent evento) {
         if(validarCampos()){
-            System.out.println("Hay campos vacios");
+            MensajeController.mensajeAdvertencia("Hay campos vacios");
         }else{
             
         }
@@ -133,7 +133,7 @@ public class SubirCancionGUIController implements Initializable {
             zipCanciones = rutaZip;
             tfNombreAlbum.setText(zipCanciones.getName());
         }else{
-            System.out.println("No es un ZIP");
+            MensajeController.mensajeAdvertencia("No es un zip");
         }
     }
     
