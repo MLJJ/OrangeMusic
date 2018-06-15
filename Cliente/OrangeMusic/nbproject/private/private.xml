@@ -3,8 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Cris_/Documents/GitHub/OrangeMusic/Cliente/OrangeMusic/src/orangemusic/BarraReproductorGUI.fxml</file>
-            <file>file:/C:/Users/Cris_/Documents/GitHub/OrangeMusic/Cliente/OrangeMusic/src/orangemusic/ReproductorMusicaGUI.fxml</file>
+            <file>file:/C:/Users/Cris_/Documents/GitHub/OrangeMusic/Cliente/OrangeMusic/src/orangemusic/controladores/BarraReproductorGUIController.java</file>
+            <file>file:/C:/Users/Cris_/Documents/GitHub/OrangeMusic/Cliente/OrangeMusic/src/orangemusic/OrangeMusic.java</file>
+            <file>file:/C:/Users/Cris_/Documents/GitHub/OrangeMusic/Cliente/OrangeMusic/src/recursos/codigo/EstiloOrangeMusic.css</file>
         </group>
     </open-files>
 </project-private>

@@ -19,7 +19,7 @@ public class OrangeMusic extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("vistas/MenuPrincipalGUI.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("vistas/BarraReproductoGUI.fxml"));
         
         Scene scene = new Scene(root);
         
