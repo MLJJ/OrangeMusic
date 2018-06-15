@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package modelo;
 
 import java.io.Serializable;
@@ -20,24 +19,24 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Miguel Leonardo Jimenez Jimenez
- * @date 15/06/2018
- * @time 10:44:32 PM
+ * @author arkadwn
  */
 @Entity
-@Table(name = "listareproduccion")
+@Table(name = "ListaReproduccion")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Listareproduccion.findAll", query = "SELECT l FROM Listareproduccion l")
-    , @NamedQuery(name = "Listareproduccion.findByIdListaReproduccion", query = "SELECT l FROM Listareproduccion l WHERE l.idListaReproduccion = :idListaReproduccion")
-    , @NamedQuery(name = "Listareproduccion.findByNombreLista", query = "SELECT l FROM Listareproduccion l WHERE l.nombreLista = :nombreLista")
-    , @NamedQuery(name = "Listareproduccion.findByVisibilidad", query = "SELECT l FROM Listareproduccion l WHERE l.visibilidad = :visibilidad")})
-public class Listareproduccion implements Serializable {
+    @NamedQuery(name = "ListaReproduccion.findAll", query = "SELECT l FROM ListaReproduccion l")
+    , @NamedQuery(name = "ListaReproduccion.findByIdListaReproduccion", query = "SELECT l FROM ListaReproduccion l WHERE l.idListaReproduccion = :idListaReproduccion")
+    , @NamedQuery(name = "ListaReproduccion.findByNombreLista", query = "SELECT l FROM ListaReproduccion l WHERE l.nombreLista = :nombreLista")
+    , @NamedQuery(name = "ListaReproduccion.findByVisibilidad", query = "SELECT l FROM ListaReproduccion l WHERE l.visibilidad = :visibilidad")})
+public class ListaReproduccion implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -46,25 +45,29 @@ public class Listareproduccion implements Serializable {
     @Column(name = "idListaReproduccion")
     private Integer idListaReproduccion;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 80)
     @Column(name = "nombreLista")
     private String nombreLista;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
     @Column(name = "visibilidad")
     private String visibilidad;
-    @ManyToMany(mappedBy = "listareproduccionList")
+    @ManyToMany(mappedBy = "listaReproduccionList")
     private List<Cancion> cancionList;
     @JoinColumn(name = "correoUsuario", referencedColumnName = "correo")
     @ManyToOne(optional = false)
     private Usuario correoUsuario;
 
-    public Listareproduccion() {
+    public ListaReproduccion() {
     }
 
-    public Listareproduccion(Integer idListaReproduccion) {
+    public ListaReproduccion(Integer idListaReproduccion) {
         this.idListaReproduccion = idListaReproduccion;
     }
 
-    public Listareproduccion(Integer idListaReproduccion, String nombreLista, String visibilidad) {
+    public ListaReproduccion(Integer idListaReproduccion, String nombreLista, String visibilidad) {
         this.idListaReproduccion = idListaReproduccion;
         this.nombreLista = nombreLista;
         this.visibilidad = visibilidad;
@@ -121,10 +124,10 @@ public class Listareproduccion implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Listareproduccion)) {
+        if (!(object instanceof ListaReproduccion)) {
             return false;
         }
-        Listareproduccion other = (Listareproduccion) object;
+        ListaReproduccion other = (ListaReproduccion) object;
         if ((this.idListaReproduccion == null && other.idListaReproduccion != null) || (this.idListaReproduccion != null && !this.idListaReproduccion.equals(other.idListaReproduccion))) {
             return false;
         }
@@ -133,7 +136,7 @@ public class Listareproduccion implements Serializable {
 
     @Override
     public String toString() {
-        return "modelo.Listareproduccion[ idListaReproduccion=" + idListaReproduccion + " ]";
+        return "modelo.ListaReproduccion[ idListaReproduccion=" + idListaReproduccion + " ]";
     }
-
+    
 }

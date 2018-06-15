@@ -6,7 +6,6 @@
 package orangemusic.controladores;
 
 import com.jfoenix.controls.JFXButton;
-import java.io.File;
 import java.net.URL;
 import javafx.util.Duration;
 import java.util.ResourceBundle;
@@ -18,12 +17,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.Background;
-import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
-import javafx.scene.media.MediaView;
+import orangemusic.OrangeMusic;
+import orangemusic.modelo.Cancion;
+import orangemusic.modelo.ListaReproduccion;
 
 /**
  * FXML Controller class
@@ -43,10 +42,6 @@ public class BarraReproductorGUIController implements Initializable {
     @FXML
     private Label labelNombreCancion;
     @FXML
-    private JFXButton buttonPausa;
-    @FXML
-    private MediaView mediaViewReproduccion;
-    @FXML
     private Label labelTiempoRep;
 
 //Elementos para la reproduccion
@@ -55,22 +50,50 @@ public class BarraReproductorGUIController implements Initializable {
     private Duration duracion;
     private boolean stopRequested = false;
     private boolean terminado = false;
-
+    private ListaReproduccion listaReproduccion;
+    private Cancion cancionInicio;
+    private MenuPrincipalGUIController menuPricipal;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        String uriArchivo = "C:/Users/Cris_/Music/musik/Dog_Days.mp3";
-        media = new Media(new File(uriArchivo).toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setAutoPlay(true);
-        mediaViewReproduccion.setMediaPlayer(mediaPlayer);
+        //Solo de prueba
+            /*
+            listaReproduccion = new ListaReproduccion();
+            Cancion cancion1 = new Cancion();
+            cancion1.setRutaCancion("C:/Users/Cris_/Music/musik/Dog_Days.mp3");
+            //cancion1.setRutaCancion("http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv");
+            cancion1.setIdCancion(1);
+            Cancion cancion2 = new Cancion();
+            cancion2.setRutaCancion("C:/Users/Cris_/Music/musik/this_is_america.mp3");
+            //cancion2.setRutaCancion("https://www.rmp-streaming.com/media/bbb-360p.mp4");
+            cancion2.setIdCancion(2);
+            cancionInicio = cancion1;
+            listaReproduccion.getCanciones().add(cancion1);
+            listaReproduccion.getCanciones().add(cancion2);
+             */
+        // fin datos
 
+        if (listaReproduccion != null) {
+            String rutaInicio = listaReproduccion.getCanciones().get(listaReproduccion.getCanciones().indexOf(cancionInicio)).getRutaCancion();
+            //media = new Media(new File(rutaInicio).toURI().toString()); //provar con rutas de pc
+            media = new Media(rutaInicio);
+            mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setAutoPlay(true);
+            enlazarElemetos();
+        }
+
+    }
+    public void setControladorMenu(MenuPrincipalGUIController menu){
+        this.menuPricipal = menuPricipal;
+        
+    }
+
+    public void enlazarElemetos() {
         sliderReproducion.valueProperty().addListener(new InvalidationListener() {
             public void invalidated(Observable ov) {
                 if (sliderReproducion.isValueChanging()) {
-                    // multiply duration by percentage calculated by slider position
                     mediaPlayer.seek(duracion.multiply(sliderReproducion.getValue() / 100.0));
                 }
             }
@@ -103,25 +126,60 @@ public class BarraReproductorGUIController implements Initializable {
 
         mediaPlayer.setOnPaused(new Runnable() {
             public void run() {
-                System.out.println("onPaused");
                 buttonReproducir.setStyle("-fx-background-image: url('/recursos/imagenes/playIcon.png')");
             }
         });
 
         mediaPlayer.setOnEndOfMedia(new Runnable() {
             public void run() {
-                stopRequested = true;
-                terminado = true;
+                cambiarSiguiente(null);
             }
         });
+
+        labelNombreCancion.setText(cancionInicio.getNombreCancion());
+    }
+
+    public void cargarCancion(ListaReproduccion listaReproduccion, Cancion cancionInicio) {
+        this.listaReproduccion = listaReproduccion;
+        this.cancionInicio = cancionInicio;
+
     }
 
     @FXML
     private void cambiarAnterior(ActionEvent event) {
+        mediaPlayer.dispose();
+        String rutaCancion;
+        if ((listaReproduccion.getCanciones().indexOf(cancionInicio) - 1) > 0) {
+            rutaCancion = listaReproduccion.getCanciones().get(listaReproduccion.getCanciones().indexOf(cancionInicio) - 1).getRutaCancion() + cancionInicio.getIdCancion() + "-1.mp3";
+            cancionInicio = listaReproduccion.getCanciones().get(listaReproduccion.getCanciones().indexOf(cancionInicio) - 1);
+        } else {
+            rutaCancion = listaReproduccion.getCanciones().get(0).getRutaCancion();
+            cancionInicio = listaReproduccion.getCanciones().get(0);
+        }
+        //media = new Media(new File(rutaCancion).toURI().toString()); //solo si se quiere probar con rutas de la pc 
+        media = new Media(rutaCancion);
+        mediaPlayer = new MediaPlayer(media);
+        enlazarElemetos();
+        mediaPlayer.play();
+
     }
 
     @FXML
-    private void cambiarsiguiente(ActionEvent event) {
+    private void cambiarSiguiente(ActionEvent event) {
+        mediaPlayer.dispose();
+        String rutaCancion;
+        if ((listaReproduccion.getCanciones().indexOf(cancionInicio) + 1) < listaReproduccion.getCanciones().size()) {
+            rutaCancion = listaReproduccion.getCanciones().get(listaReproduccion.getCanciones().indexOf(cancionInicio) + 1).getRutaCancion();
+            cancionInicio = listaReproduccion.getCanciones().get(listaReproduccion.getCanciones().indexOf(cancionInicio) + 1);
+        } else {
+            rutaCancion = listaReproduccion.getCanciones().get(0).getRutaCancion();
+            cancionInicio = listaReproduccion.getCanciones().get(0);
+        }
+        //media = new Media(new File(rutaCancion).toURI().toString()); //solo si se quiere probar con rutas de la pc 
+        media = new Media(rutaCancion);
+        mediaPlayer = new MediaPlayer(media);
+        enlazarElemetos();
+        mediaPlayer.play();
     }
 
     @FXML
@@ -130,26 +188,10 @@ public class BarraReproductorGUIController implements Initializable {
         if (status == MediaPlayer.Status.UNKNOWN || status == MediaPlayer.Status.HALTED) {
             return;
         }
-        if (status == Status.READY || status == Status.STOPPED || status == Status.PAUSED) {
+        if (status == MediaPlayer.Status.UNKNOWN || status == Status.READY || status == Status.STOPPED || status == Status.PAUSED) {
             mediaPlayer.play();
 
-            //En lugar de decirle que regrese al inicio le digo que cambie a otra cancion
-            if (terminado) {
-                mediaPlayer.seek(mediaPlayer.getStartTime());
-                terminado = false;
-            }
         } else {
-            mediaPlayer.pause();
-        }
-    }
-
-    @FXML
-    private void PausarCancion(ActionEvent event) {
-        Status status = mediaPlayer.getStatus();
-        if (status == MediaPlayer.Status.UNKNOWN || status == MediaPlayer.Status.HALTED) {
-            return;
-        }
-        if (status == Status.PLAYING) {
             mediaPlayer.pause();
         }
     }
@@ -158,14 +200,12 @@ public class BarraReproductorGUIController implements Initializable {
         if (labelTiempoRep != null && sliderReproducion != null) {
             Platform.runLater(new Runnable() {
                 public void run() {
-                    Duration currentTime = mediaPlayer.getCurrentTime();
-                    labelTiempoRep.setText(darFormatoAlTiempo(currentTime, duracion));
+                    Duration tiempoActual = mediaPlayer.getCurrentTime();
+                    labelTiempoRep.setText(darFormatoAlTiempo(tiempoActual, duracion));
                     sliderReproducion.setDisable(duracion.isUnknown());
-                    if (!sliderReproducion.isDisabled()
-                            && duracion.greaterThan(Duration.ZERO)
+                    if (!sliderReproducion.isDisabled() && duracion.greaterThan(Duration.ZERO)
                             && !sliderReproducion.isValueChanging()) {
-                        sliderReproducion.setValue(currentTime.divide(duracion).toMillis()
-                                * 100.0);
+                        sliderReproducion.setValue(tiempoActual.divide(duracion).toMillis() * 100.0);
                     }
 
                 }
