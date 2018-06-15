@@ -18,6 +18,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import orangemusic.OrangeMusic;
+import orangemusic.modelo.Usuario;
 
 /**
  * FXML Controller class
@@ -34,6 +36,8 @@ public class MenuPrincipalGUIController implements Initializable {
     private TextField txtBusqueda;
     @FXML
     private JFXButton btnBuscar;
+    private OrangeMusic main;
+    private Usuario usr;
 
     /**
      * Initializes the controller class.
@@ -60,5 +64,13 @@ public class MenuPrincipalGUIController implements Initializable {
         gridPanelPrincipal.getChildren().clear();
         Parent fxml = FXMLLoader.load(getClass().getResource("/orangemusic/vistas/BuscarGUI.fxml"));
         gridPanelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+    }
+
+    public void setMain(OrangeMusic main) {
+        this.main = main;
+    }
+
+    public void setUsuario(Usuario usr) {
+        this.usr = usr;
     }
 }
