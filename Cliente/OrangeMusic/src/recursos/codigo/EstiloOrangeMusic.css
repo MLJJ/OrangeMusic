@@ -122,3 +122,10 @@ and open the template in the editor.
 .slider .fill:hover {
     -fx-background-color: #003333;
 }
+
+.tree-table-cell{
+    -fx-alignment: baseline-center;
+}
+.tree-table-view:focused .tree-table-row-cell:selected{
+    -fx-background-color: #f04824;
+}

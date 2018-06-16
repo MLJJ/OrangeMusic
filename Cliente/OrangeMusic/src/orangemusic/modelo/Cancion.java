@@ -1,5 +1,6 @@
 package orangemusic.modelo;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,6 +19,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -27,17 +30,19 @@ import org.json.JSONObject;
  * @date 16/06/2018
  * @time 12:14:01 AM
  */
-public class Cancion {
+public class Cancion extends RecursiveTreeObject<Cancion>{
+
     private int idCancion;
     private String nombreCancion;
     private String rutaCancion;
     private Album album;
-    
-    public Cancion(){
-        
+    private ImageView imagen;
+
+    public Cancion() {
+
     }
-    
-    public Cancion(JSONObject cancionJSON){
+
+    public Cancion(JSONObject cancionJSON) {
         this.idCancion = cancionJSON.getInt("idCancion");
         this.nombreCancion = cancionJSON.getString("nombreCancion");
         this.rutaCancion = cancionJSON.getString("rutaCancion");
@@ -67,20 +72,30 @@ public class Cancion {
     public void setRutaCancion(String rutaCancion) {
         this.rutaCancion = rutaCancion;
     }
-    
-    public String crearCancionJSON(){
+
+    public ImageView getImagen() {
+        return imagen;
+    }
+
+    public String crearCancionJSON() {
         String cancionJSON = "{";
-        cancionJSON += "\"idCancion\":\""+this.idCancion+"\",";
-        cancionJSON += "\"rutaCancion\":\""+this.rutaCancion+"\",";
-        cancionJSON += "\"nombreCancion\":\""+this.nombreCancion+"\"";
+        cancionJSON += "\"idCancion\":\"" + this.idCancion + "\",";
+        cancionJSON += "\"rutaCancion\":\"" + this.rutaCancion + "\",";
+        cancionJSON += "\"nombreCancion\":\"" + this.nombreCancion + "\"";
         cancionJSON += "}";
-        
+
         return cancionJSON;
     }
-    
-    public List<Cancion> sacarCancionesDeAlbum(String ruta){
+
+    public void buscarImagenCancion() {
+        String ruta = "http://localhost:8080/OrangeMusic/imagenesCanciones/" + rutaCancion;
+        Image image = new Image(ruta, 50, 50, true, true);
+        imagen = new ImageView(image);
+    }
+
+    public List<Cancion> sacarCancionesDeAlbum(String ruta) {
         List<Cancion> canciones = new ArrayList();
-        
+
         File carpetaExtraer = new File(ruta);
         ZipInputStream zip = null;
         if (carpetaExtraer.exists()) {
@@ -92,15 +107,15 @@ public class Cancion {
                     Cancion cancion = new Cancion();
                     cancion.setNombreCancion(salida.getName());
                     canciones.add(cancion);
-                    
+
                     zip.closeEntry();
                 }
             } catch (FileNotFoundException e) {
-                
+
             } catch (IOException e) {
-                
-            }finally{
-                if(zip != null){
+
+            } finally {
+                if (zip != null) {
                     try {
                         zip.close();
                     } catch (IOException ex) {
@@ -111,10 +126,10 @@ public class Cancion {
         } else {
             System.out.println("No se encontró el directorio..");
         }
-        
+
         return canciones;
     }
-    
+
     public List<Cancion> buscarCancion(String nombreCancion) {
         List<Cancion> canciones = null;
         try {
@@ -154,9 +169,8 @@ public class Cancion {
         return canciones;
     }
 
-
     @Override
-    public String toString(){
+    public String toString() {
         return this.nombreCancion;
     }
 
