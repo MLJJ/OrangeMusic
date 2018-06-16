@@ -3,7 +3,6 @@ package orangemusic.modelo;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -74,7 +73,6 @@ public class Cancion {
         
         File carpetaExtraer = new File(ruta);
         ZipInputStream zip = null;
-        FileOutputStream entrada = null;
         if (carpetaExtraer.exists()) {
             try {
                 zip = new ZipInputStream(new FileInputStream(ruta), Charset.forName("Cp437"));
@@ -82,7 +80,10 @@ public class Cancion {
                 ZipEntry salida = null;
                 while (null != (salida = zip.getNextEntry())) {
                     Cancion cancion = new Cancion();
+                    cancion.setNombreCancion(salida.getName());
+                    canciones.add(cancion);
                     
+                    zip.closeEntry();
                 }
             } catch (FileNotFoundException e) {
                 

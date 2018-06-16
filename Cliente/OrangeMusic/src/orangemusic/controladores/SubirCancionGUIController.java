@@ -4,22 +4,25 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import orangemusic.modelo.Artista;
 import orangemusic.modelo.Genero;
 
@@ -55,21 +58,16 @@ public class SubirCancionGUIController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cbArtista.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Artista>(){
-            @Override
-            public void changed(ObservableValue<? extends Artista> observable, Artista oldValue, Artista newValue) {
-                
-            }
-            
-        });
+        cargarGeneros(new Genero().sacarGeneros());
+        cargarArtistas(new Artista().sacarArtista());
     }
     
-    public void cargarGeneros(List<Genero> generos){
+    private void cargarGeneros(List<Genero> generos){
         cbGenero.getItems().clear();
         cbGenero.setItems(FXCollections.observableArrayList(generos));
     }
     
-    public void cargarArtistas(List<Artista> artistas){
+    private void cargarArtistas(List<Artista> artistas){
         cbArtista.getItems().clear();
         cbArtista.setItems(FXCollections.observableArrayList(artistas));
     }
@@ -118,10 +116,24 @@ public class SubirCancionGUIController implements Initializable {
     }
 
     @FXML
-    private void accionCrearArtista(ActionEvent evento) {
-        
+    private void accionCrearArtista(ActionEvent evento) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader cargador = new FXMLLoader(getClass().getResource("/orangemusic/vistas/CrearArtistaGUI.fxml"));
+        Parent root = (Parent) cargador.load();
+        Scene scene = new Scene(root);
+        stage.getIcons().add(new Image("/recursos/imagenes/logo.png"));
+
+        CrearArtistaGUIController controlador = cargador.getController();
+        controlador.cargarControlador(this);
+
+        stage.setScene(scene);
+        stage.show();
     }
 
+    public void cargarNuevoArtista(){
+        cargarArtistas(new Artista().sacarArtista());
+    }
+    
     @FXML
     private void accionCargarZip(ActionEvent evento) {
         FileChooser elegir = new FileChooser();

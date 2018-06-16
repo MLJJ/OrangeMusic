@@ -13,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import modelo.Artista;
 
 /**
@@ -33,10 +34,16 @@ public class ArtistaFacadeREST extends AbstractFacade<Artista> {
     }
 
     @POST
-    @Override
     @Consumes({MediaType.APPLICATION_JSON})
-    public void create(Artista entity) {
-        super.create(entity);
+    public Response registrarArtista(Artista entity) {
+        String salida = "";
+        try{
+            super.create(entity);
+            salida = "{\"respuesta\": \"Se ha registrado el artista\"}";
+        }catch(Exception e){
+            salida = "{\"respuesta\": \"El artista ya se encuentra registrado\"}";
+        }
+        return Response.status(200).entity(salida).build();
     }
 
     @PUT
@@ -58,13 +65,6 @@ public class ArtistaFacadeREST extends AbstractFacade<Artista> {
     @Produces({MediaType.APPLICATION_JSON})
     public List<Artista> findAll() {
         return super.findAll();
-    }
-
-    @GET
-    @Path("{from}/{to}")
-    @Produces({MediaType.APPLICATION_JSON})
-    public List<Artista> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
     }
 
     @Override

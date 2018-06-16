@@ -67,7 +67,10 @@
                   <Insets left="15.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXCheckBox fx:id="chDisponibilidad" text="Privado" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <JFXCheckBox fx:id="chDisponibilidad" text="Privado" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="40.0" />
+               </GridPane.margin></JFXCheckBox>
          </children>
       </GridPane>
    </children>

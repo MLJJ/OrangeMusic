@@ -47,11 +47,7 @@ public class AlbumFacadeREST extends AbstractFacade<Album> {
     public List<Cancion> registrarAlbum(Album nuevoAlbum) {
         List<Cancion> cancionesRegistradas = null;
 
-        try {
-
-        } catch (Exception e) {
-
-        }
+        
 
         return cancionesRegistradas;
     }

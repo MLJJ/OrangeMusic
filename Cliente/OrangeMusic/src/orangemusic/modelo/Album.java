@@ -1,5 +1,20 @@
 package orangemusic.modelo;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import orangemusic.utilerias.Constante;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -97,5 +112,50 @@ public class Album {
     @Override
     public String toString(){
         return this.nombreAlbum;
+    }
+    
+    public String subirAlbum(Album album, boolean disponibilidad, File canciones, File imagen){
+        String cancionesRegistradas = null;
+        
+        HttpURLConnection conexion = null;
+        try {
+            URL url = new URL(Constante.URLSERVICIOS+"persistencia.usuarios");
+            conexion = (HttpURLConnection)url.openConnection();
+            conexion.setRequestProperty("Content-Type","application/json");
+            conexion.setRequestProperty("Accept","application/json");
+            conexion.setDoInput(true);
+            conexion.setDoOutput(true);
+            conexion.setRequestMethod("POST");
+            conexion.connect();
+
+            JSONObject usuarioJSON = new JSONObject(artista.crearArtistaJSON());
+
+            OutputStream outputStream = conexion.getOutputStream();
+            BufferedWriter escritor = new BufferedWriter(new OutputStreamWriter(outputStream));
+            escritor.write(String.valueOf(usuarioJSON));
+            escritor.flush();
+
+            InputStream input;
+            if (conexion.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                input = conexion.getInputStream();
+            } else {
+                input = conexion.getErrorStream();
+            }
+            
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+            cancionesRegistradas = bufferedReader.readLine();
+        } catch (MalformedURLException e) {
+            cancionesRegistradas= null;
+        } catch (IOException e) {
+            cancionesRegistradas = null;
+        } catch (JSONException e) {
+            cancionesRegistradas = null;
+        }finally{
+            if(conexion != null){
+                conexion.disconnect();
+            }
+        }
+        
+        return cancionesRegistradas;
     }
 }
