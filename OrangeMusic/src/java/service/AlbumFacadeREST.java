@@ -1,6 +1,7 @@
 package service;
 
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -93,7 +94,24 @@ public class AlbumFacadeREST extends AbstractFacade<Album> {
 
         return Response.status(200).entity(salida).build();
     }
+    
+    @GET
+    @Path("buscarPorNombre/{nombre}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Album> buscarAlbum(@PathParam("nombre") String nombre) {
+        List<Album> albumnes = null;
+        String palabraClave = "%" + nombre + "%";
+        EntityManager conexion = getEntityManager();
 
+        try {
+            albumnes = conexion.createQuery("SELECT a FROM Album a WHERE a.nombreAlbum LIKE :palabraClave").setParameter("palabraClave", palabraClave).getResultList();
+        } catch (Exception e) {
+            albumnes = new ArrayList();
+        }
+
+        return albumnes;
+    }
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;

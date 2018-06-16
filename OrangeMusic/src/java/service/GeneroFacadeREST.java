@@ -1,5 +1,6 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -70,6 +71,23 @@ public class GeneroFacadeREST extends AbstractFacade<Genero> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+    
+    
+    @GET
+    @Path("buscarPorNombre/{nombre}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Genero> buscarGenero(@PathParam("nombre") String nombre) {
+        List<Genero> generos = null;
+        String palabraClave = "%" + nombre + "%";
+        EntityManager conexion = getEntityManager();
+
+        try {
+            generos = conexion.createQuery("SELECT g FROM Genero g WHERE g.nombreGenero LIKE :palabraClave").setParameter("palabraClave", palabraClave).getResultList();
+        } catch (Exception e) {
+            generos = new ArrayList();
+        }
+        return generos;
     }
 
 }

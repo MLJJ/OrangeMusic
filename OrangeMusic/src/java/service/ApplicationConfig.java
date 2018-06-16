@@ -30,7 +30,7 @@ public class ApplicationConfig extends Application {
         resources.add(service.ArtistaFacadeREST.class);
         resources.add(service.CancionFacadeREST.class);
         resources.add(service.GeneroFacadeREST.class);
-        resources.add(service.ListareproduccionFacadeREST.class);
+        resources.add(service.ListaReproduccionFacadeREST.class);
         resources.add(service.SubeFacadeREST.class);
         resources.add(service.UsuarioFacadeREST.class);
     }

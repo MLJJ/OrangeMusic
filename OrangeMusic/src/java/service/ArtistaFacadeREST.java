@@ -1,5 +1,6 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -65,6 +66,23 @@ public class ArtistaFacadeREST extends AbstractFacade<Artista> {
     @Produces({MediaType.APPLICATION_JSON})
     public List<Artista> findAll() {
         return super.findAll();
+    }
+
+    @GET
+    @Path("buscarPorNombre/{nombre}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Artista> buscarArtista(@PathParam("nombre") String nombre) {
+        List<Artista> generos = null;
+        String palabraClave = "%" + nombre + "%";
+        EntityManager conexion = getEntityManager();
+
+        try {
+            generos = conexion.createQuery("SELECT a FROM Artista a WHERE a.nombre LIKE :palabraClave").setParameter("palabraClave", palabraClave).getResultList();
+        } catch (Exception e) {
+            generos = new ArrayList();
+        }
+
+        return generos;
     }
 
     @Override

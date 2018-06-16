@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXListView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,74 +14,139 @@
 <?import javafx.scene.shape.Rectangle?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="1024.0" stylesheets="@../../recursos/codigo/EstiloOrangeMusic.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="orangemusic.controladores.BuscarGUIController">
-   <children>
-      <GridPane layoutX="68.0" layoutY="192.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="65.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="508.0" minHeight="10.0" prefHeight="508.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Rectangle arcHeight="100.0" arcWidth="50.0" fill="#f04826" height="50.0" stroke="BLACK" strokeLineJoin="BEVEL" strokeType="INSIDE" strokeWidth="0.0" width="500.0" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" />
-            <TextField maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="28.0" prefWidth="374.0" promptText="Buscar ..." GridPane.columnSpan="2147483647" GridPane.halignment="CENTER">
-               <GridPane.margin>
-                  <Insets left="350.0" right="300.0" />
-               </GridPane.margin>
-            </TextField>
-            <JFXButton fx:id="btnBuscar" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#buscar" prefHeight="34.0" prefWidth="74.0" text="Buscar" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER">
-               <GridPane.margin>
-                  <Insets right="405.0" />
-               </GridPane.margin>
-            </JFXButton>
-            <JFXListView fx:id="listResultados" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-               </GridPane.margin>
-            </JFXListView>
-            <ImageView fx:id="imgResultado" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets top="15.0" />
-               </GridPane.margin>
-            </ImageView>
-            <Label text="Nombre:" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets left="40.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="lbNombre" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets left="110.0" />
-               </GridPane.margin>
-            </Label>
-            <Label text="Información:" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets left="15.0" top="75.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="lbInformacion" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets left="110.0" top="75.0" />
-               </GridPane.margin>
-            </Label>
-            <Label text="Extras:" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets left="52.0" top="150.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="lbExtras" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets left="110.0" top="150.0" />
-               </GridPane.margin>
-            </Label>
-            <JFXButton text="Play/Ir" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
-               <GridPane.margin>
-                  <Insets bottom="15.0" />
-               </GridPane.margin>
-            </JFXButton>
-         </children>
-      </GridPane>
-   </children>
+    <children>
+        <GridPane layoutX="68.0" layoutY="192.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="65.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="508.0" minHeight="10.0" prefHeight="508.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Rectangle arcHeight="100.0" arcWidth="50.0" fill="#f04826" height="50.0" stroke="BLACK" strokeLineJoin="BEVEL" strokeType="INSIDE" strokeWidth="0.0" width="500.0" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" />
+                <TextField fx:id="txtBusqueda" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="28.0" prefWidth="374.0" promptText="Buscar ..." GridPane.columnSpan="2147483647" GridPane.halignment="CENTER">
+                    <GridPane.margin>
+                        <Insets left="350.0" right="300.0" />
+                    </GridPane.margin>
+                </TextField>
+                <JFXButton fx:id="btnBuscar" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#buscar" prefHeight="34.0" prefWidth="74.0" text="Buscar" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER">
+                    <GridPane.margin>
+                        <Insets right="405.0" />
+                    </GridPane.margin>
+                </JFXButton>
+                <ImageView fx:id="imgResultado" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                    <GridPane.margin>
+                        <Insets top="15.0" />
+                    </GridPane.margin>
+                </ImageView>
+                <Label text="Nombre:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets left="40.0" />
+                    </GridPane.margin>
+                </Label>
+                <Label fx:id="lbNombre" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets left="110.0" />
+                    </GridPane.margin>
+                </Label>
+                <Label text="Información:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets left="15.0" top="75.0" />
+                    </GridPane.margin>
+                </Label>
+                <Label fx:id="lbInformacion" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets left="110.0" top="75.0" />
+                    </GridPane.margin>
+                </Label>
+                <Label text="Extras:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets left="52.0" top="150.0" />
+                    </GridPane.margin>
+                </Label>
+                <Label fx:id="lbExtras" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets left="110.0" top="150.0" />
+                    </GridPane.margin>
+                </Label>
+                <JFXButton fx:id="btnPlay" onAction="#irReproducir" text="Play" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+                    <GridPane.margin>
+                        <Insets bottom="15.0" />
+                    </GridPane.margin>
+                </JFXButton>
+                <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS" GridPane.rowIndex="1">
+                    <content>
+                        <AnchorPane prefHeight="410.0" prefWidth="632.0">
+                            <children>
+                                <GridPane layoutX="27.0" layoutY="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints fx:id="row0" maxHeight="33.0" minHeight="33.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="row1" maxHeight="377.0" minHeight="377.0" prefHeight="377.0" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="row2" maxHeight="33.0" minHeight="33.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="row3" maxHeight="377.0" minHeight="377.0" prefHeight="377.0" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="row4" maxHeight="33.0" minHeight="33.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="row5" maxHeight="377.0" minHeight="377.0" prefHeight="377.0" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="row6" maxHeight="33.0" minHeight="33.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                                        <RowConstraints fx:id="row7" maxHeight="377.0" minHeight="377.0" prefHeight="377.0" vgrow="SOMETIMES" />
+                                    </rowConstraints>
+                                    <children>
+                                        <Label fx:id="lbCancion">
+                                            <GridPane.margin>
+                                                <Insets left="15.0" />
+                                            </GridPane.margin>
+                                        </Label>
+                                        <JFXListView fx:id="listCancion" onMouseClicked="#seleccionoCancion" GridPane.rowIndex="1">
+                                            <GridPane.margin>
+                                                <Insets bottom="15.0" left="15.0" right="15.0" />
+                                            </GridPane.margin>
+                                        </JFXListView>
+                                        <Label fx:id="lbAlbum" GridPane.rowIndex="2">
+                                            <GridPane.margin>
+                                                <Insets left="15.0" />
+                                            </GridPane.margin>
+                                        </Label>
+                                        <JFXListView fx:id="listAlbum" onMouseClicked="#seleccionoAlbum" GridPane.rowIndex="3">
+                                            <GridPane.margin>
+                                                <Insets bottom="15.0" left="15.0" right="15.0" />
+                                            </GridPane.margin>
+                                        </JFXListView>
+                                        <Label fx:id="lbArtista" GridPane.rowIndex="4">
+                                            <GridPane.margin>
+                                                <Insets left="15.0" />
+                                            </GridPane.margin>
+                                        </Label>
+                                        <JFXListView fx:id="listArtista" onMouseClicked="#seleccionoArtista" GridPane.rowIndex="5">
+                                            <GridPane.margin>
+                                                <Insets bottom="15.0" left="15.0" right="15.0" />
+                                            </GridPane.margin>
+                                        </JFXListView>
+                                        <Label fx:id="lbGenero" GridPane.rowIndex="6">
+                                            <GridPane.margin>
+                                                <Insets left="15.0" />
+                                            </GridPane.margin>
+                                        </Label>
+                                        <JFXListView fx:id="listGenero" onMouseClicked="#seleccionoGenero" GridPane.rowIndex="7">
+                                            <GridPane.margin>
+                                                <Insets bottom="15.0" left="15.0" right="15.0" />
+                                            </GridPane.margin>
+                                        </JFXListView>
+                              <Label fx:id="lbNoCoincidencias" text="Sin coincidencias :c" visible="false">
+                                 <GridPane.margin>
+                                    <Insets left="15.0" />
+                                 </GridPane.margin>
+                              </Label>
+                                    </children>
+                                </GridPane>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </ScrollPane>
+            </children>
+        </GridPane>
+    </children>
 </AnchorPane>

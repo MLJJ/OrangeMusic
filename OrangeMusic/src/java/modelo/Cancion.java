@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @time 10:44:32 PM
  */
 @Entity
-@Table(name = "cancion")
+@Table(name = "Cancion")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Cancion.findAll", query = "SELECT c FROM Cancion c")
@@ -39,6 +39,12 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Cancion.findByNombreCancion", query = "SELECT c FROM Cancion c WHERE c.nombreCancion = :nombreCancion")
     , @NamedQuery(name = "Cancion.findByRutaCancion", query = "SELECT c FROM Cancion c WHERE c.rutaCancion = :rutaCancion")})
 public class Cancion implements Serializable {
+
+    @JoinTable(name = "ListatieneCancion", joinColumns = {
+        @JoinColumn(name = "idCancion", referencedColumnName = "idCancion")}, inverseJoinColumns = {
+        @JoinColumn(name = "idListaReproduccion", referencedColumnName = "idListaReproduccion")})
+    @ManyToMany
+    private List<ListaReproduccion> listaReproduccionList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -56,7 +62,7 @@ public class Cancion implements Serializable {
         @JoinColumn(name = "idCancion", referencedColumnName = "idCancion")}, inverseJoinColumns = {
         @JoinColumn(name = "idListaReproduccion", referencedColumnName = "idListaReproduccion")})
     @ManyToMany
-    private List<Listareproduccion> listareproduccionList;
+    private List<ListaReproduccion> listareproduccionList;
     @JoinColumn(name = "Album_idAlbum", referencedColumnName = "idAlbum")
     @ManyToOne(optional = false)
     private Album albumidAlbum;
@@ -99,11 +105,11 @@ public class Cancion implements Serializable {
     }
 
     @XmlTransient
-    public List<Listareproduccion> getListareproduccionList() {
+    public List<ListaReproduccion> getListareproduccionList() {
         return listareproduccionList;
     }
 
-    public void setListareproduccionList(List<Listareproduccion> listareproduccionList) {
+    public void setListareproduccionList(List<ListaReproduccion> listareproduccionList) {
         this.listareproduccionList = listareproduccionList;
     }
 
@@ -138,6 +144,15 @@ public class Cancion implements Serializable {
     @Override
     public String toString() {
         return "modelo.Cancion[ idCancion=" + idCancion + " ]";
+    }
+
+    @XmlTransient
+    public List<ListaReproduccion> getListaReproduccionList() {
+        return listaReproduccionList;
+    }
+
+    public void setListaReproduccionList(List<ListaReproduccion> listaReproduccionList) {
+        this.listaReproduccionList = listaReproduccionList;
     }
 
 }

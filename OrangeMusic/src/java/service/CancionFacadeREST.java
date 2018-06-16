@@ -1,6 +1,7 @@
 package service;
 
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -96,6 +97,24 @@ public class CancionFacadeREST extends AbstractFacade<Cancion> {
         }
         
         return Response.status(200).entity(salida).build();
+    }
+    
+    
+    @GET
+    @Path("buscarPorNombre/{nombre}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Cancion> buscarCancion(@PathParam("nombre") String nombre) {
+        List<Cancion> canciones = null;
+        String palabraClave = "%" + nombre + "%";
+        EntityManager conexion = getEntityManager();
+
+        try {
+            canciones = conexion.createQuery("SELECT c FROM Cancion c WHERE c.nombreCancion LIKE :palabraClave").setParameter("palabraClave", palabraClave).getResultList();
+        } catch (Exception e) {
+            canciones = new ArrayList();
+        }
+
+        return canciones;
     }
 
 }

@@ -79,8 +79,12 @@ public class MenuPrincipalGUIController implements Initializable {
 
     @FXML
     private void lanzarBuscar(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/orangemusic/vistas/BuscarGUI.fxml"));
+        Parent fxml = (Parent) loader.load();
+        BuscarGUIController controlador = loader.getController();
+        controlador.setBusqueda(txtBusqueda.getText());
+        txtBusqueda.setText("");
         gridPanelPrincipal.getChildren().clear();
-        Parent fxml = FXMLLoader.load(getClass().getResource("/orangemusic/vistas/BuscarGUI.fxml"));
         gridPanelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
     }
 
@@ -105,8 +109,5 @@ public class MenuPrincipalGUIController implements Initializable {
 
     @FXML
     private void lanzarAdministrarListas(MouseEvent event) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("HOLAAAAAAAAAAAAAAAA");
-        alert.show();
     }
 }

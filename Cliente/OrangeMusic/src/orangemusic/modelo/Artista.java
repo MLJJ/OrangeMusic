@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -156,6 +157,45 @@ public class Artista {
             }
         }
         
+        return artistas;
+    }
+
+        public List<Artista> buscarArtista(String nombreArtista) {
+        List<Artista> artistas = null;
+        try {
+            URL url = new URL("http://localhost:8080/OrangeMusic/webresources/modelo.artista/buscarPorNombre/" + nombreArtista);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.connect();
+
+            InputStream input;
+            if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                input = conn.getInputStream();
+            } else {
+                input = conn.getErrorStream();
+            }
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+            String cad = bufferedReader.readLine();
+            JSONArray jsonArr = new JSONArray(cad);
+            artistas = new ArrayList<>();
+            for (int i = 0; i < jsonArr.length(); i++) {
+                Artista artista = new Artista(jsonArr.getJSONObject(i));
+                artistas.add(artista);
+            }
+
+            if (artistas.isEmpty()) {
+                artistas = null;
+            }
+        } catch (MalformedURLException ex) {
+            System.out.println("Error en URL");
+        } catch (ProtocolException ex) {
+            System.out.println("Error en RequesMethod: GET");
+        } catch (IOException ex) {
+            System.out.println("Error en HttpUrlConnection");
+        } catch (Exception ex) {
+            System.out.println("Error al crear el JSON");
+        }
         return artistas;
     }
 }

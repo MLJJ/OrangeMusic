@@ -16,8 +16,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
-import orangemusic.utilerias.UtileriaSHA2;
 import org.json.JSONObject;
 
 /**
@@ -143,9 +141,4 @@ public class Usuario {
         }
         return usr;
     }
-
-    public static void main(String[] args) {
-        //
-    }
-
 }

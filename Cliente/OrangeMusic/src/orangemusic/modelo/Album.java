@@ -10,10 +10,12 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import orangemusic.utilerias.Constante;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -91,6 +93,8 @@ public class Album {
         this.disquera = albumJSON.getString("disquera");
         this.nombreAlbum = albumJSON.getString("nombreAlumno");
         this.nombreImagen = albumJSON.getString("nombreImagen");
+        this.genero = new Genero(albumJSON.getJSONObject("generoidGenero"));
+        this.artista = new Artista(albumJSON.getJSONObject("artistaidArtista"));
         this.canciones = "[]";
     }
     
@@ -158,4 +162,52 @@ public class Album {
         
         return cancionesRegistradas;
     }
+
+        public List<Album> buscarAlbum(String nombreAlbum) {
+        List<Album> albums = null;
+        try {
+            URL url = new URL("http://localhost:8080/OrangeMusic/webresources/modelo.album/buscarPorNombre/" + nombreAlbum);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.connect();
+
+            InputStream input;
+            if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                input = conn.getInputStream();
+            } else {
+                input = conn.getErrorStream();
+            }
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+            String cad = bufferedReader.readLine();
+            JSONArray jsonArr = new JSONArray(cad);
+            albums = new ArrayList<>();
+            for (int i = 0; i < jsonArr.length(); i++) {
+                Album album = new Album(jsonArr.getJSONObject(i));
+                albums.add(album);
+            }
+
+            if (albums.isEmpty()) {
+                albums = null;
+            }
+        } catch (MalformedURLException ex) {
+            System.out.println("Error en URL");
+        } catch (ProtocolException ex) {
+            System.out.println("Error en RequesMethod: GET");
+        } catch (IOException ex) {
+            System.out.println("Error en HttpUrlConnection");
+        } catch (Exception ex) {
+            System.out.println("Error al crear el JSON");
+        }
+        return albums;
+    }
+
+    public Artista getArtista() {
+        return artista;
+    }
+
+    public Genero getGenero() {
+        return genero;
+    }
+
 }

@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @time 10:44:32 PM
  */
 @Entity
-@Table(name = "usuario")
+@Table(name = "Usuario")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
@@ -50,7 +50,7 @@ public class Usuario implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
     private List<Sube> subeList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "correoUsuario")
-    private List<Listareproduccion> listareproduccionList;
+    private List<ListaReproduccion> listareproduccionList;
 
     public Usuario() {
     }
@@ -99,11 +99,11 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
-    public List<Listareproduccion> getListareproduccionList() {
+    public List<ListaReproduccion> getListareproduccionList() {
         return listareproduccionList;
     }
 
-    public void setListareproduccionList(List<Listareproduccion> listareproduccionList) {
+    public void setListareproduccionList(List<ListaReproduccion> listareproduccionList) {
         this.listareproduccionList = listareproduccionList;
     }
 
