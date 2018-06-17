@@ -73,14 +73,14 @@
                 </Label>
                 <JFXButton fx:id="btnPlay" onAction="#irReproducir" text="Play" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                     <GridPane.margin>
-                        <Insets bottom="15.0" />
+                        <Insets bottom="15.0" right="100.0" />
                     </GridPane.margin>
                 </JFXButton>
-                <ScrollPane hbarPolicy="NEVER" vbarPolicy="ALWAYS" GridPane.rowIndex="1">
+                <ScrollPane fx:id="panelScroll" hbarPolicy="NEVER" style="-fx-background-color: transparent;" stylesheets="@../../recursos/codigo/EstiloOrangeMusic.css" GridPane.rowIndex="1">
                     <content>
-                        <AnchorPane prefHeight="410.0" prefWidth="632.0">
+                        <AnchorPane prefHeight="410.0" prefWidth="632.0" style="-fx-background-color: transparent;" styleClass="anchor-pane">
                             <children>
-                                <GridPane layoutX="27.0" layoutY="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <GridPane layoutX="27.0" layoutY="30.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <columnConstraints>
                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                     </columnConstraints>
@@ -146,6 +146,11 @@
                         </AnchorPane>
                     </content>
                 </ScrollPane>
+            <JFXButton fx:id="btnDescargar" onAction="#descargarMusica" text="Descargar" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="15.0" left="100.0" />
+               </GridPane.margin>
+            </JFXButton>
             </children>
         </GridPane>
     </children>

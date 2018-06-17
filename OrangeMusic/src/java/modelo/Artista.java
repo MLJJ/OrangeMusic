@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package modelo;
 
 import java.io.Serializable;
@@ -24,9 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Miguel Leonardo Jimenez Jimenez
- * @date 15/06/2018
- * @time 10:44:29 PM
+ * @author arkadwn
  */
 @Entity
 @Table(name = "Artista")
@@ -110,5 +107,5 @@ public class Artista implements Serializable {
     public String toString() {
         return "modelo.Artista[ idArtista=" + idArtista + " ]";
     }
-
+    
 }

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package modelo;
 
 import java.io.Serializable;
@@ -22,9 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Miguel Leonardo Jimenez Jimenez
- * @date 15/06/2018
- * @time 10:44:32 PM
+ * @author arkadwn
  */
 @Entity
 @Table(name = "Usuario")
@@ -50,7 +47,7 @@ public class Usuario implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
     private List<Sube> subeList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "correoUsuario")
-    private List<ListaReproduccion> listareproduccionList;
+    private List<ListaReproduccion> listaReproduccionList;
 
     public Usuario() {
     }
@@ -99,12 +96,12 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
-    public List<ListaReproduccion> getListareproduccionList() {
-        return listareproduccionList;
+    public List<ListaReproduccion> getListaReproduccionList() {
+        return listaReproduccionList;
     }
 
-    public void setListareproduccionList(List<ListaReproduccion> listareproduccionList) {
-        this.listareproduccionList = listareproduccionList;
+    public void setListaReproduccionList(List<ListaReproduccion> listaReproduccionList) {
+        this.listaReproduccionList = listaReproduccionList;
     }
 
     @Override
@@ -131,5 +128,5 @@ public class Usuario implements Serializable {
     public String toString() {
         return "modelo.Usuario[ correo=" + correo + " ]";
     }
-
+    
 }

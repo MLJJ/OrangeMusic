@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package modelo;
 
 import java.io.Serializable;
@@ -20,9 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Miguel Leonardo Jimenez Jimenez
- * @date 15/06/2018
- * @time 10:44:31 PM
+ * @author arkadwn
  */
 @Entity
 @Table(name = "Album")
@@ -52,6 +55,8 @@ public class Album implements Serializable {
     @Basic(optional = false)
     @Column(name = "disquera")
     private String disquera;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "albumidAlbum")
+    private List<Cancion> cancionList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "album")
     private List<Sube> subeList;
     @JoinColumn(name = "Artista_idArtista", referencedColumnName = "idArtista")
@@ -60,8 +65,6 @@ public class Album implements Serializable {
     @JoinColumn(name = "Genero_idGenero", referencedColumnName = "idGenero")
     @ManyToOne(optional = false)
     private Genero generoidGenero;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "albumidAlbum")
-    private List<Cancion> cancionList;
 
     public Album() {
     }
@@ -117,6 +120,15 @@ public class Album implements Serializable {
     }
 
     @XmlTransient
+    public List<Cancion> getCancionList() {
+        return cancionList;
+    }
+
+    public void setCancionList(List<Cancion> cancionList) {
+        this.cancionList = cancionList;
+    }
+
+    @XmlTransient
     public List<Sube> getSubeList() {
         return subeList;
     }
@@ -139,15 +151,6 @@ public class Album implements Serializable {
 
     public void setGeneroidGenero(Genero generoidGenero) {
         this.generoidGenero = generoidGenero;
-    }
-
-    @XmlTransient
-    public List<Cancion> getCancionList() {
-        return cancionList;
-    }
-
-    public void setCancionList(List<Cancion> cancionList) {
-        this.cancionList = cancionList;
     }
 
     @Override
@@ -174,5 +177,5 @@ public class Album implements Serializable {
     public String toString() {
         return "modelo.Album[ idAlbum=" + idAlbum + " ]";
     }
-
+    
 }

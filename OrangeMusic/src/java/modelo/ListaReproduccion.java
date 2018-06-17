@@ -24,18 +24,18 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author enriq
+ * @author arkadwn
  */
 @Entity
-@Table(name = "listareproduccion")
+@Table(name = "ListaReproduccion")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Listareproduccion.findAll", query = "SELECT l FROM Listareproduccion l")
-    , @NamedQuery(name = "Listareproduccion.findByIdListaReproduccion", query = "SELECT l FROM Listareproduccion l WHERE l.idListaReproduccion = :idListaReproduccion")
-    , @NamedQuery(name = "Listareproduccion.findByNombreLista", query = "SELECT l FROM Listareproduccion l WHERE l.nombreLista = :nombreLista")
-    , @NamedQuery(name = "Listareproduccion.findByVisibilidad", query = "SELECT l FROM Listareproduccion l WHERE l.visibilidad = :visibilidad")})
-public class Listareproduccion implements Serializable {
-    
+    @NamedQuery(name = "ListaReproduccion.findAll", query = "SELECT l FROM ListaReproduccion l")
+    , @NamedQuery(name = "ListaReproduccion.findByIdListaReproduccion", query = "SELECT l FROM ListaReproduccion l WHERE l.idListaReproduccion = :idListaReproduccion")
+    , @NamedQuery(name = "ListaReproduccion.findByNombreLista", query = "SELECT l FROM ListaReproduccion l WHERE l.nombreLista = :nombreLista")
+    , @NamedQuery(name = "ListaReproduccion.findByVisibilidad", query = "SELECT l FROM ListaReproduccion l WHERE l.visibilidad = :visibilidad")})
+public class ListaReproduccion implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,20 +48,20 @@ public class Listareproduccion implements Serializable {
     @Basic(optional = false)
     @Column(name = "visibilidad")
     private String visibilidad;
-    @ManyToMany(mappedBy = "listareproduccionList")
+    @ManyToMany(mappedBy = "listaReproduccionList")
     private List<Cancion> cancionList;
     @JoinColumn(name = "correoUsuario", referencedColumnName = "correo")
     @ManyToOne(optional = false)
     private Usuario correoUsuario;
 
-    public Listareproduccion() {
+    public ListaReproduccion() {
     }
 
-    public Listareproduccion(Integer idListaReproduccion) {
+    public ListaReproduccion(Integer idListaReproduccion) {
         this.idListaReproduccion = idListaReproduccion;
     }
 
-    public Listareproduccion(Integer idListaReproduccion, String nombreLista, String visibilidad) {
+    public ListaReproduccion(Integer idListaReproduccion, String nombreLista, String visibilidad) {
         this.idListaReproduccion = idListaReproduccion;
         this.nombreLista = nombreLista;
         this.visibilidad = visibilidad;
@@ -91,6 +91,7 @@ public class Listareproduccion implements Serializable {
         this.visibilidad = visibilidad;
     }
 
+    @XmlTransient
     public List<Cancion> getCancionList() {
         return cancionList;
     }
@@ -117,10 +118,10 @@ public class Listareproduccion implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Listareproduccion)) {
+        if (!(object instanceof ListaReproduccion)) {
             return false;
         }
-        Listareproduccion other = (Listareproduccion) object;
+        ListaReproduccion other = (ListaReproduccion) object;
         if ((this.idListaReproduccion == null && other.idListaReproduccion != null) || (this.idListaReproduccion != null && !this.idListaReproduccion.equals(other.idListaReproduccion))) {
             return false;
         }
@@ -129,7 +130,7 @@ public class Listareproduccion implements Serializable {
 
     @Override
     public String toString() {
-        return "modelo.Listareproduccion[ idListaReproduccion=" + idListaReproduccion + " ]";
+        return "modelo.ListaReproduccion[ idListaReproduccion=" + idListaReproduccion + " ]";
     }
     
 }

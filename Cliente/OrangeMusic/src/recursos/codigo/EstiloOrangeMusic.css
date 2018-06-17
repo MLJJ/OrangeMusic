@@ -129,3 +129,7 @@ and open the template in the editor.
 .tree-table-view:focused .tree-table-row-cell:selected{
     -fx-background-color: #f04824;
 }
+
+#panelScroll > .viewport {
+    -fx-background-color: rgba(100,100,100,0)};
+}

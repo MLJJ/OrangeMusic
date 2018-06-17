@@ -82,6 +82,8 @@ public class BuscarGUIController implements Initializable {
     private Label lbNoCoincidencias;
     @FXML
     private JFXButton btnPlay;
+    @FXML
+    private JFXButton btnDescargar;
 
     /**
      * Initializes the controller class.
@@ -221,6 +223,7 @@ public class BuscarGUIController implements Initializable {
                     + "\nDe la disquera: " + cancion.getAlbum().getDisquera()
                     + "\nGenero: " + cancion.getAlbum().getGenero().toString());
             btnPlay.setVisible(true);
+            btnDescargar.setVisible(true);
         }
     }
 
@@ -266,4 +269,8 @@ public class BuscarGUIController implements Initializable {
         
     }
 
+    @FXML
+    private void descargarMusica(ActionEvent event) {
+    }
+    
 }

@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package modelo;
 
 import java.io.Serializable;
@@ -16,9 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Miguel Leonardo Jimenez Jimenez
- * @date 15/06/2018
- * @time 10:44:31 PM
+ * @author arkadwn
  */
 @Entity
 @Table(name = "sube")
@@ -38,12 +41,12 @@ public class Sube implements Serializable {
     @Basic(optional = false)
     @Column(name = "idSube")
     private Integer idSube;
-    @JoinColumn(name = "usuario", referencedColumnName = "correo")
-    @ManyToOne(optional = false)
-    private Usuario usuario;
     @JoinColumn(name = "album", referencedColumnName = "idAlbum")
     @ManyToOne(optional = false)
     private Album album;
+    @JoinColumn(name = "usuario", referencedColumnName = "correo")
+    @ManyToOne(optional = false)
+    private Usuario usuario;
 
     public Sube() {
     }
@@ -73,20 +76,20 @@ public class Sube implements Serializable {
         this.idSube = idSube;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
     public Album getAlbum() {
         return album;
     }
 
     public void setAlbum(Album album) {
         this.album = album;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override
@@ -113,5 +116,5 @@ public class Sube implements Serializable {
     public String toString() {
         return "modelo.Sube[ idSube=" + idSube + " ]";
     }
-
+    
 }
