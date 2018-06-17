@@ -1,8 +1,11 @@
 package orangemusic.modelo;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,6 +17,8 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import orangemusic.utilerias.Constante;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,6 +31,7 @@ import org.json.JSONObject;
  * @time 11:10:44 PM
  */
 public class Album {
+
     private int idAlbum;
     private String nombreAlbum;
     private int añoLanzamiento;
@@ -34,6 +40,14 @@ public class Album {
     private String canciones;
     private Genero genero;
     private Artista artista;
+
+    public void setGenero(Genero genero) {
+        this.genero = genero;
+    }
+
+    public void setArtista(Artista artista) {
+        this.artista = artista;
+    }
 
     public int getIdAlbum() {
         return idAlbum;
@@ -82,12 +96,12 @@ public class Album {
     public void setCanciones(String canciones) {
         this.canciones = canciones;
     }
-    
-    public Album(){
-        
+
+    public Album() {
+
     }
-    
-    public Album(JSONObject albumJSON){
+
+    public Album(JSONObject albumJSON) {
         this.añoLanzamiento = albumJSON.getInt("anoLanzamiento");
         this.idAlbum = albumJSON.getInt("idAlbum");
         this.disquera = albumJSON.getString("disquera");
@@ -97,46 +111,56 @@ public class Album {
         this.artista = new Artista(albumJSON.getJSONObject("artistaidArtista"));
         this.canciones = "[]";
     }
-    
-    public String crearAlbumJSON(){
+
+    public String crearAlbumJSON() {
         String albumJSON = "{";
-        albumJSON += "\"idAlbum\":\""+this.idAlbum+"\",";
-        albumJSON += "\"nombreAlbum\":\""+this.nombreAlbum+"\",";
-        albumJSON += "\"anoLanzamiento\":\""+this.añoLanzamiento+"\",";
-        albumJSON += "\"albumidAlbum\":\""+this.canciones+"\",";
-        albumJSON += "\"disquera\":\""+this.disquera+"\",";
-        albumJSON += "\"Artista_idArtista\":\""+this.artista.toString()+"\",";
-        albumJSON += "\"Genero_idGenero\":\""+this.genero.toString()+"\",";
-        albumJSON += "\"nombreImagen\":\""+this.nombreImagen+"\"";
+        albumJSON += "\"idAlbum\":\"" + this.idAlbum + "\",";
+        albumJSON += "\"nombreAlbum\":\"" + this.nombreAlbum + "\",";
+        albumJSON += "\"anoLanzamiento\":\"" + this.añoLanzamiento + "\",";
+        albumJSON += "\"disquera\":\"" + this.disquera + "\",";
+        albumJSON += "\"Artista_idArtista\":\"" + this.artista.crearArtistaJSON() + "\",";
+        albumJSON += "\"Genero_idGenero\":\"" + this.genero.generoJSON() + "\",";
+        albumJSON += "\"nombreImagen\":\"" + this.nombreImagen + "\"";
         albumJSON += "}";
-        
+
         return albumJSON;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return this.nombreAlbum;
     }
-    
-    public String subirAlbum(Album album, boolean disponibilidad, File canciones, File imagen){
+
+    public String subirAlbum(Album album, boolean disponibilidad, File canciones, File imagen) {
         String cancionesRegistradas = null;
-        
+        Cancion cancion = new Cancion();
+        List<Cancion> listaCanciones = null;
+        listaCanciones = cancion.sacarCancionesDeAlbum(canciones);
+
+        JSONArray lista = cancion.darFormatoCanciones(listaCanciones);
+        album.setNombreImagen(String.valueOf(lista));
+
+        short numero = 0;
+        if (disponibilidad) {
+            numero = 1;
+        }
+
         HttpURLConnection conexion = null;
         try {
-            URL url = new URL(Constante.URLSERVICIOS+"persistencia.usuarios");
-            conexion = (HttpURLConnection)url.openConnection();
-            conexion.setRequestProperty("Content-Type","application/json");
-            conexion.setRequestProperty("Accept","application/json");
+            URL url = new URL(System.getProperty("servicio") + "webresources/modelo.album/" + numero + "/acdc@gmail.com/"+album.getArtista().getIdArtista()+"/"+album.getGenero().getIdGenero());
+            conexion = (HttpURLConnection) url.openConnection();
+            conexion.setRequestProperty("Content-Type", "application/json");
+            conexion.setRequestProperty("Accept", "application/json");
             conexion.setDoInput(true);
             conexion.setDoOutput(true);
             conexion.setRequestMethod("POST");
             conexion.connect();
 
-            JSONObject usuarioJSON = new JSONObject(artista.crearArtistaJSON());
+            JSONObject albumJSON = new JSONObject(album);
 
             OutputStream outputStream = conexion.getOutputStream();
             BufferedWriter escritor = new BufferedWriter(new OutputStreamWriter(outputStream));
-            escritor.write(String.valueOf(usuarioJSON));
+            escritor.write(String.valueOf(albumJSON));
             escritor.flush();
 
             InputStream input;
@@ -145,28 +169,28 @@ public class Album {
             } else {
                 input = conexion.getErrorStream();
             }
-            
+
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
             cancionesRegistradas = bufferedReader.readLine();
         } catch (MalformedURLException e) {
-            cancionesRegistradas= null;
+            cancionesRegistradas = null;
         } catch (IOException e) {
             cancionesRegistradas = null;
         } catch (JSONException e) {
             cancionesRegistradas = null;
-        }finally{
-            if(conexion != null){
+        } finally {
+            if (conexion != null) {
                 conexion.disconnect();
             }
         }
-        
+
         return cancionesRegistradas;
     }
 
-        public List<Album> buscarAlbum(String nombreAlbum) {
+    public List<Album> buscarAlbum(String nombreAlbum) {
         List<Album> albums = null;
         try {
-            URL url = new URL("http://localhost:8080/OrangeMusic/webresources/modelo.album/buscarPorNombre/" + nombreAlbum);
+            URL url = new URL(System.getProperty("servicio") + "webresources/modelo.album/buscarPorNombre/" + nombreAlbum);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");
@@ -210,4 +234,92 @@ public class Album {
         return genero;
     }
 
+    public boolean descargarCancion(int idCacion) {
+        boolean validacion = true;
+        File rutaDescarga = new File(Constante.RUTADESCARGA);
+        if (!rutaDescarga.exists()) {
+            rutaDescarga.mkdirs();
+        }
+        BufferedInputStream bufferEntrada = null;
+        BufferedOutputStream bufferEscritura = null;
+        try {
+            URL url = new URL(System.getProperty("servicio") + "/canciones/" + idCacion + ".mp3");
+            byte[] receivedData = new byte[1024];
+            bufferEntrada = new BufferedInputStream(url.openConnection().getInputStream());
+            int tamaño;
+            bufferEscritura = new BufferedOutputStream(new FileOutputStream(Constante.RUTADESCARGA + idCacion + ".mp3"));
+            while ((tamaño = bufferEntrada.read(receivedData)) != -1) {
+                bufferEscritura.write(receivedData, 0, tamaño);
+            }
+        } catch (MalformedURLException e) {
+            validacion = false;
+        } catch (IOException e) {
+            validacion = false;
+        } finally {
+            if (bufferEntrada != null) {
+                try {
+                    bufferEntrada.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(Cancion.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            if (bufferEscritura != null) {
+                try {
+                    bufferEscritura.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(Cancion.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+        return validacion;
+    }
+
+    public boolean descargarListaReproduccion(List<Cancion> canciones) {
+        boolean validacion = true;
+
+        File rutaDescarga = new File(Constante.RUTADESCARGA);
+        if (!rutaDescarga.exists()) {
+            rutaDescarga.mkdirs();
+        }
+        BufferedInputStream bufferEntrada = null;
+        BufferedOutputStream bufferEscritura = null;
+        try {
+            for (Cancion cancion : canciones) {
+                URL url = new URL(System.getProperty("servicio") + "canciones/" + cancion.getIdCancion() + "-1" + ".mp3");
+                byte[] receivedData = new byte[1024];
+                bufferEntrada = new BufferedInputStream(url.openConnection().getInputStream());
+                int tamaño;
+                bufferEscritura = new BufferedOutputStream(new FileOutputStream(Constante.RUTADESCARGA + cancion.getIdCancion() + ".mp3"));
+                while ((tamaño = bufferEntrada.read(receivedData)) != -1) {
+                    bufferEscritura.write(receivedData, 0, tamaño);
+                }
+                bufferEntrada.close();
+                bufferEscritura.close();
+            }
+        } catch (MalformedURLException e) {
+            validacion = false;
+        } catch (IOException e) {
+            validacion = false;
+        } finally {
+            if (bufferEntrada != null) {
+                try {
+                    bufferEntrada.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(Cancion.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            if (bufferEscritura != null) {
+                try {
+                    bufferEscritura.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(Cancion.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+        return validacion;
+    }
 }

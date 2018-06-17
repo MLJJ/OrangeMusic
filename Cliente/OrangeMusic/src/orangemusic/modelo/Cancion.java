@@ -30,7 +30,7 @@ import org.json.JSONObject;
  * @date 16/06/2018
  * @time 12:14:01 AM
  */
-public class Cancion extends RecursiveTreeObject<Cancion>{
+public class Cancion extends RecursiveTreeObject<Cancion> {
 
     private int idCancion;
     private String nombreCancion;
@@ -39,14 +39,16 @@ public class Cancion extends RecursiveTreeObject<Cancion>{
     private ImageView imagen;
 
     public Cancion() {
-
+        this.idCancion = 0;
+        this.nombreCancion = "";
+        this.rutaCancion = "";
     }
 
     public Cancion(JSONObject cancionJSON) {
         this.idCancion = cancionJSON.getInt("idCancion");
         this.nombreCancion = cancionJSON.getString("nombreCancion");
         this.rutaCancion = cancionJSON.getString("rutaCancion");
-        this.album = new Album(cancionJSON.getJSONObject("albumidAlbum"));
+        this.album = new Album(cancionJSON.getJSONObject("Album_idAlbum"));
     }
 
     public int getIdCancion() {
@@ -88,17 +90,16 @@ public class Cancion extends RecursiveTreeObject<Cancion>{
     }
 
     public void buscarImagenCancion() {
-        String ruta = "http://localhost:8080/OrangeMusic/imagenesCanciones/" + rutaCancion;
+        String ruta = System.getProperty("servicio")+"imagenesCanciones/" + this.idCancion+".jpg";
         Image image = new Image(ruta, 50, 50, true, true);
         imagen = new ImageView(image);
     }
 
-    public List<Cancion> sacarCancionesDeAlbum(String ruta) {
+    public List<Cancion> sacarCancionesDeAlbum(File ruta) {
         List<Cancion> canciones = new ArrayList();
 
-        File carpetaExtraer = new File(ruta);
         ZipInputStream zip = null;
-        if (carpetaExtraer.exists()) {
+        if (ruta.exists()) {
             try {
                 zip = new ZipInputStream(new FileInputStream(ruta), Charset.forName("Cp437"));
 
@@ -133,7 +134,7 @@ public class Cancion extends RecursiveTreeObject<Cancion>{
     public List<Cancion> buscarCancion(String nombreCancion) {
         List<Cancion> canciones = null;
         try {
-            URL url = new URL("http://localhost:8080/OrangeMusic/webresources/modelo.cancion/buscarPorNombre/" + nombreCancion);
+            URL url = new URL(System.getProperty("servicio") + "webresources/modelo.cancion/buscarPorNombre/" + nombreCancion);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");
@@ -176,5 +177,15 @@ public class Cancion extends RecursiveTreeObject<Cancion>{
 
     public Album getAlbum() {
         return this.album;
+    }
+    
+    public JSONArray darFormatoCanciones(List<Cancion> canciones){
+        JSONArray lista = new JSONArray();
+        
+        for(Cancion cancion:canciones){
+            lista.put(new JSONObject(cancion.crearCancionJSON()));
+        }
+        
+        return lista;
     }
 }

@@ -23,8 +23,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import orangemusic.conexion.ClienteUpload;
+import orangemusic.modelo.Album;
 import orangemusic.modelo.Artista;
 import orangemusic.modelo.Genero;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * FXML Controller class
@@ -58,6 +63,8 @@ public class SubirCancionGUIController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        System.getProperties().put("servicio", "http://localhost:8080/OrangeMusic/");
+        System.getProperties().put("ip", "localhost");
         cargarGeneros(new Genero().sacarGeneros());
         cargarArtistas(new Artista().sacarArtista());
     }
@@ -97,7 +104,30 @@ public class SubirCancionGUIController implements Initializable {
         if(validarCampos()){
             MensajeController.mensajeAdvertencia("Hay campos vacios");
         }else{
+            Album album = new Album();
+            album.setAñoLanzamiento(Integer.parseInt(tfAñoLanzamiento.getText()));
+            album.setDisquera(tfDiscografico.getText());
+            album.setNombreAlbum(tfNombreAlbum.getText());
+            album.setArtista(cbArtista.getValue());
+            album.setGenero(cbGenero.getValue());
+            String resultado = album.subirAlbum(album, true, zipCanciones, imagen);
+            try{
+                JSONArray lista = new JSONArray(resultado);
+            }catch(JSONException e){
+                MensajeController.mensajeAdvertencia("No se podido guardar el album");
+                return;
+            }
+            ClienteUpload upload = new ClienteUpload(zipCanciones, resultado);
+            Thread hilo = new Thread(upload);
+            hilo.start();
             
+            try {
+                hilo.join();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(SubirCancionGUIController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            System.out.println("Se subio");
         }
     }
 
@@ -143,7 +173,7 @@ public class SubirCancionGUIController implements Initializable {
         
         if(rutaZip != null){
             zipCanciones = rutaZip;
-            tfNombreAlbum.setText(zipCanciones.getName());
+            tfCancion.setText(zipCanciones.getName());
         }else{
             MensajeController.mensajeAdvertencia("No es un zip");
         }
@@ -169,7 +199,7 @@ public class SubirCancionGUIController implements Initializable {
     }
     
     private boolean validarCampos(){
-        return tfAñoLanzamiento.getText().trim().isEmpty() || tfCancion.getText().trim().isEmpty() || tfDiscografico.getText().trim().isEmpty()
+        return tfAñoLanzamiento.getText().trim().isEmpty() || zipCanciones == null || imagen == null
                 || tfDiscografico.getText().trim().isEmpty() || cbArtista.getValue() == null || cbGenero.getValue() == null;
     }
 }

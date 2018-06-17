@@ -17,7 +17,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import modelo.Album;
+import modelo.Artista;
 import modelo.Cancion;
+import modelo.Genero;
+import modelo.Sube;
+import modelo.Usuario;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -44,12 +50,47 @@ public class AlbumFacadeREST extends AbstractFacade<Album> {
     }
 
     @POST
+    @Path("{disponibilidad}/{correo}/{idArtista}/{idGenero}")
     @Consumes({MediaType.APPLICATION_JSON})
-    public List<Cancion> registrarAlbum(Album nuevoAlbum) {
-        List<Cancion> cancionesRegistradas = null;
-
+    public List<Cancion> registrarAlbum(@PathParam("disponibilidad") Short disponibilidad, @PathParam("correo") String correo,@PathParam("idArtista") Integer idArtista ,@PathParam("idGenero") Integer idGenero,Album nuevoAlbum) {
+        List<Cancion> cancionesRegistradas = new ArrayList();
+        EntityManager conexion = getEntityManager();
+        String canciones = nuevoAlbum.getNombreImagen();
+        System.out.println(canciones);
+        Usuario usuario = null;
+        try{
+            usuario = conexion.find(Usuario.class, correo);
+            nuevoAlbum.setArtistaidArtista(conexion.find(Artista.class, idArtista));
+            nuevoAlbum.setGeneroidGenero(conexion.find(Genero.class, idGenero));
+            
+            conexion.persist(nuevoAlbum);
+            nuevoAlbum.setNombreImagen(nuevoAlbum.getIdAlbum()+".jpg");
+            conexion.merge(nuevoAlbum);
+            Sube sube = new Sube();
+            sube.setAlbum(nuevoAlbum);
+            sube.setPrivacidad(disponibilidad);
+            sube.setUsuario(usuario);
+            conexion.persist(sube);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         
-
+        try{
+            JSONArray lista = new JSONArray(canciones);
+            for(int i = 0; i < lista.length(); i++){
+                JSONObject objeto = lista.getJSONObject(i);
+                Cancion cancion = new Cancion();
+                cancion.setAlbumidAlbum(nuevoAlbum);
+                cancion.setRutaCancion(objeto.getString("nombreCancion"));
+                cancion.setNombreCancion(objeto.getString("nombreCancion"));
+                conexion.persist(cancion);
+                cancionesRegistradas.add(cancion);
+            }
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
         return cancionesRegistradas;
     }
 

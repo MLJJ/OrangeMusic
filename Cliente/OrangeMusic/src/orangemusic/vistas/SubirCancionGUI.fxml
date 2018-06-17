@@ -46,7 +46,7 @@
             <JFXTextField fx:id="tfDiscografico" labelFloat="true" onKeyTyped="#restringirEntradaDeTeclado" promptText="Compañia discografica:" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <JFXComboBox fx:id="cbGenero" prefHeight="25.0" prefWidth="574.0" promptText="Genero:" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <JFXComboBox fx:id="cbArtista" prefHeight="25.0" prefWidth="633.0" promptText="Artista:" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-            <JFXTextField fx:id="tfCancion" editable="false" labelFloat="true" promptText="Zip con las canciones" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <JFXTextField fx:id="tfCancion" labelFloat="true" promptText="Zip con las canciones" GridPane.columnIndex="1" GridPane.rowIndex="10" />
             <JFXButton onAction="#accionSubirAlbum" prefWidth="121.0" text="Subir" GridPane.columnIndex="1" GridPane.rowIndex="11">
                <GridPane.margin>
                   <Insets right="200.0" />

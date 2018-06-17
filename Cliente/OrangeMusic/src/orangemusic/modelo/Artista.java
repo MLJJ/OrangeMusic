@@ -71,7 +71,7 @@ public class Artista {
         HttpURLConnection conexion = null;
         
         try {
-            URL url = new URL(Constante.URLSERVICIOS+"modelo.artista");
+            URL url = new URL(System.getProperty("servicio")+"webresources/modelo.artista");
             conexion = (HttpURLConnection)url.openConnection();
             conexion.setRequestProperty("Content-Type","application/json");
             conexion.setRequestProperty("Accept","application/json");
@@ -80,11 +80,11 @@ public class Artista {
             conexion.setRequestMethod("POST");
             conexion.connect();
 
-            JSONObject usuarioJSON = new JSONObject(artista.crearArtistaJSON());
+            JSONObject aristaJSON = new JSONObject(artista.crearArtistaJSON());
 
             OutputStream outputStream = conexion.getOutputStream();
             BufferedWriter escritor = new BufferedWriter(new OutputStreamWriter(outputStream));
-            escritor.write(String.valueOf(usuarioJSON));
+            escritor.write(String.valueOf(aristaJSON));
             escritor.flush();
 
             InputStream input;
@@ -120,7 +120,7 @@ public class Artista {
         HttpURLConnection conexion = null;
 
         try {
-            URL url = new URL(Constante.URLSERVICIOS + "modelo.genero");
+            URL url = new URL(System.getProperty("servicio")+ "webresources/modelo.artista");
             conexion = (HttpURLConnection) url.openConnection();
             conexion.setRequestProperty("Content-Type", "application/json");
             conexion.setRequestProperty("Accept", "application/json");

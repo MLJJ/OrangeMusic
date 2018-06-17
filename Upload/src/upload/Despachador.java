@@ -14,6 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -45,8 +47,9 @@ public class Despachador implements Runnable {
                 datosEntrada = new DataInputStream(cliente.getInputStream());
 
                 file = datosEntrada.readUTF();
+                System.out.println(file);
 
-                bufferEscritura = new BufferedOutputStream(new FileOutputStream(System.getProperty("user.home") + "/aredEspacio/cancion.zip"));
+                bufferEscritura = new BufferedOutputStream(new FileOutputStream(Constante.rutaCarpetasArchivosRecibidos + "cancion.zip"));
                 while ((tamaño = bufferEntrada.read(receivedData)) != -1) {
                     bufferEscritura.write(receivedData, 0, tamaño);
                 }
@@ -67,15 +70,27 @@ public class Despachador implements Runnable {
 
     private void descomprmirArchivo(String datos) {
         File carpetaExtraer = new File(Constante.rutaCarpetasArchivosRecibidos);
+        JSONArray lista = new JSONArray(datos);
+        int i = 0;
+        if (!carpetaExtraer.exists()) {
+            carpetaExtraer.mkdirs();
+        }
         ZipInputStream zip = null;
         FileOutputStream entrada = null;
         if (carpetaExtraer.exists()) {
+            String ruta = Constante.rutaCarpetasArchivosRecibidos + "archivo/";
+            File carpeta = new File(ruta);
+            if (!carpeta.exists()) {
+                carpeta.mkdir();
+            }
+
             try {
-                zip = new ZipInputStream(new FileInputStream(Constante.rutaCarpetasArchivosRecibidos+"cancion.zip"), Charset.forName("Cp437"));
+                zip = new ZipInputStream(new FileInputStream(Constante.rutaCarpetasArchivosRecibidos + "cancion.zip"), Charset.forName("Cp437"));
 
                 ZipEntry salida = null;
                 while (null != (salida = zip.getNextEntry())) {
-                    entrada = new FileOutputStream(Constante.rutaCarpetasArchivosRecibidos + salida.getName());
+                    JSONObject objeto = lista.getJSONObject(i);
+                    entrada = new FileOutputStream(ruta + objeto.getInt("idCancion") + ".mp3");
                     int leer;
                     byte[] buffer = new byte[1024];
                     while (0 < (leer = zip.read(buffer))) {
@@ -83,13 +98,14 @@ public class Despachador implements Runnable {
                     }
                     entrada.close();
                     zip.closeEntry();
+                    i++;
                 }
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+
             } catch (IOException e) {
-                e.printStackTrace();
-            }finally{
-                if(zip != null){
+
+            } finally {
+                if (zip != null) {
                     try {
                         zip.close();
                     } catch (IOException ex) {
@@ -97,34 +113,43 @@ public class Despachador implements Runnable {
                     }
                 }
             }
+
+            realizarFormatos(lista);
         } else {
             System.out.println("No se encontró el directorio..");
         }
     }
-    
-    private void realizarFormatos(){
-        String file = "Ludovico Einaudi - Life.mp3";
-        String[] archivo = file.split(".mp3");
-        String path = "C:\\Users\\enriq\\Documents\\6TO SEMESTRE IS\\DESARROLLO SISTEMAS EN RED\\CalidadAudio\\src\\calidadaudio\\";
-        
+
+    private void realizarFormatos(JSONArray lista) {
+        String file = "";
+        String archivo = "";
+        String path = "C:\\Users\\Leonardo\\Documents\\GitHub\\OrangeMusic\\OrangeMusic\\web\\canciones\\";
+        String path2 = "C:\\Users\\Leonardo\\upload\\archivo\\";
+
         //los kbits por segundo, a mayor numero mejor es la calidad 
         //ya que no realiza mucha compresión del audio, 320 es la mayor para formato mp3
         String bitrate1 = "320";
         String bitrate2 = "128";
         String bitrate3 = "32";
-        
-        String cmd1="ffmpeg -i \"" + path + file + "\" -codec:a libmp3lame -b:a "+ bitrate1 + "k \"" +path + archivo[0] + "_alta.mp3\"";
-        String cmd2="ffmpeg -i \"" + path + file+ "\" -codec:a libmp3lame -b:a "+ bitrate2 + "k \"" + path + archivo[0] + "_media.mp3\"";
-        String cmd3="ffmpeg -i \"" + path + file + "\" -codec:a libmp3lame -b:a "+ bitrate3 + "k \"" + path + archivo[0] + "_baja.mp3\"";
-        Process p;
-        try {
-            p = Runtime.getRuntime().exec(cmd1);
-            p = Runtime.getRuntime().exec(cmd2);
-            p = Runtime.getRuntime().exec(cmd3);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }finally{
-            System.out.println("listo");
+        for (int i = 0; i < lista.length(); i++) {
+            JSONObject objeto = lista.getJSONObject(i);
+            file = objeto.getInt("idCancion")+".mp3";
+            archivo = ""+objeto.getInt("idCancion");
+            
+            String cmd1 = "ffmpeg -i \"" + path2 + file + "\" -codec:a libmp3lame -b:a " + bitrate1 + "k \"" + path + archivo + "-1.mp3\"";
+            String cmd2 = "ffmpeg -i \"" + path2 + file + "\" -codec:a libmp3lame -b:a " + bitrate2 + "k \"" + path + archivo + "-2.mp3\"";
+            String cmd3 = "ffmpeg -i \"" + path2 + file + "\" -codec:a libmp3lame -b:a " + bitrate3 + "k \"" + path + archivo + "-3.mp3\"";
+
+            Process p;
+            try {
+                p = Runtime.getRuntime().exec(cmd1);
+                p = Runtime.getRuntime().exec(cmd2);
+                p = Runtime.getRuntime().exec(cmd3);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                System.out.println("listo");
+            }
         }
     }
 }

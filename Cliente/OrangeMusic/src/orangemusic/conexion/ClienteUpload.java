@@ -35,7 +35,7 @@ public class ClienteUpload implements Runnable{
         byte[] byteArray;
 
         try {
-            Socket client = new Socket("127.0.0.1", 1234);
+            Socket client = new Socket(System.getProperty("ip"), 1234);
             bufferEntrada = new BufferedInputStream(new FileInputStream(canciones));
             bufferSalida = new BufferedOutputStream(client.getOutputStream());
           
