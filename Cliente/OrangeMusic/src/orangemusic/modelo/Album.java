@@ -37,7 +37,7 @@ public class Album {
 
     private int idAlbum;
     private String nombreAlbum;
-    private int añoLanzamiento;
+    private int anoLanzamiento;
     private String nombreImagen;
     private String disquera;
     private String canciones;
@@ -68,12 +68,12 @@ public class Album {
         this.nombreAlbum = nombreAlbum;
     }
 
-    public int getAñoLanzamiento() {
-        return añoLanzamiento;
+    public int getAnoLanzamiento() {
+        return anoLanzamiento;
     }
 
-    public void setAñoLanzamiento(int añoLanzamiento) {
-        this.añoLanzamiento = añoLanzamiento;
+    public void setAnoLanzamiento(int anoLanzamiento) {
+        this.anoLanzamiento = anoLanzamiento;
     }
 
     public String getNombreImagen() {
@@ -105,7 +105,7 @@ public class Album {
     }
 
     public Album(JSONObject albumJSON) {
-        this.añoLanzamiento = albumJSON.getInt("anoLanzamiento");
+        this.anoLanzamiento = albumJSON.getInt("anoLanzamiento");
         this.idAlbum = albumJSON.getInt("idAlbum");
         this.disquera = albumJSON.getString("disquera");
         this.nombreAlbum = albumJSON.getString("nombreAlbum");
@@ -119,7 +119,7 @@ public class Album {
         String albumJSON = "{";
         albumJSON += "\"idAlbum\":\"" + this.idAlbum + "\",";
         albumJSON += "\"nombreAlbum\":\"" + this.nombreAlbum + "\",";
-        albumJSON += "\"anoLanzamiento\":\"" + this.añoLanzamiento + "\",";
+        albumJSON += "\"anoLanzamiento\":\"" + this.anoLanzamiento + "\",";
         albumJSON += "\"disquera\":\"" + this.disquera + "\",";
         albumJSON += "\"Artista_idArtista\":\"" + this.artista.crearArtistaJSON() + "\",";
         albumJSON += "\"Genero_idGenero\":\"" + this.genero.generoJSON() + "\",";
@@ -150,7 +150,7 @@ public class Album {
 
         HttpURLConnection conexion = null;
         try {
-            URL url = new URL(System.getProperty("servicio") + "webresources/modelo.album/" + numero + "/acdc@gmail.com/"+album.getArtista().getIdArtista()+"/"+album.getGenero().getIdGenero());
+            URL url = new URL(System.getProperty("servicio") + "webresources/modelo.album/" + numero + "/"+"correo"+"/"+album.getArtista().getIdArtista()+"/"+album.getGenero().getIdGenero());
             conexion = (HttpURLConnection) url.openConnection();
             conexion.setRequestProperty("Content-Type", "application/json");
             conexion.setRequestProperty("Accept", "application/json");
@@ -345,8 +345,10 @@ public class Album {
         
     }
     
-    public boolean subirImagenAlbum(){
+    public boolean subirImagenAlbum(Album album, File imagen){
         boolean validacion = true;
+        
+        
         
         return validacion;
     }

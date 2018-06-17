@@ -6,7 +6,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -14,6 +13,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import modelo.Album;
+import modelo.Cancion;
 import modelo.Genero;
 
 /**
@@ -89,5 +90,29 @@ public class GeneroFacadeREST extends AbstractFacade<Genero> {
         }
         return generos;
     }
-
+    
+    @GET
+    @Path("estacionDeRadio/{idGenero}/{correo}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Cancion> crearEstacionDeRadio(@PathParam("idGenero") Integer idGenero,@PathParam("correo") String correo){
+        List<Cancion> canciones = new ArrayList();
+        EntityManager conexion = null;
+        Genero genero = null;
+        try{
+            conexion = getEntityManager();
+            genero = conexion.find(Genero.class, idGenero);
+            List<Album> albumes = genero.getAlbumList();
+            for(Album album:albumes){
+                if(album.getSubeList().get(0).getPrivacidad() == 1){
+                    canciones.addAll(album.getCancionList());
+                }else if(album.getSubeList().get(0).getUsuario().getCorreo().equals(correo)){
+                    canciones.addAll(album.getCancionList());
+                }
+            }
+        }catch(Exception e){
+            
+        }
+        return canciones;
+    }
+    
 }

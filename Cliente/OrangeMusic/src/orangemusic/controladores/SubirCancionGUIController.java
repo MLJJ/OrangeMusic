@@ -29,7 +29,6 @@ import orangemusic.modelo.Artista;
 import orangemusic.modelo.Genero;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * FXML Controller class
@@ -103,7 +102,7 @@ public class SubirCancionGUIController implements Initializable {
             MensajeController.mensajeAdvertencia("Hay campos vacios");
         }else{
             Album album = new Album();
-            album.setAñoLanzamiento(Integer.parseInt(tfAñoLanzamiento.getText()));
+            album.setAnoLanzamiento(Integer.parseInt(tfAñoLanzamiento.getText()));
             album.setDisquera(tfDiscografico.getText());
             album.setNombreAlbum(tfNombreAlbum.getText());
             album.setArtista(cbArtista.getValue());

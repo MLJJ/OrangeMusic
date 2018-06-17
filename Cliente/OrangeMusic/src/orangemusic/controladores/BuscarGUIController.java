@@ -217,7 +217,7 @@ public class BuscarGUIController implements Initializable {
             //Poner imagen
             lbNombre.setText(cancion.getNombreCancion());
             lbInformacion.setText(cancion.getAlbum().getArtista().toString() + " - " + cancion.getAlbum().getNombreAlbum());
-            lbExtras.setText("Año de lanzamiento: " + cancion.getAlbum().getAñoLanzamiento()
+            lbExtras.setText("Año de lanzamiento: " + cancion.getAlbum().getAnoLanzamiento()
                     + "\nDe la disquera: " + cancion.getAlbum().getDisquera()
                     + "\nGenero: " + cancion.getAlbum().getGenero().toString());
             btnPlay.setVisible(true);
@@ -231,7 +231,7 @@ public class BuscarGUIController implements Initializable {
             //Poner imagen
             lbNombre.setText(album.getNombreAlbum());
             lbInformacion.setText("Lanzado por: " + album.getArtista().toString());
-            lbExtras.setText("Año de lanzamiento: " + album.getAñoLanzamiento()
+            lbExtras.setText("Año de lanzamiento: " + album.getAnoLanzamiento()
                     + "\nDe la disquera: " + album.getDisquera()
                     + "\nGenero: " + album.getGenero().toString());
             btnPlay.setVisible(true);
