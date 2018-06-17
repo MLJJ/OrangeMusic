@@ -69,6 +69,7 @@ public class InicioSesionGUIController implements Initializable {
             usr = usr.autenticar(usr);
             if (usr != null) {
                 try {
+                    System.getProperty("correo", usr.getCorreo());
                     main.desplegarMenuPrincipal(usr);
                 } catch (IOException ex) {
                     System.out.println("Error al desplegar ventana de menu principal: " + ex.getMessage());

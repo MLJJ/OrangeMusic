@@ -150,7 +150,7 @@ public class Album {
 
         HttpURLConnection conexion = null;
         try {
-            URL url = new URL(System.getProperty("servicio") + "webresources/modelo.album/" + numero + "/"+"correo"+"/"+album.getArtista().getIdArtista()+"/"+album.getGenero().getIdGenero());
+            URL url = new URL(System.getProperty("servicio") + "webresources/modelo.album/" + numero + "/" + System.getProperty("correo") + "/" + album.getArtista().getIdArtista() + "/" + album.getGenero().getIdGenero());
             conexion = (HttpURLConnection) url.openConnection();
             conexion.setRequestProperty("Content-Type", "application/json");
             conexion.setRequestProperty("Accept", "application/json");
@@ -186,10 +186,19 @@ public class Album {
                 conexion.disconnect();
             }
         }
-        
-        
+
+        try {
+            JSONArray datos = new JSONArray(cancionesRegistradas);
+            JSONObject objeto = datos.getJSONObject(0);
+            JSONObject dato = objeto.getJSONObject("albumidAlbum");
+            int id = dato.getInt("idAlbum");
+            subirImagenAlbum(id, imagen);
+        } catch (Exception e) {
+
+        }
         
         return cancionesRegistradas;
+
     }
 
     public List<Album> buscarAlbum(String nombreAlbum) {
@@ -239,7 +248,7 @@ public class Album {
         return genero;
     }
 
-    public boolean descargarCancion(int idCancion,String nombreCancion) {
+    public boolean descargarCancion(int idCancion, String nombreCancion) {
         boolean validacion = true;
         File rutaDescarga = new File(Constante.RUTADESCARGA);
         if (!rutaDescarga.exists()) {
@@ -248,7 +257,7 @@ public class Album {
         BufferedInputStream bufferEntrada = null;
         BufferedOutputStream bufferEscritura = null;
         try {
-            URL url = new URL(System.getProperty("servicio") + "/canciones/" + idCancion+"-1.mp3");
+            URL url = new URL(System.getProperty("servicio") + "/canciones/" + idCancion + "-1.mp3");
             byte[] receivedData = new byte[1024];
             bufferEntrada = new BufferedInputStream(url.openConnection().getInputStream());
             int tamaño;
@@ -327,9 +336,9 @@ public class Album {
 
         return validacion;
     }
-    
-    private String convertirImagen64(File file){
-        
+
+    private String convertirImagen64(File file) {
+
         String base64Image = "";
         try (FileInputStream imageInFile = new FileInputStream(file)) {
             byte imageData[] = new byte[(int) file.length()];
@@ -337,19 +346,57 @@ public class Album {
             base64Image = Base64.getEncoder().encodeToString(imageData);
             imageInFile.close();
         } catch (FileNotFoundException e) {
-            
+
         } catch (IOException ioe) {
-            
+
         }
         return base64Image;
-        
+
     }
-    
-    public boolean subirImagenAlbum(Album album, File imagen){
+
+    public boolean subirImagenAlbum(int album, File imagen) {
         boolean validacion = true;
-        
-        
-        
+        HttpURLConnection conexion = null;
+        String base64 = this.convertirImagen64(imagen);
+        try {
+            URL url = new URL(System.getProperty("servicio") + "webresources/modelo.album/imagenesalbum");
+            conexion = (HttpURLConnection) url.openConnection();
+            conexion.setRequestProperty("Content-Type", "application/json");
+            conexion.setRequestProperty("Accept", "application/json");
+            conexion.setDoInput(true);
+            conexion.setDoOutput(true);
+            conexion.setRequestMethod("POST");
+            conexion.connect();
+
+            String albumJSON = "\"idAlbum\":\"" + album + "\",";
+            albumJSON += "\"nombreImagen\":\"" + base64 + "\"";
+            albumJSON += "}";
+
+            OutputStream outputStream = conexion.getOutputStream();
+            BufferedWriter escritor = new BufferedWriter(new OutputStreamWriter(outputStream));
+            escritor.write(String.valueOf(albumJSON));
+            escritor.flush();
+
+            InputStream input;
+            if (conexion.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                input = conexion.getInputStream();
+            } else {
+                input = conexion.getErrorStream();
+            }
+
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+            String resultado = bufferedReader.readLine();
+        } catch (MalformedURLException e) {
+            validacion = false;
+        } catch (IOException e) {
+            validacion = false;
+        } catch (JSONException e) {
+            validacion = false;
+        } finally {
+            if (conexion != null) {
+                conexion.disconnect();
+            }
+        }
         return validacion;
     }
 }
