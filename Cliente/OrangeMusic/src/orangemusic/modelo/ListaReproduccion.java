@@ -45,7 +45,7 @@ public class ListaReproduccion {
         this.canciones = new ArrayList<>();
         this.idListaReproduccion = jsonLista.getInt("idListaReproduccion");
         this.nombreLista = jsonLista.getString("nombreLista");
-        this.visibilidad = jsonLista.getString("nombreLista");
+        this.visibilidad = jsonLista.getString("visibilidad");
         JSONArray listaCanciones = jsonLista.getJSONArray("cancionList");
         for (int i = 0; i < listaCanciones.length(); i++) {
             Cancion cancion = new Cancion(listaCanciones.getJSONObject(i));
@@ -254,4 +254,106 @@ public class ListaReproduccion {
         return misListas;
     }
 
+    public boolean crearListaReproduccion(String correo) {
+        System.out.println("creando lista reproducción");
+        boolean confirmacion = false;
+        URL url = null;
+        try {
+            //cambiar url
+            url = new URL("http://localhost:8080/OrangeMusic/webresources/modelo.listareproduccion");
+            HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+            conexion.setRequestProperty("Content-Type", "application/json");
+            conexion.setRequestProperty("Accept", "application/json");
+            conexion.setRequestMethod("POST");
+            conexion.setDoInput(true);
+            conexion.setDoOutput(true);
+            conexion.connect();
+            JSONObject jsonObject = new JSONObject();
+            JSONArray arr = new JSONArray();
+            JSONObject usuario = new JSONObject();
+            usuario.accumulate("correo", correo);
+            jsonObject.accumulate("nombreLista", this.nombreLista);
+            jsonObject.accumulate("visibilidad", this.visibilidad);
+            jsonObject.accumulate("correoUsuario", usuario);
+            OutputStream outputStream = conexion.getOutputStream();
+            BufferedWriter escritor = new BufferedWriter(new OutputStreamWriter(outputStream));
+            escritor.write(String.valueOf(jsonObject));
+            System.out.println(String.valueOf(jsonObject));
+            escritor.flush();
+
+            InputStream input;
+            if (conexion.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                input = conexion.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+                String cad = bufferedReader.readLine();
+                confirmacion = true;
+            } else {
+                input = conexion.getErrorStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+                String cad = bufferedReader.readLine();
+                System.out.println(cad);
+                confirmacion = false;
+            }
+
+            conexion.disconnect();
+
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(VisualizarHistorialGUIController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(VisualizarHistorialGUIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return confirmacion;
+    }
+    
+     public boolean editarListaReproduccion(String correo) {
+        System.out.println("editando lista reproducción");
+        boolean confirmacion = false;
+        URL url = null;
+        try {
+            //cambiar url
+            url = new URL("http://localhost:8080/OrangeMusic/webresources/modelo.listareproduccion/" + this.idListaReproduccion);
+            HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+            conexion.setRequestProperty("Content-Type", "application/json");
+            conexion.setRequestProperty("Accept", "application/json");
+            conexion.setRequestMethod("PUT");
+            conexion.setDoInput(true);
+            conexion.setDoOutput(true);
+            conexion.connect();
+            JSONObject jsonObject = new JSONObject();
+            JSONArray arr = new JSONArray();
+            JSONObject usuario = new JSONObject();
+            usuario.accumulate("correo", correo);
+            jsonObject.accumulate("idListaReproduccion", this.idListaReproduccion);
+            jsonObject.accumulate("nombreLista", this.nombreLista);
+            jsonObject.accumulate("visibilidad", this.visibilidad);
+            jsonObject.accumulate("correoUsuario", usuario);
+            OutputStream outputStream = conexion.getOutputStream();
+            BufferedWriter escritor = new BufferedWriter(new OutputStreamWriter(outputStream));
+            escritor.write(String.valueOf(jsonObject));
+            System.out.println(String.valueOf(jsonObject));
+            escritor.flush();
+
+            InputStream input;
+            if (conexion.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                input = conexion.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+                String cad = bufferedReader.readLine();
+                confirmacion = true;
+            } else {
+                input = conexion.getErrorStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+                String cad = bufferedReader.readLine();
+                System.out.println(cad);
+                confirmacion = false;
+            }
+
+            conexion.disconnect();
+
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(VisualizarHistorialGUIController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(VisualizarHistorialGUIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return confirmacion;
+    }
 }

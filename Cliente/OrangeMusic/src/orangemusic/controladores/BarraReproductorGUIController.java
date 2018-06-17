@@ -6,6 +6,7 @@
 package orangemusic.controladores;
 
 import com.jfoenix.controls.JFXButton;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import javafx.util.Duration;
@@ -28,6 +29,8 @@ import javafx.scene.media.MediaPlayer.Status;
 import orangemusic.OrangeMusic;
 import orangemusic.modelo.Cancion;
 import orangemusic.modelo.ListaReproduccion;
+import static orangemusic.utilerias.Constante.RUTACANCIONSERVICIO;
+import static orangemusic.utilerias.Constante.RUTADESCARGA;
 
 /**
  * FXML Controller class
@@ -82,13 +85,18 @@ public class BarraReproductorGUIController implements Initializable {
             listaReproduccion.getCanciones().add(cancion2);
          */
         // fin datos
-
+        
         if (listaReproduccion != null) {
-            System.getProperties().put("ip", "");
-            System.getProperty("ip");
-            String rutaInicio = listaReproduccion.getCanciones().get(listaReproduccion.getCanciones().indexOf(cancionInicio)).getRutaCancion();
-            //media = new Media(new File(rutaInicio).toURI().toString()); //provar con rutas de pc
-            media = new Media(rutaInicio);
+
+            String rutaInicio;
+            if (!listaReproduccion.getNombreLista().equalsIgnoreCase("descargadas")) {
+                rutaInicio = RUTACANCIONSERVICIO+ cancionInicio.getIdCancion() + "-1.mp3";
+                media = new Media(rutaInicio);
+            } else {
+                rutaInicio = RUTADESCARGA + cancionInicio.getNombreCancion();
+                media = new Media(new File(rutaInicio).toURI().toString());
+            }
+
             mediaPlayer = new MediaPlayer(media);
             mediaPlayer.setAutoPlay(true);
             enlazarElemetos();
@@ -161,22 +169,46 @@ public class BarraReproductorGUIController implements Initializable {
     public void cargarCancion(ListaReproduccion listaReproduccion, Cancion cancionInicio) {
         this.listaReproduccion = listaReproduccion;
         this.cancionInicio = cancionInicio;
+        String rutaInicio;
+        if (!listaReproduccion.getNombreLista().equalsIgnoreCase("descargadas")) {
+            rutaInicio = RUTACANCIONSERVICIO+ cancionInicio.getIdCancion() + "-1.mp3";
+            media = new Media(rutaInicio);
+        } else {
+            rutaInicio = RUTADESCARGA + cancionInicio.getNombreCancion();
+            media = new Media(new File(rutaInicio).toURI().toString());
+        }
+        mediaPlayer = new MediaPlayer(media);
+        enlazarElemetos();
+        mediaPlayer.play();
 
     }
 
     @FXML
     private void cambiarAnterior(ActionEvent event) {
         mediaPlayer.dispose();
-        String rutaCancion;
+        String rutaInicio;
         if ((listaReproduccion.getCanciones().indexOf(cancionInicio) - 1) > 0) {
-            rutaCancion = listaReproduccion.getCanciones().get(listaReproduccion.getCanciones().indexOf(cancionInicio) - 1).getRutaCancion() + cancionInicio.getIdCancion() + "-1.mp3";
-            cancionInicio = listaReproduccion.getCanciones().get(listaReproduccion.getCanciones().indexOf(cancionInicio) - 1);
+            if (!listaReproduccion.getNombreLista().equalsIgnoreCase("descargadas")) {
+                cancionInicio = listaReproduccion.getCanciones().get(listaReproduccion.getCanciones().indexOf(cancionInicio) - 1);
+                rutaInicio = RUTACANCIONSERVICIO+ cancionInicio.getIdCancion() + "-1.mp3";
+                media = new Media(rutaInicio);
+            } else {
+                cancionInicio = listaReproduccion.getCanciones().get(listaReproduccion.getCanciones().indexOf(cancionInicio) - 1);
+                rutaInicio = RUTADESCARGA + cancionInicio.getNombreCancion();
+                media = new Media(new File(rutaInicio).toURI().toString());
+            }
+
         } else {
-            rutaCancion = listaReproduccion.getCanciones().get(0).getRutaCancion();
-            cancionInicio = listaReproduccion.getCanciones().get(0);
+            if (!listaReproduccion.getNombreLista().equalsIgnoreCase("descargadas")) {
+                cancionInicio = listaReproduccion.getCanciones().get(0);
+                rutaInicio = RUTACANCIONSERVICIO + cancionInicio.getIdCancion() + "-1.mp3";
+                media = new Media(rutaInicio);
+            } else {
+                cancionInicio = listaReproduccion.getCanciones().get(0);
+                rutaInicio = RUTADESCARGA + cancionInicio.getNombreCancion();
+                media = new Media(new File(rutaInicio).toURI().toString());
+            }
         }
-        //media = new Media(new File(rutaCancion).toURI().toString()); //solo si se quiere probar con rutas de la pc 
-        media = new Media(rutaCancion);
         mediaPlayer = new MediaPlayer(media);
         enlazarElemetos();
         mediaPlayer.play();
@@ -186,16 +218,30 @@ public class BarraReproductorGUIController implements Initializable {
     @FXML
     private void cambiarSiguiente(ActionEvent event) {
         mediaPlayer.dispose();
-        String rutaCancion;
+        String rutaInicio;
         if ((listaReproduccion.getCanciones().indexOf(cancionInicio) + 1) < listaReproduccion.getCanciones().size()) {
-            rutaCancion = listaReproduccion.getCanciones().get(listaReproduccion.getCanciones().indexOf(cancionInicio) + 1).getRutaCancion();
-            cancionInicio = listaReproduccion.getCanciones().get(listaReproduccion.getCanciones().indexOf(cancionInicio) + 1);
+
+            if (!listaReproduccion.getNombreLista().equalsIgnoreCase("descargadas")) {
+                cancionInicio = listaReproduccion.getCanciones().get(listaReproduccion.getCanciones().indexOf(cancionInicio) + 1);
+                rutaInicio = RUTACANCIONSERVICIO+ cancionInicio.getIdCancion() + "-1.mp3";
+                media = new Media(rutaInicio);
+            } else {
+                cancionInicio = listaReproduccion.getCanciones().get(listaReproduccion.getCanciones().indexOf(cancionInicio) + 1);
+                rutaInicio = RUTADESCARGA+ cancionInicio.getNombreCancion();
+                media = new Media(new File(rutaInicio).toURI().toString());
+            }
+
         } else {
-            rutaCancion = listaReproduccion.getCanciones().get(0).getRutaCancion();
-            cancionInicio = listaReproduccion.getCanciones().get(0);
+            if (!listaReproduccion.getNombreLista().equalsIgnoreCase("descargadas")) {
+                cancionInicio = listaReproduccion.getCanciones().get(0);
+                rutaInicio = RUTACANCIONSERVICIO+ cancionInicio.getIdCancion() + "-1.mp3";
+                media = new Media(rutaInicio);
+            } else {
+                cancionInicio = listaReproduccion.getCanciones().get(0);
+                rutaInicio = RUTADESCARGA+ cancionInicio.getNombreCancion();
+                media = new Media(new File(rutaInicio).toURI().toString());
+            }
         }
-        //media = new Media(new File(rutaCancion).toURI().toString()); //solo si se quiere probar con rutas de la pc 
-        media = new Media(rutaCancion);
         mediaPlayer = new MediaPlayer(media);
         enlazarElemetos();
         mediaPlayer.play();
@@ -283,11 +329,15 @@ public class BarraReproductorGUIController implements Initializable {
 
     public void cambiarCalidadCancion(String calidad) {
         //la calidad seria el -1 alta, -2 media y -3 baja para automática se calcularia o se dejaría la más alta por defecto
-        String rutaCancion = cancionInicio.getRutaCancion() + cancionInicio.getIdCancion() + calidad + ".mp3";
-        media = new Media(rutaCancion);
-        mediaPlayer = new MediaPlayer(media);
-        enlazarElemetos();
-        mediaPlayer.play();
+
+        if (!listaReproduccion.getNombreLista().equalsIgnoreCase("descargadas")) {
+            String rutaInicio = RUTACANCIONSERVICIO+ cancionInicio.getIdCancion() + calidad + ".mp3";
+            media = new Media(rutaInicio);
+
+            mediaPlayer = new MediaPlayer(media);
+            enlazarElemetos();
+            mediaPlayer.play();
+        }
     }
 
 }

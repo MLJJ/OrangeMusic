@@ -36,11 +36,11 @@
                <GridPane.margin>
                   <Insets />
                </GridPane.margin></Slider>
-            <Label fx:id="labelNombreCancion" text="nombreCancion" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.valignment="TOP">
+            <Label fx:id="labelNombreCancion" text="..." GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin></Label>
-            <Label fx:id="labelTiempoRep" text="time" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Label fx:id="labelTiempoRep" text="00:00/00:00" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
             <ImageView fx:id="imageViewImagenAlbum" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#mostrarDetallesCancion" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>

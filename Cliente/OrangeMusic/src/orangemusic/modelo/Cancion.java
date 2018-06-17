@@ -37,6 +37,7 @@ public class Cancion extends RecursiveTreeObject<Cancion> {
     private String rutaCancion;
     private Album album;
     private ImageView imagen;
+    private String nombreArtista;
 
     public Cancion() {
         this.idCancion = 0;
@@ -48,7 +49,8 @@ public class Cancion extends RecursiveTreeObject<Cancion> {
         this.idCancion = cancionJSON.getInt("idCancion");
         this.nombreCancion = cancionJSON.getString("nombreCancion");
         this.rutaCancion = cancionJSON.getString("rutaCancion");
-        this.album = new Album(cancionJSON.getJSONObject("Album_idAlbum"));
+        this.album = new Album(cancionJSON.getJSONObject("albumidAlbum"));
+        this.nombreArtista = this.album.getArtista().getNombreArtista();
     }
 
     public int getIdCancion() {
@@ -188,4 +190,13 @@ public class Cancion extends RecursiveTreeObject<Cancion> {
         
         return lista;
     }
+
+    public String getNombreArtista() {
+        return nombreArtista;
+    }
+
+    public void setNombreArtista(String nombreArtista) {
+        this.nombreArtista = nombreArtista;
+    }
+    
 }

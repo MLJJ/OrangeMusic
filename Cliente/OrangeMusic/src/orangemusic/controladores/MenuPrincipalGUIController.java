@@ -9,8 +9,12 @@ import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,6 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import orangemusic.OrangeMusic;
 import orangemusic.modelo.ListaReproduccion;
 import orangemusic.modelo.Usuario;
@@ -46,6 +51,7 @@ public class MenuPrincipalGUIController implements Initializable {
     private BarraReproductorGUIController controladorBarra;
     @FXML
     private TitledPane titledPanePlayList;
+    private List<ListaReproduccion> misPlayList;
 
     /**
      * Initializes the controller class.
@@ -59,6 +65,18 @@ public class MenuPrincipalGUIController implements Initializable {
         }
     }
 
+    public Usuario getUsuario() {
+        return usr;
+    }
+
+    public List<ListaReproduccion> getMisPlayList() {
+        return misPlayList;
+    }
+
+    public void setMisPlayList(List<ListaReproduccion> misPlayList) {
+        this.misPlayList = misPlayList;
+    }
+    
     public ListaReproduccionGUIController getControladorListas() {
         return controladorListas;
     }
@@ -104,6 +122,16 @@ public class MenuPrincipalGUIController implements Initializable {
         gridPanelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
     }
 
+    public void lanzarListasReproduccion() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/orangemusic/vistas/ListaReproduccionGUI.fxml"));
+        Parent fxml = (Parent) loader.load();
+        ListaReproduccionGUIController controlador = loader.getController();
+        this.controladorListas = controlador;
+        controlador.setMenuPrincipal(this);
+        gridPanelPrincipal.getChildren().clear();
+        gridPanelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
+    }
+
     public void setMain(OrangeMusic main) {
         this.main = main;
     }
@@ -114,9 +142,36 @@ public class MenuPrincipalGUIController implements Initializable {
 
     @FXML
     private void lanzarAdministrarListas(MouseEvent event) {
-        List<ListaReproduccion> misListas = new ListaReproduccion().obtenerMisListas(usr);
-        for(ListaReproduccion l : misListas){
-            System.out.println(l.getNombreLista()+"Si jala");
+        if (this.misPlayList == null) {
+            misPlayList = new ListaReproduccion().obtenerMisListas(usr);
+            VBox contenedorListas = new VBox();
+            for (int i = 0; i < misPlayList.size(); i++) {
+                
+                JFXButton buttonLista = new JFXButton(misPlayList.get(i).getNombreLista());
+                buttonLista.setId(misPlayList.get(i).getIdListaReproduccion().toString());
+                buttonLista.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent e) {
+                        try {
+                            lanzarListasReproduccion();
+                            controladorListas.setMenuPrincipal(MenuPrincipalGUIController.this);
+                            int posLista = 0;
+                            for (int i = 0; i < misPlayList.size(); i++) {
+                                if(Objects.equals(misPlayList.get(i).getIdListaReproduccion(), Integer.valueOf(buttonLista.getId()))){
+                                    posLista = i;
+                                }
+                            }
+                            controladorListas.setListaReproduccion(misPlayList.get(posLista));
+                            controladorListas.cargarLista();
+                        }catch (IOException ex) {
+                            Logger.getLogger(MenuPrincipalGUIController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                });
+                contenedorListas.getChildren().add(buttonLista);
+            }
+            contenedorListas.getChildren().add(0, btnBuscar);
+            titledPanePlayList.setContent(contenedorListas);
         }
     }
 }

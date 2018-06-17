@@ -27,17 +27,12 @@
                   <Insets left="30.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXToggleButton fx:id="toggleButton" disable="true" onAction="#cambiarPrivacidad" text="Privada" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets right="30.0" />
-               </GridPane.margin>
-            </JFXToggleButton>
             <JFXButton fx:id="buttonEditarListaGuardar" onAction="#editarListaReproduccion" text="Editar lista" GridPane.halignment="LEFT">
                <GridPane.margin>
                   <Insets left="135.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="buttonEliminarCancion" onAction="#eliminarListaReproduccion" text="Eliminar lista">
+            <JFXButton fx:id="buttonEliminarLista" onAction="#eliminarListaReproduccion" text="Eliminar lista">
                <GridPane.margin>
                   <Insets left="240.0" />
                </GridPane.margin>
@@ -48,12 +43,12 @@
                   <Insets />
                </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="buttoneliminarCancion" onAction="#eliminarCancion" text="Eliminar cancion" GridPane.columnIndex="1">
+            <JFXButton fx:id="buttonEliminarCancion" onAction="#eliminarCancion" text="Eliminar cancion" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets left="150.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXTextField fx:id="textFieldNombreLista" editable="false" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <JFXTextField fx:id="textFieldNombreLista" editable="false" onKeyTyped="#limitarNombreLista" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets bottom="10.0" left="160.0" right="200.0" top="10.0" />
                </GridPane.margin>
@@ -69,6 +64,11 @@
                </GridPane.margin>
             </JFXButton>
             <TableView fx:id="tableCanciones" onMouseClicked="#reproducirCancion" prefHeight="350.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+            <ComboBox fx:id="comboBoxPrivacidad" disable="true" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets right="20.0" />
+               </GridPane.margin>
+            </ComboBox>
          </children>
       </GridPane>
    </children>
