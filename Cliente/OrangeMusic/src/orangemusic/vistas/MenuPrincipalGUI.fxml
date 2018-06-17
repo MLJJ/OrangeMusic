@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
@@ -12,7 +18,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1200.0" stylesheets="@../../recursos/codigo/EstiloOrangeMusic.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="orangemusic.controladores.MenuPrincipalGUIController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1200.0" stylesheets="@../../recursos/codigo/EstiloOrangeMusic.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="orangemusic.controladores.MenuPrincipalGUIController">
    <children>
       <GridPane styleClass="fondo" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -43,7 +49,7 @@
                   </ImageView>
                   <Accordion prefHeight="696.0" prefWidth="269.0" GridPane.rowIndex="1">
                     <panes>
-                      <TitledPane onMouseClicked="#lanzarAdministrarListas" text="Playlist">
+                      <TitledPane fx:id="titledPanePlayList" onMouseClicked="#lanzarAdministrarListas" text="Playlist">
                            <content>
                               <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="302.0" prefWidth="174.0">
                                 <columnConstraints>

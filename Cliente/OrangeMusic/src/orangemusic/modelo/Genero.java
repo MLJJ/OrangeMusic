@@ -133,4 +133,20 @@ public class Genero {
         }
         return gnros;
     }
+
+    public String getNombreGenero() {
+        return nombreGenero;
+    }
+
+    public void setNombreGenero(String nombreGenero) {
+        this.nombreGenero = nombreGenero;
+    }
+
+    public int getIdGenero() {
+        return idGenero;
+    }
+
+    public void setIdGenero(int idGenero) {
+        this.idGenero = idGenero;
+    }
 }

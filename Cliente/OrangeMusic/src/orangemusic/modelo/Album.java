@@ -89,9 +89,9 @@ public class Album {
     
     public Album(JSONObject albumJSON){
         this.añoLanzamiento = albumJSON.getInt("anoLanzamiento");
-        this.idAlbum = albumJSON.getInt("idGenero");
+        this.idAlbum = albumJSON.getInt("idAlbum");
         this.disquera = albumJSON.getString("disquera");
-        this.nombreAlbum = albumJSON.getString("nombreAlumno");
+        this.nombreAlbum = albumJSON.getString("nombreAlbum");
         this.nombreImagen = albumJSON.getString("nombreImagen");
         this.genero = new Genero(albumJSON.getJSONObject("generoidGenero"));
         this.artista = new Artista(albumJSON.getJSONObject("artistaidArtista"));
