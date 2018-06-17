@@ -63,8 +63,6 @@ public class SubirCancionGUIController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.getProperties().put("servicio", "http://localhost:8080/OrangeMusic/");
-        System.getProperties().put("ip", "localhost");
         cargarGeneros(new Genero().sacarGeneros());
         cargarArtistas(new Artista().sacarArtista());
     }
@@ -127,12 +125,14 @@ public class SubirCancionGUIController implements Initializable {
                 Logger.getLogger(SubirCancionGUIController.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            System.out.println("Se subio");
+            MensajeController.mensajeInformacion("Se ha subido el album");
+            
+            this.accionCancelar();
         }
     }
 
     @FXML
-    private void accionCancelar(ActionEvent evento) {
+    private void accionCancelar() {
         this.tfAñoLanzamiento.setText("");
         this.tfCancion.setText("");
         this.tfDiscografico.setText("");

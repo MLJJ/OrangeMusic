@@ -5,6 +5,8 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +18,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -183,7 +186,9 @@ public class Album {
                 conexion.disconnect();
             }
         }
-
+        
+        
+        
         return cancionesRegistradas;
     }
 
@@ -234,7 +239,7 @@ public class Album {
         return genero;
     }
 
-    public boolean descargarCancion(int idCacion) {
+    public boolean descargarCancion(int idCancion,String nombreCancion) {
         boolean validacion = true;
         File rutaDescarga = new File(Constante.RUTADESCARGA);
         if (!rutaDescarga.exists()) {
@@ -243,11 +248,11 @@ public class Album {
         BufferedInputStream bufferEntrada = null;
         BufferedOutputStream bufferEscritura = null;
         try {
-            URL url = new URL(System.getProperty("servicio") + "/canciones/" + idCacion + ".mp3");
+            URL url = new URL(System.getProperty("servicio") + "/canciones/" + idCancion+"-1.mp3");
             byte[] receivedData = new byte[1024];
             bufferEntrada = new BufferedInputStream(url.openConnection().getInputStream());
             int tamaño;
-            bufferEscritura = new BufferedOutputStream(new FileOutputStream(Constante.RUTADESCARGA + idCacion + ".mp3"));
+            bufferEscritura = new BufferedOutputStream(new FileOutputStream(Constante.RUTADESCARGA + nombreCancion));
             while ((tamaño = bufferEntrada.read(receivedData)) != -1) {
                 bufferEscritura.write(receivedData, 0, tamaño);
             }
@@ -291,7 +296,7 @@ public class Album {
                 byte[] receivedData = new byte[1024];
                 bufferEntrada = new BufferedInputStream(url.openConnection().getInputStream());
                 int tamaño;
-                bufferEscritura = new BufferedOutputStream(new FileOutputStream(Constante.RUTADESCARGA + cancion.getIdCancion() + ".mp3"));
+                bufferEscritura = new BufferedOutputStream(new FileOutputStream(Constante.RUTADESCARGA + cancion.getNombreCancion()));
                 while ((tamaño = bufferEntrada.read(receivedData)) != -1) {
                     bufferEscritura.write(receivedData, 0, tamaño);
                 }
@@ -320,6 +325,29 @@ public class Album {
             }
         }
 
+        return validacion;
+    }
+    
+    private String convertirImagen64(File file){
+        
+        String base64Image = "";
+        try (FileInputStream imageInFile = new FileInputStream(file)) {
+            byte imageData[] = new byte[(int) file.length()];
+            imageInFile.read(imageData);
+            base64Image = Base64.getEncoder().encodeToString(imageData);
+            imageInFile.close();
+        } catch (FileNotFoundException e) {
+            
+        } catch (IOException ioe) {
+            
+        }
+        return base64Image;
+        
+    }
+    
+    public boolean subirImagenAlbum(){
+        boolean validacion = true;
+        
         return validacion;
     }
 }

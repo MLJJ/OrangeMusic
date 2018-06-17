@@ -5,6 +5,7 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -12,7 +13,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="orangemusic.controladores.SubirCancionGUIController">
+<AnchorPane id="AnchorPane" prefHeight="476.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="orangemusic.controladores.SubirCancionGUIController">
    <children>
       <GridPane layoutX="-66.0" layoutY="27.0" styleClass="fondo" stylesheets="@../../recursos/codigo/EstiloOrangeMusic.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -36,10 +37,13 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fx:id="imgImagen" fitHeight="243.0" fitWidth="228.0" onMouseClicked="#accionAbrirImagen" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <ImageView fx:id="imgImagen" fitHeight="180.0" fitWidth="214.0" onMouseClicked="#accionAbrirImagen" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <image>
                   <Image url="@../../recursos/imagenes/logo.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ImageView>
             <JFXTextField fx:id="tfNombreAlbum" labelFloat="true" onKeyTyped="#restringirEntradaDeTeclado" promptText="Nombre album:" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <JFXTextField fx:id="tfAñoLanzamiento" labelFloat="true" onKeyTyped="#restringirLetras" promptText="Año de lanzamiento (yyyy):" GridPane.columnIndex="1" GridPane.rowIndex="6" />

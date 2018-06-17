@@ -1,5 +1,6 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -13,7 +14,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import modelo.Album;
+import modelo.Cancion;
 import modelo.Sube;
+import modelo.Usuario;
 
 /**
  *
@@ -69,6 +73,31 @@ public class SubeFacadeREST extends AbstractFacade<Sube> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+    
+    @GET
+    @Path("cancionesSubidas/{correo}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Cancion> buscarCancionesSubidas(@PathParam("correo")String correo){
+        List<Cancion> canciones = new ArrayList();
+        EntityManager conexion = null;
+        Usuario usuario = null;
+        List<Sube> archivosSubidos = null;
+        Album album = null;
+        try{
+            conexion = getEntityManager();
+            usuario = conexion.find(Usuario.class, correo);
+            archivosSubidos = usuario.getSubeList();
+            
+            for(Sube sube : archivosSubidos){
+                album = sube.getAlbum();
+                canciones.addAll(album.getCancionList());
+            }
+        }catch(Exception e){
+            
+        }
+        
+        return canciones;
     }
 
 }
