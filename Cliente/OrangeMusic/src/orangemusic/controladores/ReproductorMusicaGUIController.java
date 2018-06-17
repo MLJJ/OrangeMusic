@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import orangemusic.modelo.Cancion;
 
 /**
  * FXML Controller class
@@ -25,7 +26,7 @@ public class ReproductorMusicaGUIController implements Initializable {
     @FXML
     private ImageView imagenAlbum;
     @FXML
-    private ComboBox<?> comboBoxCalidad;
+    private ComboBox<String> comboBoxCalidad;
     @FXML
     private JFXButton buttonRadio;
     @FXML
@@ -37,20 +38,58 @@ public class ReproductorMusicaGUIController implements Initializable {
     @FXML
     private Label labelGenero;
 
+    //variables propias
+    private Cancion cancion;
+    private MenuPrincipalGUIController menuPricipal;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+        comboBoxCalidad.getItems().setAll("Alta", "Media", "Baja");
+    }
+
+    public void setMenuPrincipal(MenuPrincipalGUIController menuPricipal) {
+        this.menuPricipal = menuPricipal;
+
+    }
 
     @FXML
     private void cambiarCalidad(ActionEvent event) {
+        String calidadElegida = comboBoxCalidad.getSelectionModel().getSelectedItem();
+        switch (calidadElegida) {
+            case "Alta":
+                calidadElegida="-1";
+                break;
+            case "Media":
+                calidadElegida="-2";
+                break;
+            case "Baja":
+                calidadElegida="-3";
+                break;
+            default:
+                calidadElegida = "-1";
+                break;
+        }
+        this.menuPricipal.getControladorBarra().cambiarCalidadCancion(calidadElegida);
+
     }
 
     @FXML
     private void crearEstacion(ActionEvent event) {
+        
+        
     }
-    
+
+    void cargarIformacionCancion(Cancion cancion) {
+
+        this.cancion = cancion;
+        this.labelAlbum.setText(labelAlbum.getText() + "   " + cancion.getAlbum().getNombreAlbum());
+        this.labelArtista.setText(labelArtista.getText() + "   " + cancion.getAlbum().getArtista().getNombreArtista());
+        this.labelCancion.setText(labelCancion.getText() + "   " + cancion.getNombreCancion());
+        this.labelGenero.setText(labelGenero.getText() + "   " + cancion.getAlbum().getGenero().getNombreGenero());
+
+    }
+
 }

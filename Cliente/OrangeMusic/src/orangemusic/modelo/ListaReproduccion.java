@@ -14,6 +14,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,18 @@ public class ListaReproduccion {
 
     public ListaReproduccion() {
         this.canciones = new ArrayList<>();
+    }
+
+    public ListaReproduccion(JSONObject jsonLista) {
+        this.canciones = new ArrayList<>();
+        this.idListaReproduccion = jsonLista.getInt("idListaReproduccion");
+        this.nombreLista = jsonLista.getString("nombreLista");
+        this.visibilidad = jsonLista.getString("nombreLista");
+        JSONArray listaCanciones = jsonLista.getJSONArray("cancionList");
+        for (int i = 0; i < listaCanciones.length(); i++) {
+            Cancion cancion = new Cancion(listaCanciones.getJSONObject(i));
+            canciones.add(cancion);
+        }
     }
 
     public Integer getIdListaReproduccion() {
@@ -145,7 +158,6 @@ public class ListaReproduccion {
 //        System.out.println("largo de lista de canciones " + listaCanciones.size());
 //        return listaCanciones;
 //    }
-
     public boolean ingresarCancionAHistorial(Cancion cancion, int idLista) {
         boolean ingresada = false;
         return ingresada;
@@ -201,6 +213,45 @@ public class ListaReproduccion {
             Logger.getLogger(VisualizarHistorialGUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return lista;
+    }
+
+    public List<ListaReproduccion> obtenerMisListas(Usuario usr) {
+        List<ListaReproduccion> misListas = null;
+        try {
+            URL url = new URL("http://localhost:8080/OrangeMusic/webresources/modelo.listareproduccion/buscarPorUsuario/" + usr.getCorreo());
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.connect();
+
+            InputStream input;
+            if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                input = conn.getInputStream();
+            } else {
+                input = conn.getErrorStream();
+            }
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+            String cad = bufferedReader.readLine();
+            JSONArray jsonArr = new JSONArray(cad);
+            misListas = new ArrayList<>();
+            for (int i = 0; i < jsonArr.length(); i++) {
+                ListaReproduccion lista = new ListaReproduccion(jsonArr.getJSONObject(i));
+                misListas.add(lista);
+            }
+
+            if (misListas.isEmpty()) {
+                misListas = null;
+            }
+        } catch (MalformedURLException ex) {
+            System.out.println("Error en URL");
+        } catch (ProtocolException ex) {
+            System.out.println("Error en RequesMethod: GET");
+        } catch (IOException ex) {
+            System.out.println("Error en HttpUrlConnection");
+        } catch (Exception ex) {
+            System.out.println("Error al crear el JSON");
+        }
+        return misListas;
     }
 
 }

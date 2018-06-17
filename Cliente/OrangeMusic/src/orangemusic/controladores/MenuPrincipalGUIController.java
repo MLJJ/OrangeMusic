@@ -8,6 +8,7 @@ package orangemusic.controladores;
 import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,9 +17,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import orangemusic.OrangeMusic;
+import orangemusic.modelo.ListaReproduccion;
 import orangemusic.modelo.Usuario;
 
 /**
@@ -41,6 +44,8 @@ public class MenuPrincipalGUIController implements Initializable {
     private ListaReproduccionGUIController controladorListas;
     private ReproductorMusicaGUIController controladorReproductor;
     private BarraReproductorGUIController controladorBarra;
+    @FXML
+    private TitledPane titledPanePlayList;
 
     /**
      * Initializes the controller class.
@@ -71,7 +76,7 @@ public class MenuPrincipalGUIController implements Initializable {
         Parent fxml = (Parent) loader.load();
         BarraReproductorGUIController controlador = loader.getController();
         this.controladorBarra = controlador;
-        //controlador.setControladorMenu(this);
+        controlador.setControladorMenu(this);
 
         panelReproductor.getChildren().clear();
         panelReproductor.getChildren().addAll(fxml.getChildrenUnmodifiable());
@@ -93,7 +98,7 @@ public class MenuPrincipalGUIController implements Initializable {
         Parent fxml = (Parent) loader.load();
         ReproductorMusicaGUIController controlador = loader.getController();
         this.controladorReproductor = controlador;
-        //controlador.setControladorMenu(this);
+        controlador.setMenuPrincipal(this);
 
         gridPanelPrincipal.getChildren().clear();
         gridPanelPrincipal.getChildren().addAll(fxml.getChildrenUnmodifiable());
@@ -109,5 +114,9 @@ public class MenuPrincipalGUIController implements Initializable {
 
     @FXML
     private void lanzarAdministrarListas(MouseEvent event) {
+        List<ListaReproduccion> misListas = new ListaReproduccion().obtenerMisListas(usr);
+        for(ListaReproduccion l : misListas){
+            System.out.println(l.getNombreLista()+"Si jala");
+        }
     }
 }

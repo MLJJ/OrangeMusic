@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.media.*?>
 <?import javafx.scene.web.*?>
 <?import com.jfoenix.controls.*?>
@@ -11,7 +13,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="80.0" prefWidth="1024.0" stylesheets="@../../recursos/codigo/EstiloOrangeMusic.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="orangemusic.controladores.BarraReproductorGUIController">
    <children>
-      <GridPane prefHeight="90.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane prefHeight="80.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -19,7 +21,7 @@
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -27,14 +29,19 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <JFXButton fx:id="buttonReproducir" onAction="#reproducir" prefHeight="50.0" prefWidth="50.0" styleClass="botonPlay" text="Rep" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <JFXButton fx:id="buttonPausa" onAction="#PausarCancion" prefHeight="50.0" prefWidth="50.0" styleClass="botonStop" text="Parar" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <JFXButton fx:id="buttonAnterior" onAction="#cambiarAnterior" prefHeight="50.0" prefWidth="50.0" styleClass="botonAnterior" text="next" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <JFXButton fx:id="buttonSiguiente" onAction="#cambiarsiguiente" prefHeight="50.0" prefWidth="50.0" styleClass="botonSiguiente" text="ant" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <MediaView fx:id="mediaViewReproduccion" fitHeight="80.0" fitWidth="100.0" />
-            <Slider fx:id="sliderReproducion" prefHeight="18.0" prefWidth="504.0" styleClass="fill" GridPane.columnIndex="1" GridPane.columnSpan="3" />
-            <Label fx:id="labelNombreCancion" text="nombreCancion" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.valignment="TOP" />
-            <Label fx:id="labelTiempoRep" text="time" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <JFXButton fx:id="buttonReproducir" onAction="#reproducir" prefHeight="50.0" prefWidth="50.0" styleClass="botonPlay" text="Rep" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <JFXButton fx:id="buttonAnterior" onAction="#cambiarAnterior" prefHeight="50.0" prefWidth="50.0" styleClass="botonAnterior" text="next" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <JFXButton fx:id="buttonSiguiente" onAction="#cambiarSiguiente" prefHeight="50.0" prefWidth="50.0" styleClass="botonSiguiente" text="ant" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Slider fx:id="sliderReproducion" prefHeight="18.0" prefWidth="504.0" styleClass="fill" GridPane.columnIndex="1" GridPane.columnSpan="4">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin></Slider>
+            <Label fx:id="labelNombreCancion" text="nombreCancion" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin></Label>
+            <Label fx:id="labelTiempoRep" text="time" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <ImageView fx:id="imageViewImagenAlbum" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#mostrarDetallesCancion" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
    </children>

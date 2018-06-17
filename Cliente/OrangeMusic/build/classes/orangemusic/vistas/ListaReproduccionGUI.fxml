@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="680.0" prefWidth="1024.0" style="-fx-background-color: transparent;" styleClass="mainFxmlClass" stylesheets="@../../recursos/codigo/EstiloOrangeMusic.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="orangemusic.controladores.ListaReproduccionGUIController">
+<AnchorPane id="AnchorPane" prefHeight="476.0" prefWidth="1024.0" style="-fx-background-color: transparent;" styleClass="mainFxmlClass" stylesheets="@../../recursos/codigo/EstiloOrangeMusic.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="orangemusic.controladores.ListaReproduccionGUIController">
    <children>
       <GridPane layoutX="14.0" layoutY="105.0" prefHeight="680.0" prefWidth="1024.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -22,39 +22,38 @@
           <RowConstraints vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <JFXButton text="Crear lista" GridPane.halignment="LEFT">
+            <JFXButton fx:id="buttonCrearListaGuardar" onAction="#crearListaReproduccion" text="Crear lista" GridPane.halignment="LEFT">
                <GridPane.margin>
                   <Insets left="30.0" />
                </GridPane.margin>
             </JFXButton>
-            <ListView prefHeight="500.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-            <JFXToggleButton text="Privada" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+            <JFXToggleButton fx:id="toggleButton" disable="true" onAction="#cambiarPrivacidad" text="Privada" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets right="30.0" />
                </GridPane.margin>
             </JFXToggleButton>
-            <JFXButton text="Editar lista" GridPane.halignment="LEFT">
+            <JFXButton fx:id="buttonEditarListaGuardar" onAction="#editarListaReproduccion" text="Editar lista" GridPane.halignment="LEFT">
                <GridPane.margin>
                   <Insets left="135.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXButton text="Eliminar lista">
+            <JFXButton fx:id="buttonEliminarCancion" onAction="#eliminarListaReproduccion" text="Eliminar lista">
                <GridPane.margin>
                   <Insets left="240.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXButton text="Agregar canción" GridPane.columnIndex="1" />
-            <JFXButton text="Descargar" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <JFXButton fx:id="buttonAgregarCancion" onAction="#agregarCancion" text="Agregar canción" GridPane.columnIndex="1" />
+            <JFXButton fx:id="buttonDescargar" onAction="#descargar" text="Descargar" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>
             </JFXButton>
-            <JFXButton text="Eliminar cancion" GridPane.columnIndex="1">
+            <JFXButton fx:id="buttoneliminarCancion" onAction="#eliminarCancion" text="Eliminar cancion" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets left="150.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXTextField fx:id="textFieldNombreLista" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <JFXTextField fx:id="textFieldNombreLista" editable="false" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets bottom="10.0" left="160.0" right="200.0" top="10.0" />
                </GridPane.margin>
@@ -64,6 +63,12 @@
                   <Insets left="30.0" />
                </GridPane.margin>
             </Label>
+            <JFXButton fx:id="buttonCancelar" onAction="#cancelarOperacion" text="Cancelar" visible="false" GridPane.halignment="RIGHT">
+               <GridPane.margin>
+                  <Insets right="110.0" />
+               </GridPane.margin>
+            </JFXButton>
+            <TableView fx:id="tableCanciones" onMouseClicked="#reproducirCancion" prefHeight="350.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="2" />
          </children>
       </GridPane>
    </children>

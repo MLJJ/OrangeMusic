@@ -116,4 +116,20 @@ public class ListareproduccionFacadeREST extends AbstractFacade<Listareproduccio
         return canciones;
     }
     
+    @GET
+    @Path("/buscarPorUsuario/{correo}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Listareproduccion> sacarCancionesLista(@PathParam("correo")String correoUsuario){
+        EntityManager conexion = getEntityManager();
+        List<Listareproduccion> listas = null;
+        try{
+             listas = conexion.createQuery("SELECT l FROM Listareproduccion l WHERE l.correoUsuario.correo = :correoUsuario")
+                     .setParameter("correoUsuario", correoUsuario).getResultList();
+        }catch(Exception e){
+            listas = new ArrayList();
+        }
+        
+        return listas;
+    }
+    
 }

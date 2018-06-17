@@ -6,9 +6,12 @@
 package orangemusic.controladores;
 
 import com.jfoenix.controls.JFXButton;
+import java.io.IOException;
 import java.net.URL;
 import javafx.util.Duration;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -17,6 +20,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
@@ -52,14 +57,17 @@ public class BarraReproductorGUIController implements Initializable {
     private boolean terminado = false;
     private ListaReproduccion listaReproduccion;
     private Cancion cancionInicio;
-    private MenuPrincipalGUIController menuPricipal;
+    private MenuPrincipalGUIController menuPrincipal;
+    @FXML
+    private ImageView imageViewImagenAlbum;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //Solo de prueba
-            /*
+        /*
             listaReproduccion = new ListaReproduccion();
             Cancion cancion1 = new Cancion();
             cancion1.setRutaCancion("C:/Users/Cris_/Music/musik/Dog_Days.mp3");
@@ -72,10 +80,12 @@ public class BarraReproductorGUIController implements Initializable {
             cancionInicio = cancion1;
             listaReproduccion.getCanciones().add(cancion1);
             listaReproduccion.getCanciones().add(cancion2);
-             */
+         */
         // fin datos
 
         if (listaReproduccion != null) {
+            System.getProperties().put("ip", "");
+            System.getProperty("ip");
             String rutaInicio = listaReproduccion.getCanciones().get(listaReproduccion.getCanciones().indexOf(cancionInicio)).getRutaCancion();
             //media = new Media(new File(rutaInicio).toURI().toString()); //provar con rutas de pc
             media = new Media(rutaInicio);
@@ -85,9 +95,18 @@ public class BarraReproductorGUIController implements Initializable {
         }
 
     }
-    public void setControladorMenu(MenuPrincipalGUIController menu){
-        this.menuPricipal = menuPricipal;
-        
+
+    public ListaReproduccion getListaReproduccion() {
+        return listaReproduccion;
+    }
+
+    public void setListaReproduccion(ListaReproduccion listaReproduccion) {
+        this.listaReproduccion = listaReproduccion;
+    }
+
+    public void setControladorMenu(MenuPrincipalGUIController menuPrincipal) {
+        this.menuPrincipal = menuPrincipal;
+
     }
 
     public void enlazarElemetos() {
@@ -250,6 +269,25 @@ public class BarraReproductorGUIController implements Initializable {
                         elapsedSeconds);
             }
         }
+    }
+
+    @FXML
+    private void mostrarDetallesCancion(MouseEvent event) {
+        try {
+            this.menuPrincipal.lanzarMusicaDetalles();
+            this.menuPrincipal.getControladorReproductor().cargarIformacionCancion(this.cancionInicio);
+        } catch (IOException ex) {
+            Logger.getLogger(BarraReproductorGUIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void cambiarCalidadCancion(String calidad) {
+        //la calidad seria el -1 alta, -2 media y -3 baja para automática se calcularia o se dejaría la más alta por defecto
+        String rutaCancion = cancionInicio.getRutaCancion() + cancionInicio.getIdCancion() + calidad + ".mp3";
+        media = new Media(rutaCancion);
+        mediaPlayer = new MediaPlayer(media);
+        enlazarElemetos();
+        mediaPlayer.play();
     }
 
 }

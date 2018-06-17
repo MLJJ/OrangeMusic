@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.media.*?>
 <?import javafx.scene.web.*?>
@@ -20,6 +21,7 @@
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -27,18 +29,19 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <JFXButton fx:id="buttonReproducir" onAction="#reproducir" prefHeight="50.0" prefWidth="50.0" styleClass="botonPlay" text="Rep" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <JFXButton fx:id="buttonAnterior" onAction="#cambiarAnterior" prefHeight="50.0" prefWidth="50.0" styleClass="botonAnterior" text="next" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <JFXButton fx:id="buttonSiguiente" onAction="#cambiarSiguiente" prefHeight="50.0" prefWidth="50.0" styleClass="botonSiguiente" text="ant" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <Slider fx:id="sliderReproducion" prefHeight="18.0" prefWidth="504.0" styleClass="fill" GridPane.columnSpan="4">
+            <JFXButton fx:id="buttonReproducir" onAction="#reproducir" prefHeight="50.0" prefWidth="50.0" styleClass="botonPlay" text="Rep" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <JFXButton fx:id="buttonAnterior" onAction="#cambiarAnterior" prefHeight="50.0" prefWidth="50.0" styleClass="botonAnterior" text="next" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <JFXButton fx:id="buttonSiguiente" onAction="#cambiarSiguiente" prefHeight="50.0" prefWidth="50.0" styleClass="botonSiguiente" text="ant" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Slider fx:id="sliderReproducion" prefHeight="18.0" prefWidth="504.0" styleClass="fill" GridPane.columnIndex="1" GridPane.columnSpan="4">
                <GridPane.margin>
-                  <Insets left="20.0" />
+                  <Insets />
                </GridPane.margin></Slider>
-            <Label fx:id="labelNombreCancion" text="nombreCancion" GridPane.columnSpan="3" GridPane.valignment="TOP">
+            <Label fx:id="labelNombreCancion" text="nombreCancion" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="20.0" />
+                  <Insets />
                </GridPane.margin></Label>
-            <Label fx:id="labelTiempoRep" text="time" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Label fx:id="labelTiempoRep" text="time" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <ImageView fx:id="imageViewImagenAlbum" fitHeight="80.0" fitWidth="80.0" onMouseClicked="#mostrarDetallesCancion" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
    </children>
