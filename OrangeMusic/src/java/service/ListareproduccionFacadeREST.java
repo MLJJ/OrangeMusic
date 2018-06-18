@@ -19,8 +19,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import modelo.Cancion;
-import modelo.ListaReproduccion;
+import modelo.Listareproduccion;
 
 /**
  *
@@ -28,26 +29,26 @@ import modelo.ListaReproduccion;
  */
 @Stateless
 @Path("modelo.listareproduccion")
-public class ListareproduccionFacadeREST extends AbstractFacade<ListaReproduccion> {
+public class ListareproduccionFacadeREST extends AbstractFacade<Listareproduccion> {
 
     @PersistenceContext(unitName = "OrangeMusicPU")
     private EntityManager em;
 
     public ListareproduccionFacadeREST() {
-        super(ListaReproduccion.class);
+        super(Listareproduccion.class);
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
-    public void create(ListaReproduccion entity) {
+    public void create(Listareproduccion entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Integer id, ListaReproduccion entity) {
+    public void edit(@PathParam("id") Integer id, Listareproduccion entity) {
         super.edit(entity);
     }
 
@@ -60,21 +61,21 @@ public class ListareproduccionFacadeREST extends AbstractFacade<ListaReproduccio
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public ListaReproduccion find(@PathParam("id") Integer id) {
+    public Listareproduccion find(@PathParam("id") Integer id) {
         return super.find(id);
     }
 
     @GET
     @Override
     @Produces({MediaType.APPLICATION_JSON})
-    public List<ListaReproduccion> findAll() {
+    public List<Listareproduccion> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_JSON})
-    public List<ListaReproduccion> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<Listareproduccion> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
 
@@ -93,10 +94,10 @@ public class ListareproduccionFacadeREST extends AbstractFacade<ListaReproduccio
     @GET
     @Path("/historial/{correo}")
     @Produces({MediaType.APPLICATION_JSON})
-    public ListaReproduccion find(@PathParam("correo") String correo) {
-        ListaReproduccion lista=null;
+    public Listareproduccion find(@PathParam("correo") String correo) {
+        Listareproduccion lista=null;
         EntityManager conexion = getEntityManager();
-        lista = (ListaReproduccion) conexion.createQuery("Select l FROM ListaReproduccion l WHERE l.nombreLista='historial' AND l.correoUsuario: =email").setParameter("email", correo).getResultList();
+        lista = (Listareproduccion) conexion.createQuery("Select l FROM ListaReproduccion l WHERE l.nombreLista='historial' AND l.correoUsuario: =email").setParameter("email", correo).getResultList();
         return lista;
     }
     
@@ -107,7 +108,7 @@ public class ListareproduccionFacadeREST extends AbstractFacade<ListaReproduccio
         EntityManager conexion = getEntityManager();
         List<Cancion> canciones = null;
         try{
-            ListaReproduccion lista = conexion.find(ListaReproduccion.class, idLista);
+            Listareproduccion lista = conexion.find(Listareproduccion.class, idLista);
             canciones = lista.getCancionList();
         }catch(Exception e){
             canciones = new ArrayList();
@@ -119,9 +120,9 @@ public class ListareproduccionFacadeREST extends AbstractFacade<ListaReproduccio
     @GET
     @Path("/buscarPorUsuario/{correo}")
     @Produces({MediaType.APPLICATION_JSON})
-    public List<ListaReproduccion> sacarCancionesLista(@PathParam("correo")String correoUsuario){
+    public List<Listareproduccion> sacarCancionesLista(@PathParam("correo")String correoUsuario){
         EntityManager conexion = getEntityManager();
-        List<ListaReproduccion> listas = null;
+        List<Listareproduccion> listas = null;
         try{
              listas = conexion.createQuery("SELECT l FROM Listareproduccion l WHERE l.correoUsuario.correo = :correoUsuario")
                      .setParameter("correoUsuario", correoUsuario).getResultList();
@@ -130,6 +131,36 @@ public class ListareproduccionFacadeREST extends AbstractFacade<ListaReproduccio
         }
         
         return listas;
+    }
+    @PUT
+    @Path("/eliminarCancionLista/{idLista}/{idCancion}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response sacarCancionDeLista(@PathParam("idLista")Integer idLista, @PathParam("idCancion")Integer idCancion){
+        EntityManager conexion = getEntityManager();
+        String salida = "";
+        try{
+            conexion.createNativeQuery("Delete from listatienecancion where idListaReproduccion = ?"
+                    + " and idCancion = ?").setParameter(1, idLista).setParameter(2, idCancion).executeUpdate();
+            salida = "{\"respuesta\": \"Se ha eliminado cancion de la lista\"}";
+        }catch(Exception e){
+            salida = "{\"respuesta\": \""+e.getMessage()+"\"}";
+        }
+        return Response.status(200).entity(salida).build();
+    }
+    
+    @POST
+    @Path("/agregarCancionLista/{idLista}/{idCancion}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response agregarCancionDeLista(@PathParam("idLista")Integer idLista, @PathParam("idCancion")Integer idCancion){
+        EntityManager conexion = getEntityManager();
+        String salida = "";
+        try{
+            conexion.createNativeQuery("Insert into listatienecancion values(?, ?)").setParameter(1, idLista).setParameter(2, idCancion).executeUpdate();
+            salida = "{\"respuesta\": \"Se ha agregado cancion a la lista\"}";
+        }catch(Exception e){
+            salida = "{\"respuesta\": \""+e.getMessage()+"\"}";
+        }
+        return Response.status(200).entity(salida).build();
     }
     
 }
