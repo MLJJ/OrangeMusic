@@ -6,8 +6,6 @@
 package orangemusic.modelo;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import orangemusic.utilerias.UtileriaSHA2;
 import org.json.JSONObject;
 import org.junit.After;
@@ -85,7 +83,7 @@ public class UsuarioTest {
         } catch (NoSuchAlgorithmException ex) {
             System.out.println("Error al encriptar");
         }
-        usr.setCorreo("arkadwn@gmail.com");
+        usr.setCorreo("cris@hotmail.com");
         usr.setNombre("Adrián Bustamante");
         boolean expResult = false;
         
@@ -103,7 +101,7 @@ public class UsuarioTest {
     public void testAutenticar() {
         System.out.println("autenticar");
         Usuario usr = new Usuario();
-        usr.setCorreo("arkadwn@gmail.com");
+        usr.setCorreo("cris@hotmail.com");
         try {
             usr.setContraseña(UtileriaSHA2.encriptarContrasena("1234"));
         } catch (NoSuchAlgorithmException ex) {
