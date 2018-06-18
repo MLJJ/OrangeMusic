@@ -6,8 +6,10 @@
 package orangemusic.controladores;
 
 import com.jfoenix.controls.JFXButton;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -20,14 +22,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import orangemusic.OrangeMusic;
+import orangemusic.modelo.Album;
+import orangemusic.modelo.Artista;
+import orangemusic.modelo.Cancion;
+import orangemusic.modelo.Genero;
 import orangemusic.modelo.ListaReproduccion;
 import orangemusic.modelo.Usuario;
+import static orangemusic.utilerias.Constante.RUTADESCARGA;
 
 /**
  * FXML Controller class
@@ -52,6 +60,8 @@ public class MenuPrincipalGUIController implements Initializable {
     @FXML
     private TitledPane titledPanePlayList;
     private List<ListaReproduccion> misPlayList;
+    @FXML
+    private JFXButton btnCerrarSesion;
 
     /**
      * Initializes the controller class.
@@ -76,7 +86,7 @@ public class MenuPrincipalGUIController implements Initializable {
     public void setMisPlayList(List<ListaReproduccion> misPlayList) {
         this.misPlayList = misPlayList;
     }
-    
+
     public ListaReproduccionGUIController getControladorListas() {
         return controladorListas;
     }
@@ -142,11 +152,80 @@ public class MenuPrincipalGUIController implements Initializable {
 
     @FXML
     private void lanzarAdministrarListas(MouseEvent event) {
+        System.out.println("error");
         if (this.misPlayList == null) {
             misPlayList = new ListaReproduccion().obtenerMisListas(usr);
             VBox contenedorListas = new VBox();
+            //lista de descargas
+            ListaReproduccion descargas = new ListaReproduccion();
+            descargas.setNombreLista("Descargadas");
+            descargas.setVisibilidad("Privada");
+            File dir = new File(RUTADESCARGA);
+
+            String[] ficheros = dir.list();
+
+            if (ficheros == null) {
+                System.out.println("No hay ficheros en el directorio especificado");
+            } else {
+                for (int x = 0; x < ficheros.length; x++) {
+                    Cancion cancion = new Cancion();
+                    cancion.setNombreCancion(ficheros[x]);
+                    cancion.setNombreArtista("Descarga");
+                    Artista artista = new Artista();
+                    artista.setNombreArtista("Descarga");
+                    Genero genero = new Genero();
+                    genero.setNombreGenero("Descarga");
+                    Album album = new Album();
+                    album.setArtista(artista);
+                    album.setGenero(genero);
+                    cancion.setAlbum(album);
+                    cancion.setRutaCancion("Descarga");
+                    descargas.getCanciones().add(cancion);
+                }
+            }
+            JFXButton buttonDescargas = new JFXButton(descargas.getNombreLista());
+            buttonDescargas.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    try {
+                        lanzarListasReproduccion();
+                        controladorListas.setMenuPrincipal(MenuPrincipalGUIController.this);
+
+                        controladorListas.setListaReproduccion(descargas);
+                        controladorListas.cargarLista();
+                    } catch (IOException ex) {
+                        Logger.getLogger(MenuPrincipalGUIController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            });
+            //obtener las canciones que sube el usuario
+            ListaReproduccion subidas = new ListaReproduccion();
+            subidas.setNombreLista("Subidas");
+            subidas.setVisibilidad("Privada");
+            List<Cancion> cancionesSubidas = new ListaReproduccion().obtenerSubidas(usr);
+            subidas.setCanciones(cancionesSubidas);
+            JFXButton buttonSubidas = new JFXButton(subidas.getNombreLista());
+            buttonSubidas.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    try {
+                        lanzarListasReproduccion();
+                        controladorListas.setMenuPrincipal(MenuPrincipalGUIController.this);
+
+                        controladorListas.setListaReproduccion(subidas);
+                        controladorListas.cargarLista();
+                    } catch (IOException ex) {
+                        Logger.getLogger(MenuPrincipalGUIController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            });
+            
+            //obteniendo las del servidor
+            if(misPlayList == null){
+                misPlayList = new ArrayList<>();
+            }
             for (int i = 0; i < misPlayList.size(); i++) {
-                
+
                 JFXButton buttonLista = new JFXButton(misPlayList.get(i).getNombreLista());
                 buttonLista.setId(misPlayList.get(i).getIdListaReproduccion().toString());
                 buttonLista.setOnAction(new EventHandler<ActionEvent>() {
@@ -157,13 +236,13 @@ public class MenuPrincipalGUIController implements Initializable {
                             controladorListas.setMenuPrincipal(MenuPrincipalGUIController.this);
                             int posLista = 0;
                             for (int i = 0; i < misPlayList.size(); i++) {
-                                if(Objects.equals(misPlayList.get(i).getIdListaReproduccion(), Integer.valueOf(buttonLista.getId()))){
+                                if (Objects.equals(misPlayList.get(i).getIdListaReproduccion(), Integer.valueOf(buttonLista.getId()))) {
                                     posLista = i;
                                 }
                             }
                             controladorListas.setListaReproduccion(misPlayList.get(posLista));
                             controladorListas.cargarLista();
-                        }catch (IOException ex) {
+                        } catch (IOException ex) {
                             Logger.getLogger(MenuPrincipalGUIController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
@@ -171,7 +250,15 @@ public class MenuPrincipalGUIController implements Initializable {
                 contenedorListas.getChildren().add(buttonLista);
             }
             contenedorListas.getChildren().add(0, btnBuscar);
-            titledPanePlayList.setContent(contenedorListas);
+            contenedorListas.getChildren().add(1, buttonDescargas);
+            contenedorListas.getChildren().add(2, buttonSubidas);
+            ScrollPane scroll = new ScrollPane(contenedorListas);
+
+            titledPanePlayList.setContent(scroll);
         }
+    }
+
+    @FXML
+    private void cerrarSesion(ActionEvent event) {
     }
 }

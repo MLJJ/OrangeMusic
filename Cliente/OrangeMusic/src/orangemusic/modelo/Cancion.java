@@ -198,5 +198,10 @@ public class Cancion extends RecursiveTreeObject<Cancion> {
     public void setNombreArtista(String nombreArtista) {
         this.nombreArtista = nombreArtista;
     }
+
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
+    
     
 }

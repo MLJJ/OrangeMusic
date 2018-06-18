@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import orangemusic.controladores.VisualizarHistorialGUIController;
+import static orangemusic.utilerias.Constante.URLSERVICIOS;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -218,7 +219,7 @@ public class ListaReproduccion {
     public List<ListaReproduccion> obtenerMisListas(Usuario usr) {
         List<ListaReproduccion> misListas = null;
         try {
-            URL url = new URL("http://localhost:8080/OrangeMusic/webresources/modelo.listareproduccion/buscarPorUsuario/" + usr.getCorreo());
+            URL url = new URL(URLSERVICIOS + "modelo.listareproduccion/buscarPorUsuario/" + usr.getCorreo());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");
@@ -260,7 +261,7 @@ public class ListaReproduccion {
         URL url = null;
         try {
             //cambiar url
-            url = new URL("http://localhost:8080/OrangeMusic/webresources/modelo.listareproduccion");
+            url = new URL(URLSERVICIOS + "modelo.listareproduccion");
             HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
             conexion.setRequestProperty("Content-Type", "application/json");
             conexion.setRequestProperty("Accept", "application/json");
@@ -304,14 +305,14 @@ public class ListaReproduccion {
         }
         return confirmacion;
     }
-    
-     public boolean editarListaReproduccion(String correo) {
+
+    public boolean editarListaReproduccion(String correo) {
         System.out.println("editando lista reproducción");
         boolean confirmacion = false;
         URL url = null;
         try {
             //cambiar url
-            url = new URL("http://localhost:8080/OrangeMusic/webresources/modelo.listareproduccion/" + this.idListaReproduccion);
+            url = new URL(URLSERVICIOS + "modelo.listareproduccion/" + this.idListaReproduccion);
             HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
             conexion.setRequestProperty("Content-Type", "application/json");
             conexion.setRequestProperty("Accept", "application/json");
@@ -356,4 +357,117 @@ public class ListaReproduccion {
         }
         return confirmacion;
     }
+
+    public boolean eliminarCancionLista(Integer idListaReproduccion, int idCancion) {
+        boolean confirmacion = false;
+        URL url = null;
+        try {
+            //cambiar url
+            url = new URL(URLSERVICIOS + "modelo.listareproduccion/eliminarCancionLista/"
+                    + idListaReproduccion + "/" + idCancion);
+            HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+            conexion.setRequestProperty("Content-Type", "application/json");
+            conexion.setRequestProperty("Accept", "application/json");
+            conexion.setRequestMethod("PUT");
+            conexion.setDoInput(true);
+            conexion.setDoOutput(true);
+            conexion.connect();
+
+            InputStream input;
+            if (conexion.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                input = conexion.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+                String cad = bufferedReader.readLine();
+                confirmacion = true;
+            } else {
+                input = conexion.getErrorStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+                String cad = bufferedReader.readLine();
+                confirmacion = false;
+            }
+
+            conexion.disconnect();
+
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(VisualizarHistorialGUIController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(VisualizarHistorialGUIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return confirmacion;
+    }
+
+    public boolean agregarCancionLista(Integer idListaReproduccion, int idCancion) {
+        boolean confirmacion = false;
+        URL url = null;
+        try {
+            //cambiar url
+            url = new URL(URLSERVICIOS + "modelo.listareproduccion/eliminarCancionLista/"
+                    + idListaReproduccion + "/" + idCancion);
+            HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+            conexion.setRequestProperty("Content-Type", "application/json");
+            conexion.setRequestProperty("Accept", "application/json");
+            conexion.setRequestMethod("POST");
+            conexion.setDoInput(true);
+            conexion.setDoOutput(true);
+            conexion.connect();
+
+            InputStream input;
+            if (conexion.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                input = conexion.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+                String cad = bufferedReader.readLine();
+                confirmacion = true;
+            } else {
+                input = conexion.getErrorStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+                String cad = bufferedReader.readLine();
+                confirmacion = false;
+            }
+
+            conexion.disconnect();
+
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(VisualizarHistorialGUIController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(VisualizarHistorialGUIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return confirmacion;
+    }
+
+    public List<Cancion> obtenerSubidas(Usuario usr) {
+        List<Cancion> subidas = null;
+        try {
+            URL url = new URL(URLSERVICIOS + "modelo.sube/cancionesSubidas/" + usr.getCorreo());
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.connect();
+
+            InputStream input;
+            if (conn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                input = conn.getInputStream();
+            } else {
+                input = conn.getErrorStream();
+            }
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+            String cad = bufferedReader.readLine();
+            JSONArray jsonArr = new JSONArray(cad);
+            subidas = new ArrayList<>();
+            for (int i = 0; i < jsonArr.length(); i++) {
+                Cancion cancion = new Cancion(jsonArr.getJSONObject(i));
+                subidas.add(cancion);
+            }
+
+        } catch (MalformedURLException ex) {
+            System.out.println("Error en URL");
+        } catch (ProtocolException ex) {
+            System.out.println("Error en RequesMethod: GET");
+        } catch (IOException ex) {
+            System.out.println("Error en HttpUrlConnection");
+        } catch (Exception ex) {
+            System.out.println("Error al crear el JSON");
+        }
+        return subidas;
+    }
+
 }
