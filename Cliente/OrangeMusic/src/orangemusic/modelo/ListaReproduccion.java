@@ -393,7 +393,7 @@ public class ListaReproduccion {
         URL url = null;
         try {
             //cambiar url
-            url = new URL(URLSERVICIOS + "modelo.listareproduccion/eliminarCancionLista/"
+            url = new URL(URLSERVICIOS + "modelo.listareproduccion/agregarCancionLista/"
                     + idListaReproduccion + "/" + idCancion);
             HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
             conexion.setRequestProperty("Content-Type", "application/json");

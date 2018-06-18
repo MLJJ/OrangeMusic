@@ -204,7 +204,7 @@ public class Album {
     public List<Album> buscarAlbum(String nombreAlbum) {
         List<Album> albums = null;
         try {
-            URL url = new URL(System.getProperty("servicio") + "webresources/modelo.album/buscarPorNombre/" + nombreAlbum);
+            URL url = new URL(Constante.URLSERVICIOS + "modelo.album/buscarPorNombre/" + nombreAlbum);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");

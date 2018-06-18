@@ -176,6 +176,8 @@ public class ListaReproduccionGUIController implements Initializable {
                 Parent fxml = (Parent) loader.load();
                 Scene scene = new Scene(fxml);
                 BuscarGUIController controlador = loader.getController();
+                controlador.setListaReproduccion(this.listaReproduccion);
+                controlador.setMain(this.menuPrincipal);
                 //Enviarle la lista y configurar para que busque solo canciones y un boton para agregar
                 stage.setScene(scene);
                 stage.setTitle("Agregar Cancion a lista");

@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -25,6 +26,7 @@ import orangemusic.modelo.Album;
 import orangemusic.modelo.Artista;
 import orangemusic.modelo.Cancion;
 import orangemusic.modelo.Genero;
+import orangemusic.modelo.ListaReproduccion;
 
 /**
  * FXML Controller class
@@ -85,11 +87,19 @@ public class BuscarGUIController implements Initializable {
     @FXML
     private JFXButton btnDescargar;
 
+    private ListaReproduccion lista;
+    private MenuPrincipalGUIController menuPrincipal;
+    @FXML
+    private ScrollPane panelScroll;
+    @FXML
+    private JFXButton buttonAgregarLista;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        buttonAgregarLista.setVisible(false);
     }
 
     @FXML
@@ -230,7 +240,7 @@ public class BuscarGUIController implements Initializable {
     @FXML
     private void seleccionoAlbum(MouseEvent event) {
         Album album = listAlbum.getSelectionModel().getSelectedItem();
-        if(album != null){
+        if (album != null) {
             //Poner imagen
             lbNombre.setText(album.getNombreAlbum());
             lbInformacion.setText("Lanzado por: " + album.getArtista().toString());
@@ -245,7 +255,7 @@ public class BuscarGUIController implements Initializable {
     @FXML
     private void seleccionoArtista(MouseEvent event) {
         Artista artista = listArtista.getSelectionModel().getSelectedItem();
-        if(artista != null){
+        if (artista != null) {
             lbNombre.setText(artista.toString());
             lbInformacion.setText("No hay más información que mostrar");
             lbExtras.setText("");
@@ -256,7 +266,7 @@ public class BuscarGUIController implements Initializable {
     @FXML
     private void seleccionoGenero(MouseEvent event) {
         Genero gnro = listGenero.getSelectionModel().getSelectedItem();
-        if(gnro != null){
+        if (gnro != null) {
             lbNombre.setText(gnro.toString());
             lbInformacion.setText("No hay más información que mostrar");
             lbExtras.setText("");
@@ -266,11 +276,38 @@ public class BuscarGUIController implements Initializable {
 
     @FXML
     private void irReproducir(ActionEvent event) {
-        
+
     }
 
     @FXML
     private void descargarMusica(ActionEvent event) {
     }
-    
+
+    void setListaReproduccion(ListaReproduccion listaReproduccion) {
+        this.lista = listaReproduccion;
+        buttonAgregarLista.setVisible(true);
+    }
+
+    void setMain(MenuPrincipalGUIController menuPrincipal) {
+        this.menuPrincipal = menuPrincipal;
+    }
+
+    @FXML
+    private void agregarCancionALista(ActionEvent event) {
+        Cancion cancionSeleccionada = listCancion.getSelectionModel().getSelectedItem();
+        if (cancionSeleccionada != null) {
+
+            if (lista.agregarCancionLista(lista.getIdListaReproduccion(), cancionSeleccionada.getIdCancion())) {
+                MensajeController.mensajeInformacion("La cancioón ha sidoagregada");
+                this.menuPrincipal.setMisPlayList(null);
+            }else{
+                MensajeController.mensajeAdvertencia("No se pudó realizar la operacion compruebe que tenga conexion con el servidor"
+                        + "o que no ya esté en la lista");
+            }
+
+        } else {
+            MensajeController.mensajeAdvertencia("Seleccione una \"Cancion\" primero");
+        }
+    }
+
 }

@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import javafx.geometry.Insets?>
@@ -13,7 +20,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="1024.0" stylesheets="@../../recursos/codigo/EstiloOrangeMusic.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="orangemusic.controladores.BuscarGUIController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="1024.0" stylesheets="@../../recursos/codigo/EstiloOrangeMusic.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="orangemusic.controladores.BuscarGUIController">
     <children>
         <GridPane layoutX="68.0" layoutY="192.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <columnConstraints>
@@ -78,77 +85,78 @@
                 </JFXButton>
                 <ScrollPane fx:id="panelScroll" hbarPolicy="NEVER" style="-fx-background-color: transparent;" stylesheets="@../../recursos/codigo/EstiloOrangeMusic.css" GridPane.rowIndex="1">
                     <content>
-                        <AnchorPane prefHeight="410.0" prefWidth="632.0" style="-fx-background-color: transparent;" styleClass="anchor-pane">
-                            <children>
-                                <GridPane layoutX="27.0" layoutY="30.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints fx:id="row0" maxHeight="33.0" minHeight="33.0" prefHeight="33.0" vgrow="SOMETIMES" />
-                                        <RowConstraints fx:id="row1" maxHeight="377.0" minHeight="377.0" prefHeight="377.0" vgrow="SOMETIMES" />
-                                        <RowConstraints fx:id="row2" maxHeight="33.0" minHeight="33.0" prefHeight="33.0" vgrow="SOMETIMES" />
-                                        <RowConstraints fx:id="row3" maxHeight="377.0" minHeight="377.0" prefHeight="377.0" vgrow="SOMETIMES" />
-                                        <RowConstraints fx:id="row4" maxHeight="33.0" minHeight="33.0" prefHeight="33.0" vgrow="SOMETIMES" />
-                                        <RowConstraints fx:id="row5" maxHeight="377.0" minHeight="377.0" prefHeight="377.0" vgrow="SOMETIMES" />
-                                        <RowConstraints fx:id="row6" maxHeight="33.0" minHeight="33.0" prefHeight="33.0" vgrow="SOMETIMES" />
-                                        <RowConstraints fx:id="row7" maxHeight="377.0" minHeight="377.0" prefHeight="377.0" vgrow="SOMETIMES" />
-                                    </rowConstraints>
-                                    <children>
-                                        <Label fx:id="lbCancion">
-                                            <GridPane.margin>
-                                                <Insets left="15.0" />
-                                            </GridPane.margin>
-                                        </Label>
-                                        <JFXListView fx:id="listCancion" onMouseClicked="#seleccionoCancion" GridPane.rowIndex="1">
-                                            <GridPane.margin>
-                                                <Insets bottom="15.0" left="15.0" right="15.0" />
-                                            </GridPane.margin>
-                                        </JFXListView>
-                                        <Label fx:id="lbAlbum" GridPane.rowIndex="2">
-                                            <GridPane.margin>
-                                                <Insets left="15.0" />
-                                            </GridPane.margin>
-                                        </Label>
-                                        <JFXListView fx:id="listAlbum" onMouseClicked="#seleccionoAlbum" GridPane.rowIndex="3">
-                                            <GridPane.margin>
-                                                <Insets bottom="15.0" left="15.0" right="15.0" />
-                                            </GridPane.margin>
-                                        </JFXListView>
-                                        <Label fx:id="lbArtista" GridPane.rowIndex="4">
-                                            <GridPane.margin>
-                                                <Insets left="15.0" />
-                                            </GridPane.margin>
-                                        </Label>
-                                        <JFXListView fx:id="listArtista" onMouseClicked="#seleccionoArtista" GridPane.rowIndex="5">
-                                            <GridPane.margin>
-                                                <Insets bottom="15.0" left="15.0" right="15.0" />
-                                            </GridPane.margin>
-                                        </JFXListView>
-                                        <Label fx:id="lbGenero" GridPane.rowIndex="6">
-                                            <GridPane.margin>
-                                                <Insets left="15.0" />
-                                            </GridPane.margin>
-                                        </Label>
-                                        <JFXListView fx:id="listGenero" onMouseClicked="#seleccionoGenero" GridPane.rowIndex="7">
-                                            <GridPane.margin>
-                                                <Insets bottom="15.0" left="15.0" right="15.0" />
-                                            </GridPane.margin>
-                                        </JFXListView>
-                              <Label fx:id="lbNoCoincidencias" text="Sin coincidencias :c" visible="false">
-                                 <GridPane.margin>
-                                    <Insets left="15.0" />
-                                 </GridPane.margin>
-                              </Label>
-                                    </children>
-                                </GridPane>
-                            </children>
-                        </AnchorPane>
+                          <GridPane layoutX="27.0" layoutY="30.0" prefHeight="1640.0" prefWidth="632.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              </columnConstraints>
+                              <rowConstraints>
+                                  <RowConstraints fx:id="row0" maxHeight="33.0" minHeight="33.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                                  <RowConstraints fx:id="row1" maxHeight="377.0" minHeight="377.0" prefHeight="377.0" vgrow="SOMETIMES" />
+                                  <RowConstraints fx:id="row2" maxHeight="33.0" minHeight="33.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                                  <RowConstraints fx:id="row3" maxHeight="377.0" minHeight="377.0" prefHeight="377.0" vgrow="SOMETIMES" />
+                                  <RowConstraints fx:id="row4" maxHeight="33.0" minHeight="33.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                                  <RowConstraints fx:id="row5" maxHeight="377.0" minHeight="377.0" prefHeight="377.0" vgrow="SOMETIMES" />
+                                  <RowConstraints fx:id="row6" maxHeight="33.0" minHeight="33.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                                  <RowConstraints fx:id="row7" maxHeight="377.0" minHeight="377.0" prefHeight="377.0" vgrow="SOMETIMES" />
+                              </rowConstraints>
+                              <children>
+                                  <Label fx:id="lbCancion">
+                                      <GridPane.margin>
+                                          <Insets left="15.0" />
+                                      </GridPane.margin>
+                                  </Label>
+                                  <JFXListView fx:id="listCancion" onMouseClicked="#seleccionoCancion" GridPane.rowIndex="1">
+                                      <GridPane.margin>
+                                          <Insets bottom="15.0" left="15.0" right="15.0" />
+                                      </GridPane.margin>
+                                  </JFXListView>
+                                  <Label fx:id="lbAlbum" GridPane.rowIndex="2">
+                                      <GridPane.margin>
+                                          <Insets left="15.0" />
+                                      </GridPane.margin>
+                                  </Label>
+                                  <JFXListView fx:id="listAlbum" onMouseClicked="#seleccionoAlbum" GridPane.rowIndex="3">
+                                      <GridPane.margin>
+                                          <Insets bottom="15.0" left="15.0" right="15.0" />
+                                      </GridPane.margin>
+                                  </JFXListView>
+                                  <Label fx:id="lbArtista" GridPane.rowIndex="4">
+                                      <GridPane.margin>
+                                          <Insets left="15.0" />
+                                      </GridPane.margin>
+                                  </Label>
+                                  <JFXListView fx:id="listArtista" onMouseClicked="#seleccionoArtista" GridPane.rowIndex="5">
+                                      <GridPane.margin>
+                                          <Insets bottom="15.0" left="15.0" right="15.0" />
+                                      </GridPane.margin>
+                                  </JFXListView>
+                                  <Label fx:id="lbGenero" GridPane.rowIndex="6">
+                                      <GridPane.margin>
+                                          <Insets left="15.0" />
+                                      </GridPane.margin>
+                                  </Label>
+                                  <JFXListView fx:id="listGenero" onMouseClicked="#seleccionoGenero" GridPane.rowIndex="7">
+                                      <GridPane.margin>
+                                          <Insets bottom="15.0" left="15.0" right="15.0" />
+                                      </GridPane.margin>
+                                  </JFXListView>
+                        <Label fx:id="lbNoCoincidencias" text="Sin coincidencias :c" visible="false">
+                           <GridPane.margin>
+                              <Insets left="15.0" />
+                           </GridPane.margin>
+                        </Label>
+                              </children>
+                          </GridPane>
                     </content>
                 </ScrollPane>
             <JFXButton fx:id="btnDescargar" onAction="#descargarMusica" text="Descargar" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <GridPane.margin>
                   <Insets bottom="15.0" left="100.0" />
+               </GridPane.margin>
+            </JFXButton>
+            <JFXButton fx:id="buttonAgregarLista" onAction="#agregarCancionALista" text="Agregar a lista" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+               <GridPane.margin>
+                  <Insets right="20.0" />
                </GridPane.margin>
             </JFXButton>
             </children>

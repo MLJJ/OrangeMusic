@@ -137,7 +137,7 @@ public class Cancion extends RecursiveTreeObject<Cancion> {
     public List<Cancion> buscarCancion(String nombreCancion) {
         List<Cancion> canciones = null;
         try {
-            URL url = new URL(Constante.URLSERVICIOS+ "webresources/modelo.cancion/buscarPorNombre/" + nombreCancion);
+            URL url = new URL(Constante.URLSERVICIOS+ "modelo.cancion/buscarPorNombre/" + nombreCancion);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");
