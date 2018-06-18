@@ -84,7 +84,7 @@ public class InicioSesionGUIController implements Initializable {
             this.configurarIP();
         }
     }
-
+    
     public void setMain(OrangeMusic main) {
         this.main = main;
     }

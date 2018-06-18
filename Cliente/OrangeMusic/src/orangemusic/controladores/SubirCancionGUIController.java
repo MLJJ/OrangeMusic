@@ -107,11 +107,11 @@ public class SubirCancionGUIController implements Initializable {
             album.setNombreAlbum(tfNombreAlbum.getText());
             album.setArtista(cbArtista.getValue());
             album.setGenero(cbGenero.getValue());
-            String resultado = album.subirAlbum(album, true, zipCanciones, imagen);
+            String resultado = album.subirAlbum(album, chDisponibilidad.isSelected(), zipCanciones, imagen);
             try{
                 JSONArray lista = new JSONArray(resultado);
             }catch(JSONException e){
-                MensajeController.mensajeAdvertencia("No se podido guardar el album");
+                MensajeController.mensajeAdvertencia("No se podido guardar el album, porfavor cheque los nombre de las caniones se menor a 50 caracteres");
                 return;
             }
             ClienteUpload upload = new ClienteUpload(zipCanciones, resultado);

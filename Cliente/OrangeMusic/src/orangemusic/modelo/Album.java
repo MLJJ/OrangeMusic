@@ -196,7 +196,7 @@ public class Album {
         } catch (Exception e) {
 
         }
-        
+
         return cancionesRegistradas;
 
     }
@@ -355,46 +355,51 @@ public class Album {
     }
 
     public boolean subirImagenAlbum(int album, File imagen) {
-        boolean validacion = true;
-        HttpURLConnection conexion = null;
-        String base64 = this.convertirImagen64(imagen);
-        try {
-            URL url = new URL(System.getProperty("servicio") + "webresources/modelo.album/imagenesalbum");
-            conexion = (HttpURLConnection) url.openConnection();
-            conexion.setRequestProperty("Content-Type", "application/json");
-            conexion.setRequestProperty("Accept", "application/json");
-            conexion.setDoInput(true);
-            conexion.setDoOutput(true);
-            conexion.setRequestMethod("POST");
-            conexion.connect();
 
-            String albumJSON = "\"idAlbum\":\"" + album + "\",";
-            albumJSON += "\"nombreImagen\":\"" + base64 + "\"";
-            albumJSON += "}";
+        boolean validacion = false;
+        if (imagen != null) {
+            validacion = true;
+            HttpURLConnection conexion = null;
+            String base64 = this.convertirImagen64(imagen);
+            try {
+                URL url = new URL(System.getProperty("servicio") + "webresources/modelo.album/imagenesalbum");
+                conexion = (HttpURLConnection) url.openConnection();
+                conexion.setRequestProperty("Content-Type", "application/json");
+                conexion.setRequestProperty("Accept", "application/json");
+                conexion.setDoInput(true);
+                conexion.setDoOutput(true);
+                conexion.setRequestMethod("POST");
+                conexion.connect();
 
-            OutputStream outputStream = conexion.getOutputStream();
-            BufferedWriter escritor = new BufferedWriter(new OutputStreamWriter(outputStream));
-            escritor.write(String.valueOf(albumJSON));
-            escritor.flush();
+                String albumJSON = "{";
+                albumJSON += "\"idAlbum\":\"" + album + "\",";
+                albumJSON += "\"nombreImagen\":\"" + base64 + "\"";
+                albumJSON += "}";
 
-            InputStream input;
-            if (conexion.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
-                input = conexion.getInputStream();
-            } else {
-                input = conexion.getErrorStream();
-            }
+                OutputStream outputStream = conexion.getOutputStream();
+                BufferedWriter escritor = new BufferedWriter(new OutputStreamWriter(outputStream));
+                escritor.write(String.valueOf(albumJSON));
+                escritor.flush();
 
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
-            String resultado = bufferedReader.readLine();
-        } catch (MalformedURLException e) {
-            validacion = false;
-        } catch (IOException e) {
-            validacion = false;
-        } catch (JSONException e) {
-            validacion = false;
-        } finally {
-            if (conexion != null) {
-                conexion.disconnect();
+                InputStream input;
+                if (conexion.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                    input = conexion.getInputStream();
+                } else {
+                    input = conexion.getErrorStream();
+                }
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+                String resultado = bufferedReader.readLine();
+            } catch (MalformedURLException e) {
+                validacion = false;
+            } catch (IOException e) {
+                validacion = false;
+            } catch (JSONException e) {
+                validacion = false;
+            } finally {
+                if (conexion != null) {
+                    conexion.disconnect();
+                }
             }
         }
         return validacion;

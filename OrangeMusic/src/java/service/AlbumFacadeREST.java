@@ -124,7 +124,7 @@ public class AlbumFacadeREST extends AbstractFacade<Album> {
         try {
             byte arr[] = Base64.getDecoder().decode(album.getNombreImagen());
             int tamaño = arr.length;
-            FileOutputStream arch = new FileOutputStream("C:\\Users\\Leonardo\\Documents\\GitHub\\OrangeMusic\\OrangeMusic\\web\\imagenesAlbum\\" + album.getIdAlbum());
+            FileOutputStream arch = new FileOutputStream("C:\\Users\\Leonardo\\Documents\\GitHub\\OrangeMusic\\OrangeMusic\\web\\imagenesAlbum\\" + album.getIdAlbum()+".jpg");
             arch.write(arr, 0, tamaño);
             arch.close();
             salida = "{\"respuesta\": \"OK\"}";
