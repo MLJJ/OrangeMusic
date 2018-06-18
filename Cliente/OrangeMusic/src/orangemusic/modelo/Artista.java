@@ -163,7 +163,7 @@ public class Artista {
         public List<Artista> buscarArtista(String nombreArtista) {
         List<Artista> artistas = null;
         try {
-            URL url = new URL("http://localhost:8080/OrangeMusic/webresources/modelo.artista/buscarPorNombre/" + nombreArtista);
+            URL url = new URL(Constante.URLSERVICIOS + "modelo.artista/buscarPorNombre/" + nombreArtista);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");

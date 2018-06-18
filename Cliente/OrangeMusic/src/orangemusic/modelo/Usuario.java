@@ -16,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import orangemusic.utilerias.Constante;
 import org.json.JSONObject;
 
 /**
@@ -64,7 +65,7 @@ public class Usuario {
     public boolean registrarUsuario(Usuario usr) {
         boolean validacion = false;
         try {
-            URL url = new URL("http://localhost:8080/OrangeMusic/webresources/modelo.usuario/");
+            URL url = new URL(Constante.URLSERVICIOS + "modelo.usuario/");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");
@@ -107,7 +108,7 @@ public class Usuario {
 
     public Usuario autenticar(Usuario usr) {
         try {
-            URL url = new URL("http://localhost:8080/OrangeMusic/webresources/modelo.usuario/" + usr.getCorreo());
+            URL url = new URL(Constante.URLSERVICIOS + "modelo.usuario/" + usr.getCorreo());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");

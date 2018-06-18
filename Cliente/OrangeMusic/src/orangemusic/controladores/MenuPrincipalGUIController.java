@@ -62,6 +62,8 @@ public class MenuPrincipalGUIController implements Initializable {
     private List<ListaReproduccion> misPlayList;
     @FXML
     private JFXButton btnCerrarSesion;
+    @FXML
+    private JFXButton btnDesplegarSubirMusica;
 
     /**
      * Initializes the controller class.
@@ -152,7 +154,6 @@ public class MenuPrincipalGUIController implements Initializable {
 
     @FXML
     private void lanzarAdministrarListas(MouseEvent event) {
-        System.out.println("error");
         if (this.misPlayList == null) {
             misPlayList = new ListaReproduccion().obtenerMisListas(usr);
             VBox contenedorListas = new VBox();
@@ -249,9 +250,8 @@ public class MenuPrincipalGUIController implements Initializable {
                 });
                 contenedorListas.getChildren().add(buttonLista);
             }
-            contenedorListas.getChildren().add(0, btnBuscar);
-            contenedorListas.getChildren().add(1, buttonDescargas);
-            contenedorListas.getChildren().add(2, buttonSubidas);
+            contenedorListas.getChildren().add(0, buttonDescargas);
+            contenedorListas.getChildren().add(1, buttonSubidas);
             ScrollPane scroll = new ScrollPane(contenedorListas);
 
             titledPanePlayList.setContent(scroll);
@@ -260,5 +260,9 @@ public class MenuPrincipalGUIController implements Initializable {
 
     @FXML
     private void cerrarSesion(ActionEvent event) {
+    }
+
+    @FXML
+    private void desplegarSubirMusica(ActionEvent event) {
     }
 }

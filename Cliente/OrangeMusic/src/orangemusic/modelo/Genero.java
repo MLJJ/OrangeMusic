@@ -98,7 +98,7 @@ public class Genero {
     public List<Genero> buscarGenero(String nombreGenero) {
         List<Genero> gnros = null;
         try {
-            URL url = new URL("http://localhost:8080/OrangeMusic/webresources/modelo.genero/buscarPorNombre/" + nombreGenero);
+            URL url = new URL(Constante.URLSERVICIOS + "modelo.genero/buscarPorNombre/" + nombreGenero);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");
