@@ -32,11 +32,6 @@
                   <Insets left="135.0" />
                </GridPane.margin>
             </JFXButton>
-            <JFXButton fx:id="buttonEliminarLista" onAction="#eliminarListaReproduccion" text="Eliminar lista">
-               <GridPane.margin>
-                  <Insets left="240.0" />
-               </GridPane.margin>
-            </JFXButton>
             <JFXButton fx:id="buttonAgregarCancion" onAction="#agregarCancion" text="Agregar canción" GridPane.columnIndex="1" />
             <JFXButton fx:id="buttonDescargar" onAction="#descargar" text="Descargar" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <GridPane.margin>

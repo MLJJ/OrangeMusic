@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
@@ -11,7 +16,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" stylesheets="@../../recursos/codigo/EstiloOrangeMusic.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="orangemusic.controladores.InicioSesionGUIController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" stylesheets="@../../recursos/codigo/EstiloOrangeMusic.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="orangemusic.controladores.InicioSesionGUIController">
    <children>
       <GridPane styleClass="fondo" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -41,7 +46,7 @@
                   <Insets left="150.0" right="150.0" top="375.0" />
                </GridPane.margin>
             </JFXPasswordField>
-            <JFXButton fx:id="btnIniciarSesion" focusTraversable="false" onAction="#iniciarSesion" text="Iniciar sesión" GridPane.columnIndex="1">
+            <JFXButton fx:id="btnIniciarSesion" defaultButton="true" focusTraversable="false" onAction="#iniciarSesion" text="Iniciar sesión" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets left="150.0" top="525.0" />
                </GridPane.margin>
