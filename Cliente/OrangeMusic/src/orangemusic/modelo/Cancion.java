@@ -93,7 +93,7 @@ public class Cancion extends RecursiveTreeObject<Cancion> {
     }
 
     public void buscarImagenCancion() {
-        String ruta = System.getProperty("servicio")+"imagenesCanciones/" + this.idCancion+".jpg";
+        String ruta = System.getProperty("servicio")+"imagenesAlbum/" + this.getAlbum().getIdAlbum()+".jpg";
         Image image = new Image(ruta, 50, 50, true, true);
         imagen = new ImageView(image);
     }

@@ -220,6 +220,9 @@ public class BarraReproductorGUIController implements Initializable {
             mediaPlayer = new MediaPlayer(media);
             enlazarElemetos();
             mediaPlayer.play();
+            ListaReproduccion historial = new ListaReproduccion();
+            historial = historial.buscarHistorial(System.getProperty("correo"));
+            historial.ingresarCancionAHistorial(cancionInicio, historial);
         }
 
     }
@@ -255,6 +258,9 @@ public class BarraReproductorGUIController implements Initializable {
             mediaPlayer = new MediaPlayer(media);
             enlazarElemetos();
             mediaPlayer.play();
+            ListaReproduccion historial = new ListaReproduccion();
+            historial = historial.buscarHistorial(System.getProperty("correo"));
+            historial.ingresarCancionAHistorial(cancionInicio, historial);
         }
     }
 
