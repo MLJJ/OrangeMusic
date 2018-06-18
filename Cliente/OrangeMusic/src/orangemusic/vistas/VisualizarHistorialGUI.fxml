@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import java.net.URL?>
 <?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -13,12 +14,12 @@
         <URL value="@/recursos/codigo/EstiloOrangeMusic.css" />
     </stylesheets>
    <children>
-      <GridPane prefHeight="680.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane prefHeight="476.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="0.0" prefWidth="35.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="408.0" minWidth="10.0" prefWidth="299.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="410.0" minWidth="10.0" prefWidth="211.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="426.0" minWidth="10.0" prefWidth="426.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="299.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="211.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="426.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="34.0" />
         </columnConstraints>
         <rowConstraints>
@@ -31,12 +32,15 @@
          <children>
             <JFXTreeTableView id="tableView" fx:id="tableView" stylesheets="@../../recursos/codigo/EstiloOrangeMusic.css" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="3">
                <columns>
-                  <TreeTableColumn fx:id="imagen" prefWidth="107.0" text="Imagen" />
-                  <TreeTableColumn fx:id="nombre" prefWidth="293.0" text="Nombre de canción" />
-                  <TreeTableColumn fx:id="artista" prefWidth="278.0" text="Artista" />
-                  <TreeTableColumn fx:id="album" minWidth="0.0" prefWidth="152.0" text="Album" />
-                  <TreeTableColumn fx:id="genero" prefWidth="123.0" text="Género" />
+                  <TreeTableColumn fx:id="imagen" maxWidth="200.0" prefWidth="-1.0" text="Imagen" />
+                  <TreeTableColumn fx:id="nombre" maxWidth="200.0" prefWidth="-1.0" text="Nombre de canción" />
+                  <TreeTableColumn fx:id="artista" maxWidth="200.0" prefWidth="-1.0" text="Artista" />
+                  <TreeTableColumn fx:id="album" maxWidth="200.0" minWidth="0.0" prefWidth="-1.0" text="Album" />
+                  <TreeTableColumn fx:id="genero" maxWidth="200.0" prefWidth="-1.0" text="Género" />
                </columns>
+               <columnResizePolicy>
+                  <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
             </JFXTreeTableView>
          </children>
       </GridPane>

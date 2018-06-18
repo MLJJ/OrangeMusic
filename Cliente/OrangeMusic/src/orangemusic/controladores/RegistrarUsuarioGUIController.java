@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import orangemusic.OrangeMusic;
+import orangemusic.modelo.ListaReproduccion;
 import orangemusic.modelo.Usuario;
 import orangemusic.utilerias.UtileriaSHA2;
 
@@ -70,6 +71,7 @@ public class RegistrarUsuarioGUIController implements Initializable {
             usr.setNombre(txtUsuario.getText());
             if (usr.registrarUsuario(usr)) {
                 try {
+                    new ListaReproduccion().crearHistorial(usr.getCorreo());
                     main.desplegarInicioSesion();
                 } catch (IOException ex) {
                     System.out.println("Error al desplegar inicio de sesion");

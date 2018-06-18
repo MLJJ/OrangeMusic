@@ -184,7 +184,9 @@ public class BarraReproductorGUIController implements Initializable {
         enlazarElemetos();
         mediaPlayer.play();
         // }
-
+        ListaReproduccion historial = new ListaReproduccion();
+        historial = historial.buscarHistorial(System.getProperty("correo"));
+        historial.ingresarCancionAHistorial(cancionInicio, historial);
     }
 
     @FXML

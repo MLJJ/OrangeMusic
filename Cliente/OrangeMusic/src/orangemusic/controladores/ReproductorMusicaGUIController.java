@@ -7,6 +7,7 @@ package orangemusic.controladores;
 
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +16,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import orangemusic.modelo.Cancion;
+import orangemusic.modelo.ListaReproduccion;
 
 /**
  * FXML Controller class
@@ -78,8 +80,11 @@ public class ReproductorMusicaGUIController implements Initializable {
 
     @FXML
     private void crearEstacion(ActionEvent event) {
-        
-        
+        List<Cancion> estacion = cancion.crearListaDeEstacion(cancion.getAlbum().getGenero().getIdGenero(),System.getProperty("usuario"));
+        ListaReproduccion listaEstacion = new ListaReproduccion();
+        listaEstacion.setCanciones(estacion);
+        listaEstacion.setNombreLista("estacion");
+        this.menuPricipal.getControladorBarra().cargarCancion(listaEstacion, estacion.get(0));
     }
 
     void cargarIformacionCancion(Cancion cancion) {

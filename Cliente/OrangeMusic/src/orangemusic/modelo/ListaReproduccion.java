@@ -90,7 +90,7 @@ public class ListaReproduccion {
         URL url = null;
         try {
             //cambiar url
-            url = new URL("http://localhost:8080/OrangeMusic/webresources/modelo.listareproduccion/historial/" + correo);
+            url = new URL(System.getProperty("servicio") +"/webresources/modelo.listareproduccion/historial/" + correo);
             HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
             conexion.setRequestProperty("Content-Type", "application/json");
             conexion.setRequestProperty("Accept", "application/json");
@@ -118,48 +118,56 @@ public class ListaReproduccion {
         return lista;
     }
 
-//    public List<Cancion> buscarCancionesDeLista(int idLista) {
-//        List<Cancion> listaCanciones = null;
-//        URL url = null;
-//        try {
-//            url = new URL("http://localhost:8080/OrangeMusic/webresources/modelo.listareproduccion/cancionesLista/"+idLista);
-//            HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
-//            conexion.setRequestProperty("Content-Type", "application/json");
-//            conexion.setRequestProperty("Accept", "application/json");
-//            conexion.setDoInput(true);
-//            conexion.connect();
-//            InputStream input;
-//            if (conexion.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
-//                input = conexion.getInputStream();
-//                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
-//                String cad = bufferedReader.readLine();
-//                System.out.println(cad);
-//                JSONArray jsonRespuesta = new JSONArray(cad);
-//                Cancion cancion = null;
-//                for (int i = 0; i < jsonRespuesta.length(); i++) {
-//                    JSONObject jsonCancion = jsonRespuesta.getJSONObject(i);
-//                    cancion = new Cancion(jsonCancion);
-//                    listaCanciones.add(cancion);
-//                }
-//            } else {
-//                input = conexion.getErrorStream();
-//                listaCanciones = new ArrayList<>();
-//            }
-//            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
-//            String cad = bufferedReader.readLine();
-//            System.out.println(cad);
-//
-//            conexion.disconnect();
-//        } catch (MalformedURLException ex) {
-//            Logger.getLogger(ListaReproduccion.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (IOException ex) {
-//            Logger.getLogger(ListaReproduccion.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        System.out.println("largo de lista de canciones " + listaCanciones.size());
-//        return listaCanciones;
-//    }
-    public boolean ingresarCancionAHistorial(Cancion cancion, int idLista) {
+    public boolean ingresarCancionAHistorial(Cancion cancion, ListaReproduccion lista) {
         boolean ingresada = false;
+        lista.getCanciones();
+        
+        System.out.println("Cancion ingresada al historial");
+        URL url = null;
+        try {
+            url = new URL(System.getProperty("servicio")+ "/webresources/modelo.listareproduccion");
+            HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
+            conexion.setRequestProperty("Content-Type", "application/json");
+            conexion.setRequestProperty("Accept", "application/json");
+            conexion.setRequestMethod("PUT");
+            conexion.setDoInput(true);
+            conexion.setDoOutput(true);
+            conexion.connect();
+            JSONObject jsonObject = new JSONObject();
+            JSONArray arr = new JSONArray();
+            JSONObject usuario = new JSONObject();
+            usuario.accumulate("correo",System.getProperty("correo"));
+            jsonObject.accumulate("nombreLista", "historial");
+            jsonObject.accumulate("visibilidad", "privado");
+            jsonObject.accumulate("correoUsuario", usuario);
+            OutputStream outputStream = conexion.getOutputStream();
+            BufferedWriter escritor = new BufferedWriter(new OutputStreamWriter(outputStream));
+            escritor.write(String.valueOf(jsonObject));
+            System.out.println(String.valueOf(jsonObject));
+            escritor.flush();
+
+            InputStream input;
+            if (conexion.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                input = conexion.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+                String cad = bufferedReader.readLine();
+                System.out.println(cad);
+                JSONObject listaObjecto = new JSONObject(cad);
+                lista = (ListaReproduccion) listaObjecto.get("listareproduccion");
+            } else {
+                input = conexion.getErrorStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+                String cad = bufferedReader.readLine();
+                System.out.println(cad);
+            }
+
+            conexion.disconnect();
+
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(VisualizarHistorialGUIController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(VisualizarHistorialGUIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return ingresada;
     }
 
@@ -168,8 +176,7 @@ public class ListaReproduccion {
         ListaReproduccion lista = null;
         URL url = null;
         try {
-            //cambiar url
-            url = new URL("http://localhost:8080/OrangeMusic/webresources/modelo.listareproduccion");
+            url = new URL(System.getProperty("servicio")+ "/webresources/modelo.listareproduccion");
             HttpURLConnection conexion = (HttpURLConnection) url.openConnection();
             conexion.setRequestProperty("Content-Type", "application/json");
             conexion.setRequestProperty("Accept", "application/json");

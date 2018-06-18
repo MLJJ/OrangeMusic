@@ -21,6 +21,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import orangemusic.utilerias.Constante;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -136,7 +137,7 @@ public class Cancion extends RecursiveTreeObject<Cancion> {
     public List<Cancion> buscarCancion(String nombreCancion) {
         List<Cancion> canciones = null;
         try {
-            URL url = new URL(System.getProperty("servicio") + "webresources/modelo.cancion/buscarPorNombre/" + nombreCancion);
+            URL url = new URL(Constante.URLSERVICIOS+ "webresources/modelo.cancion/buscarPorNombre/" + nombreCancion);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");
@@ -197,6 +198,39 @@ public class Cancion extends RecursiveTreeObject<Cancion> {
 
     public void setNombreArtista(String nombreArtista) {
         this.nombreArtista = nombreArtista;
+    }
+    
+    
+        
+    public List<Cancion> crearListaDeEstacion(int idGenero,String correo){
+        List<Cancion> listaEstacion = null;
+        URL url = null;
+        try {
+            url = new URL(System.getProperty("servicio")+"/webresources/modelo.genero/estacionDeRadio/"+idGenero+"/"+correo);
+            HttpURLConnection conexion = (HttpURLConnection)url.openConnection();
+            conexion.setRequestProperty("Content-Type", "application/json");
+            conexion.setRequestProperty("Accept", "application/json");
+            conexion.connect();
+            InputStream input;
+            if (conexion.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+                input = conexion.getInputStream();
+            } else {
+                input = conexion.getErrorStream();
+            }
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input));
+            String cad = bufferedReader.readLine();
+            JSONArray jsonArr = new JSONArray(cad);
+            listaEstacion = new ArrayList<>();
+            for (int i = 0; i < jsonArr.length(); i++) {
+                Cancion cancion = new Cancion(jsonArr.getJSONObject(i));
+                listaEstacion.add(cancion);
+            }
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Cancion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Cancion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listaEstacion;
     }
     
 }
