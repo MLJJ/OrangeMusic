@@ -66,6 +66,7 @@ public class Usuario {
         boolean validacion = false;
         try {
             URL url = new URL(Constante.URLSERVICIOS + "modelo.usuario/");
+            System.out.println(Constante.URLSERVICIOS);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");

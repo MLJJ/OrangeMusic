@@ -61,25 +61,45 @@ public class RegistrarUsuarioGUIController implements Initializable {
     @FXML
     private void registrarUsuario(ActionEvent event) {
         if (txtContrasena.getText().equals(txtContrasena1.getText())) {
-            Usuario usr = new Usuario();
-            try {
-                usr.setContraseña(UtileriaSHA2.encriptarContrasena(txtContrasena.getText()));
-            } catch (NoSuchAlgorithmException ex) {
-                System.out.println("Error al encriptar las contraseña");
-            }
-            usr.setCorreo(txtCorreo.getText());
-            usr.setNombre(txtUsuario.getText());
-            if (usr.registrarUsuario(usr)) {
-                try {
-                    new ListaReproduccion().crearHistorial(usr.getCorreo());
-                    main.desplegarInicioSesion();
-                } catch (IOException ex) {
-                    System.out.println("Error al desplegar inicio de sesion");
-                }
-            } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setContentText("No se pudo registrar el usuario verifique conexion con el servidor");
+            if (!txtCorreo.getText().equals("")) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("No puedes dejar el campo de correo vacio");
                 alert.show();
+            } else if (!txtUsuario.getText().equals("")) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("No puedes dejar el campo de usuario vacio");
+                alert.show();
+            } else if (!txtUsuario.getText().equals("")) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("No puedes dejar el campo de contraseña vacio");
+                alert.show();
+            } else {
+                Usuario usr = new Usuario();
+                try {
+                    usr.setContraseña(UtileriaSHA2.encriptarContrasena(txtContrasena.getText()));
+                } catch (NoSuchAlgorithmException ex) {
+                    System.out.println("Error al encriptar las contraseña");
+                }
+                usr.setCorreo(txtCorreo.getText());
+                usr.setNombre(txtUsuario.getText());
+                try {
+                    if (usr.registrarUsuario(usr)) {
+                        try {
+                            new ListaReproduccion().crearHistorial(usr.getCorreo());
+                            main.desplegarInicioSesion();
+                        } catch (IOException ex) {
+                            System.out.println("Error al desplegar inicio de sesion");
+                        }
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setContentText("No se pudo registrar el usuario verifique conexion con el servidor");
+                        alert.show();
+                    }
+                } catch (Exception ex) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Este usuario ya esta registrado");
+                    alert.show();
+                }
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

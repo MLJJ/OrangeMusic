@@ -62,7 +62,7 @@
                               </GridPane>
                            </content>
                       </TitledPane>
-                      <TitledPane expanded="false" text="Generos">
+                      <TitledPane expanded="false" text="Canciones">
                            <content>
                               <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="302.0" prefWidth="174.0">
                                 <columnConstraints>
@@ -74,28 +74,8 @@
                                     <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <JFXButton prefHeight="34.0" prefWidth="155.0" styleClass="menu" />
-                                    <JFXButton prefHeight="34.0" prefWidth="155.0" styleClass="menu" GridPane.rowIndex="1" />
-                                    <JFXButton prefHeight="34.0" prefWidth="155.0" styleClass="menu" GridPane.rowIndex="2" />
-                                 </children>
-                              </GridPane>
-                           </content>
-                      </TitledPane>
-                      <TitledPane expanded="false" text="Artistas">
-                           <content>
-                              <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="302.0" prefWidth="174.0">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <JFXButton prefHeight="34.0" prefWidth="155.0" styleClass="menu" />
-                                    <JFXButton prefHeight="34.0" prefWidth="155.0" styleClass="menu" GridPane.rowIndex="1" />
-                                    <JFXButton prefHeight="34.0" prefWidth="155.0" styleClass="menu" GridPane.rowIndex="2" />
+                                    <JFXButton fx:id="btnDesplegarSubirMusica" onAction="#desplegarSubirMusica" prefHeight="34.0" prefWidth="155.0" styleClass="menu" text="Subir canciones" />
+                                    <JFXButton prefHeight="34.0" prefWidth="155.0" styleClass="menu" text="Historial" GridPane.rowIndex="1" />
                                  </children>
                               </GridPane>
                            </content>
